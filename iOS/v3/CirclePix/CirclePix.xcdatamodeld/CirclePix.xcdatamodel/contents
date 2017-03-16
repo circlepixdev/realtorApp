@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Presentation" representedClassName="CirclePix.Presentation" syncable="YES">
+        <attribute name="agentPhoneNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="agentPhoto" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="autoplay" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="commBatchText" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="commEmail" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="commStats" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="companyLogo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="companyName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayAgentImage" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="displayAgentName" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="displayCompanyLogo" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="displayCompanyName" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="displayPropAddress" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="displayPropImage" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expBlogger" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expCompanySite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expCraigslist" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expFacebook" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expLinkedin" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expPersonalSite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expPinterest" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expRealPortals" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expSeoBoost" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expTwitter" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="expYouTube" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="guid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="leadFacebook" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="leadLeadBee" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="leadMobile" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="leadOpenHouseAnnce" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="leadPropertySite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="listingType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="media24HourInfo" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="mediaDvds" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="mediaFlyers" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="mediaListingVideo" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="mediaMobile" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="mediaPropertySite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="mediaQRCodes" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="mediaShortCode" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="music" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="narration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photographyType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="propertyAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="propertyImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="theme" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Presentation" positionX="-63" positionY="-18" width="128" height="780"/>
+    </elements>
+</model>
