@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="80dp" >
+
+
+    
+    <!-- This will be the content behind to front view -->
+    <LinearLayout
+            android:id="@+id/back"
+            android:tag="back"
+            style="@style/ListBackContent"
+            android:layout_marginRight="30dp">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/btn_send_action"
+                style="@style/ListSendButtonAction"
+                android:text="@string/menu_share" />
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/btn_edit_action"
+                style="@style/ListEditButtonAction"
+                android:text="@string/menu_edit"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/btn_delete_action"
+                style="@style/ListDeleteButtonAction"
+                android:text="@string/menu_delete"/>
+    </LinearLayout>
+
+
+    <!-- Front view -->
+    <RelativeLayout
+            android:orientation="vertical"
+            android:id="@+id/front"
+            android:tag="front"
+            style="@style/ListFrontContent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="30dp">
+
+		<ImageView
+			style="@style/ListImage"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+			android:src="@drawable/image_border"
+			android:id="@+id/item_image"
+            android:icon="@drawable/stub"/>
+
+    <!--    <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:src="@drawable/prop_photo"
+            android:contentDescription="@string/property_image"
+            android:icon="@drawable/stub" />-->
+
+        <TextView
+            android:id="@+id/item_title"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@id/item_image"
+	        style="@style/ListTitle"
+	        android:text="@string/default_title"
+	        />
+
+        <TextView
+            android:id="@+id/item_desc"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:ellipsize="end"
+			android:maxLines="1"
+			android:scrollHorizontally="true"
+			android:singleLine="true"
+	        android:layout_toRightOf="@id/item_image"
+	        android:layout_below="@id/item_title"
+	        style="@style/ListDescription"
+	        android:text="@string/default_desc"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="right">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="fill_parent"
+                android:background="#FFFFFF"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_forward_holo_light"/>
+
+        </FrameLayout>
+
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

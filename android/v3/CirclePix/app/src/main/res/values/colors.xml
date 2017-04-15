@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#646464</color>
+    <color name="colorPrimaryDark">#616161</color>
+    <color name="colorAccent">#93c83e</color>
+
+    <color name="activity_background">#f6f6f6</color>
+    <color name="tab_bar">#f2f2f2</color>
+    <color name="text_cyan">#279dd9</color>
+    <color name="selected_item_color">#f6f6f6</color>
+    <color name="text_light_grey">#a6a6a6</color>
+
+    <color name="circlepix_ltgrey">#dbdbdb</color>
+    <color name="circlepix_ltltgrey">#f1f1f1</color>
+    <color name="verified_green">#00cc00</color>
+    <color name="connected">#00cc00</color>
+    <color name="waitingForNetwork">#ffb399</color>
+    <color name="noInternetConn">#ff0000</color>
+
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#f64c73</color>
+    <color name="bg_screen2">#20d2bb</color>
+    <color name="bg_screen3">#3395ff</color>
+    <color name="bg_screen4">#c873f4</color>
+
+   <!-- &lt;!&ndash; dots inactive colors &ndash;&gt;
+    <color name="dot_dark_screen1">#d1395c</color>
+    <color name="dot_dark_screen2">#14a895</color>
+    <color name="dot_dark_screen3">#2278d4</color>
+    <color name="dot_dark_screen4">#a854d4</color>
+
+    &lt;!&ndash; dots active colors &ndash;&gt;
+    <color name="dot_light_screen1">#f98da5</color>
+    <color name="dot_light_screen2">#8cf9eb</color>
+    <color name="dot_light_screen3">#93c6fd</color>
+    <color name="dot_light_screen4">#e4b5fc</color>
+-->
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#cccccc</color>
+    <color name="dot_dark_screen2">#cccccc</color>
+    <color name="dot_dark_screen3">#cccccc</color>
+    <color name="dot_dark_screen4">#cccccc</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#808080</color>
+    <color name="dot_light_screen2">#808080</color>
+    <color name="dot_light_screen3">#808080</color>
+    <color name="dot_light_screen4">#808080</color>
+
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_dark_screen4</item>
+    </array>
+
+
+    <!-- SwipeListView -->
+    <color name="background_list_back">#f1f1f1</color>
+    <color name="background_list_front">#ffffff</color>
+    <color name="background_list_btn">#dbc79d</color>
+    <color name="background_list_send_btn">#646464</color>
+    <color name="background_list_edit_btn">#93c83e</color>
+    <color name="background_list_delete_btn">#ff0000</color>
+    <color name="text_title">#646464</color>
+    <color name="text_description">#646464</color>
+    <color name="line">#202945</color>
+    <color name="background_new_tag">#ece0c7</color>
+    <color name="text_new_tag">#ffffff</color>
+    <color name="black_overlay">#66000000</color>
+
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
+
+    <!-- Material Design Spinner -->
+    <color name="disabled_color">#44000000</color>
+    <color name="error_color">#E7492E</color>
+</resources>

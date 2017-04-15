@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="40dp"
+    android:orientation="horizontal"
+    android:background="@color/circlepix_darkgrey"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/linearBackActionBar"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView9"
+            android:src="@drawable/abc_ic_ab_back_holo_dark" />
+
+        <TextView
+            android:id="@+id/imgBackActionBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="false"
+            android:text="Done "
+            android:textSize="18sp"
+            android:textColor="#FFFFFF" />
+
+    <!--<ImageView-->
+            <!--android:layout_width="75dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:id="@+id/imgBackActionBar"-->
+            <!--android:src="@drawable/logo_lt"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_alignParentBottom="false"-->
+            <!--android:layout_alignParentTop="false" />-->
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:id="@+id/unmuteButtonPresentation"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="@style/PresentationActionBarButton"
+            android:scaleType="centerInside"
+            android:src="@drawable/mute_button_unmuted"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:id="@+id/muteButtonPresentation"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/unmuteButtonPresentation"
+            android:layout_toStartOf="@+id/unmuteButtonPresentation"
+            android:src="@drawable/mute_button_muted"
+            style="@style/PresentationActionBarButton"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:id="@+id/forwardButtonPresentation"
+            android:layout_centerVertical="true"
+            android:layout_alignTop="@+id/muteButtonPresentation"
+            android:layout_toLeftOf="@+id/muteButtonPresentation"
+            android:layout_toStartOf="@+id/muteButtonPresentation"
+            style="@style/PresentationActionBarButton"
+            android:src="@drawable/forward_arrow"
+            android:scaleType="centerInside"
+            android:layout_alignParentRight="true" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:id="@+id/playButtonPresentation"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/forwardButtonPresentation"
+            android:layout_toStartOf="@+id/forwardButtonPresentation"
+            android:src="@drawable/play_button"
+            android:scaleType="centerInside"
+            style="@style/PresentationActionBarButton" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:id="@+id/pauseButtonPresentation"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/playButtonPresentation"
+            android:layout_toStartOf="@+id/playButtonPresentation"
+            style="@style/PresentationActionBarButton"
+            android:scaleType="centerInside"
+            android:src="@drawable/pause_button" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:id="@+id/backButtonPresentation"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/pauseButtonPresentation"
+            android:layout_toStartOf="@+id/pauseButtonPresentation"
+            style="@style/PresentationActionBarButton"
+            android:src="@drawable/backwards_arrow" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,238 @@
+<resources>
+    <string name="app_name">CirclePix</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_global_settings">Global Presentation Settings</string>
+    <string name="copyright_text_line1">Copyright © 2016 CirclePix, LLC.</string>
+    <string name="copyright_text_line2">All rights reserved. The use of this app is subject to its terms and conditions of use.</string>
+
+    <!-- Login -->
+    <string name="login_prompt_big">Welcome to the CirclePix Mobile App!</string>
+    <string name="login_prompt_small">Designed to integrate seamlessly with your CirclePix account, this app transforms your mobile device, giving it the power to help enhance your real estate marketing! Get started by using your CirclePix account credentials to sign in below.</string>
+    <string name="login_username">Username/Email address</string>
+    <string name="login_password">Password</string>
+    <string name="login_remember_me">Remember Me</string>
+    <string name="login_log_in">Sign In</string>
+    <string name="login_log_out">Log Out</string>
+    <string name="login_logo">Logo</string>
+    <string name="login_test_log_in">Skip Authentication</string>
+    <string name="forgot_password_link">Forgot my username/password</string>
+    <string name="no_account_link">Don\'t have an account?</string>
+    <string name="forgot_password_prompt">Use this form if you have forgotten your username or password. Enter your email address and an email will be sent containing your username and a new password.</string>
+    <string name="forgot_password_title">Forgot username/password</string>
+
+    <!-- Account -->
+    <string name="account_circlepix">CirclePix.com</string>
+    <string name="account_verified">Verified</string>
+
+    <string name="actionbar_save_text">Save</string>
+    <string name="actionbar_logout_text">Logout</string>
+
+    <!-- Menu -->
+    <string name="menu_add">Add</string>
+    <string name="menu_next">Next</string>
+    <string name="menu_done">Done</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_previous">Previous</string>
+    <string name="menu_pause">Pause</string>
+    <string name="menu_play">Play</string>
+    <string name="menu_mute">Mute</string>
+    <string name="menu_unmute">Unmute</string>
+
+    <!-- presentations -->
+    <string name="presentations_prompt">Create a Presentation by clicking the + button.</string>
+    <string name="delete_presentations">Delete selected Presentations</string>
+    <string name="add_presentation">Add Presentation</string>
+    <string name="play_presentation">Play Presentation</string>
+    <string name="default_title">New Presentation</string>
+    <string name="default_desc">Narration: female,  Music: None</string>
+    <string name="default_date">04/01/16</string>
+
+    <!-- Listings -->
+    <string name="listings_label">Active Listings</string>
+    <string name="listings_text">This screen displays a list of your active property listings. Create a new listing by click the "+" symbol. To edit, upload images or video to one of your listings, select a property below, and choose to add an existing video, or record a new video.</string>
+
+    <!-- Presentation Settings -->
+    <string name="presentations_label">Listing Presentations</string>
+    <string name="presentations_text">This page displays a list of existing presentations. Create a new presentation by clicking "+" symbol at the bottom right of this page. Share, edit and delete a presentation by swiping left.</string>
+
+    <string name="nav_advance_setting">Settings</string>
+    <string name="nav_app_setting">App Settings</string>
+    <string name="nav_sub_menu_push_notification">Push Notifications</string>
+    <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
+    <string name="activity_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra.</string>
+
+    <!-- Dexter Run time permission library -->
+    <string name="ask_for_camera_permission_button">Camera</string>
+    <string name="ask_for_contacts_permission_button">Contacts</string>
+    <string name="ask_for_audio_permission_button">Audio</string>
+    <string name="ask_for_all_permissions_button">Request all</string>
+    <string name="permission_granted_feedback">GRANTED</string>
+    <string name="permission_denied_feedback">DENIED</string>
+    <string name="permission_permanently_denied_feedback">PERMANENTLY DENIED</string>
+    <string name="permission_unknown_feedback">UNKNOWN</string>
+    <string name="all_permissions_denied_feedback">All those permissions are needed for doing some magic</string>
+    <string name="camera_permission_denied_feedback">Camera permission is needed for doing some magic</string>
+    <string name="contacts_permission_denied_feedback">Contacts permission is needed for doing some magic</string>
+    <string name="audio_permission_denied_dialog_title">Audio permission request</string>
+    <string name="audio_permission_denied_dialog_feedback">Audio recording will not be available until you accept the permission request</string>
+    <string name="permission_rationale_title">We need this permission</string>
+    <string name="permission_rationale_message">This permission is needed for doing some fancy stuff so please, allow it!</string>
+    <string name="permission_rationale_settings_button_text">SETTINGS</string>
+
+    <!-- Permission Dispatcher -->
+    <string name="permission_camera_rationale">Camera permission is needed to show the camera preview.</string>
+    <string name="permission_contacts_rationale">Contacts permissions are needed to demonstrate access to the contacts database.</string>
+    <string name="permission_camera_denied">Camera permission was denied. Please consider granting it in order to access the camera!</string>
+    <string name="permission_camera_never_askagain">Camera permission was denied with never ask again.</string>
+    <string name="button_allow">Allow</string>
+    <string name="button_deny">Deny</string>
+
+    <!-- Agent -->
+    <string name="agent_text">Start developing trust with potential buyers early on by incorporating a personal message with your marketing. Record a biography video on your mobile device, and use this app to instantly upload it to your agent profile.</string>
+    <string name="agent_text_footer">Once your video has been uploaded, it will be displayed on the Real Estate Agent Biography page on the property guide of very listing you represent! Here is an example of the Real Estate Agent Biography page as it appears in the property guide. This is a great opportunity for potential buyers to learn about your experience, specialty, and background. Tell why you became a real estate agent, and express your mission statement. Have some fun with your biography video and let your personality shine!</string>
+    <string name="agent_iv_sample">Sample Video</string>
+    <string name="agent_iv_picture">Agent Picture</string>
+
+    <!-- Video Upload -->
+    <string name="video_upload_iv_picture">Video Upload Picture</string>
+    <string name="video_upload_prompt">Please enter the required information and click the Upload Video button.</string>
+    <string name="video_upload_title">Title</string>
+    <string name="video_upload_description">Description</string>
+    <string name="video_upload_button_text">Upload Video</string>
+    <string name="video_upload_file_size">File Size: 0.0 MB</string>
+
+    <!-- AlertDialog -->
+    <string name="media_upload_or_share">You can choose to upload video to your listing or share your tour and youtube link.</string>
+    <string name="video_source_text">Would you like to enter a YouTube URL, record a new video or select from the existing videos?</string>
+
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="previous">PREVIOUS</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="exit">EXIT</string>
+
+    <string name="slide_1_title">Welcome to CirclePix App!</string>
+    <string name="slide_1_desc">Hassle-free Real Estate Marketing is here.</string>
+
+    <string name="slide_2_title">Hello Agent!</string>
+    <string name="slide_2_desc">Simplify your real estate marketing and increase your productivity.</string>
+
+    <string name="slide_3_title">Simplify your Marketing</string>
+    <string name="slide_3_desc">Circlepix has you covered - no matter your level of marketing expertise or time commitment. Whether you\'re new to the industry or a seasoned veteran, Circlepix has tools made just for you!</string>
+
+    <string name="slide_4_title">Consider us your real estate marketing arm - flexed</string>
+    <string name="slide_4_desc">At Circlepix, our goal is to build simple, smart solutions that make real estate marketing easy.!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
+    <!-- Create New Listing -->
+    <string name="social_media_site_desc">*When checked, this listing will be posted to your CirclePix connected social media sites like Twitter, Facebook, Blogger, LinkedIn and Youtube</string>
+    <string name="real_estate_site_desc">**When checked, this listing will be posted to your CirclePix connected external real estate sites like your MLS if set up</string>
+    <string name="listing_desc">Add bullet point information to your tour. Each field you enter will add a bulleted list item to the brochure. Examples:  outdoor pool  vaulted ceilings  marble fireplace</string>
+
+    <!-- Edit Agent Profile -->
+    <string name="change_password_desc">To change your CirclePix login password, enter the new password and verify it below. All passwords must be at least four characters long. Your password will be emailed to you automatically after changing it.</string>
+    <string name="change_username_desc1">Your current username for CirclePix is </string>
+    <string name="change_username_desc2">You may change the username below. Note that usernames must be more than four characters long.</string>
+    <string name="edit_agent_info">Here you may edit the account information that will show up on your virtual tours.</string>
+    <string name="recreate_listing_videos_desc">If you want these changes to be reflected on all of your listing videos, please check the box below before clicking the \'Save\' button. </string>
+    <string name="edit_bio_desc">If you have a YouTube Video you would like displayed on your biography page on the Presentation Tour, please enter the YouTube Id below.</string>
+    <string name="edit_social_media_desc">If you have personal social media links you would like to be diplayed on your propery sites, please enter them below.</string>
+    <string name="change_agent_picture_desc">Here you can see a preview of your agent picture if you have one uploaded. To upload a new picture click "Browse", locate the picture on your computer, select it, and click \"Upload Picture\". To remove your current picture, click \"Delete This Photo\".</string>
+    <string name="change_agent_logo_desc">Here you can see a preview of your company/personal logo if you have one uploaded. To upload a new logo click the Upload icon , locate the picture on your device, select it, and click \"Save\". You may also use one of our many existing logos by selecting that logo from the \"Existing Company Logo\" box and clicking Save. To remove your current logo, click the Delete icon.</string>
+    <string name="no_agent_logo_desc">You haven\'t uploaded a company/personal logo.</string>
+    <string name="no_agent_picture_desc">You haven\'t uploaded an agent picture.</string>
+
+    <string name="agent_logo_recommended_size_desc">** Recommended Size: 150px wide X 75px tall</string>
+    <string name="agent_picture_recommended_size_desc">** Recommended Size: 80px wide X 100px tall</string>
+    <string-array name="state_array">
+        <item>Alabama,AL</item>
+        <item>Alaska,AK</item>
+        <item>Arizona,AZ</item>
+        <item>Arkansas,AR</item>
+        <item>California,CA</item>
+        <item>Colorado,CO</item>
+        <item>Delaware,DE</item>
+        <item>District of Columbia,DC</item>
+        <item>Florida,FL</item>
+        <item>Georgia,GA</item>
+        <item>Hawaii,HI</item>
+        <item>Connecticut,CT</item>
+        <item>Idaho,ID</item>
+        <item>Illinois,IL</item>
+        <item>Indiana,IN</item>
+        <item>Iowa,IA</item>
+        <item>Kansas,KS</item>
+        <item>Kentucky,KY</item>
+        <item>Louisiana,LA</item>
+        <item>Maine,ME</item>
+        <item>Maryland,MD</item>
+        <item>Massachusetts,MA</item>
+        <item>Michigan,MI</item>
+        <item>MinnesotaMN</item>
+        <item>Mississippi,MS</item>
+        <item>Missouri,MO</item>
+        <item>Montana,MT</item>
+        <item>Nebraska,NE</item>
+        <item>Nevada,NV</item>
+        <item>New Hampshire,NH</item>
+        <item>New Jersey,NJ</item>
+        <item>New Mexico,NM</item>
+        <item>New York,NY</item>
+        <item>North Carolina,NC</item>
+        <item>North Dakota,ND</item>
+        <item>Ohio,OH</item>
+        <item>Oklahoma,OK</item>
+        <item>Oregon,OR</item>
+        <item>Pennsylvania,PA</item>
+        <item>Rhode Island,RI</item>
+        <item>South Carolina,SC</item>
+        <item>South Dakota,SD</item>
+        <item>Tennessee,TN</item>
+        <item>Texas,TX</item>
+        <item>Utah,UT</item>
+        <item>Vermont,VT</item>
+        <item>Virgin Islands,VI</item>
+        <item>Virginia,VA</item>
+        <item>Washington,WA</item>
+        <item>West Virginia,WV</item>
+        <item>Wisconsin,WI</item>
+        <item>Wyoming,WY</item>
+        <item>Alberta,AB</item>
+        <item>British Columbia,BC</item>
+        <item>Manitoba,MB</item>
+        <item>New Brunswick,NB</item>
+        <item>Newfoundland/Labrador,NL</item>
+        <item>Nova Scotia,NS</item>
+        <item>Northwest Territories,NT</item>
+        <item>Nunavut,NU</item>
+        <item>Ontario,ON</item>
+        <item>Prince Edward Island,PE</item>
+        <item>Quebec,QC</item>
+        <item>Saskatchewan,SK</item>
+        <item>Yukon,YT</item>
+    </string-array>
+
+    <string-array name="property_type_array">
+        <item>Residential</item>
+        <item>Lots and Land</item>
+        <item>Farm and Agriculture</item>
+        <item>MultiFamily</item>
+        <item>Commercial</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="listingy_type_array">
+        <item>For sale</item>
+        <item>For lease</item>
+        <item>For rent</item>
+    </string-array>
+</resources>

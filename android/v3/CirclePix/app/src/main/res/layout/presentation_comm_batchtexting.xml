@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:id="@+id/rootView">
+
+   <!-- <ImageView
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:id="@+id/imgBatchTextHand"
+        android:src="@drawable/presentation_comm_batchtext_hand"
+        android:scaleType="fitEnd"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:id="@+id/imgBatchTextArrow"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgBatchTextHand"
+        android:layout_toEndOf="@+id/imgBatchTextHand"
+        android:src="@drawable/presentation_comm_batchtext_arrow"
+        android:scaleType="fitCenter"
+        android:paddingTop="30dp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="match_parent"
+        android:id="@+id/imgBatchTextText"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgBatchTextArrow"
+        android:layout_toEndOf="@+id/imgBatchTextArrow"
+        android:src="@drawable/presentation_comm_batchtext_text"
+        android:scaleType="fitCenter"
+        android:paddingTop="10dp"
+        android:layout_marginLeft="-20dp"
+        android:visibility="invisible" />-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Batch Texting"
+        android:id="@+id/textView11"
+        style="@style/PresentationPage4Font"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+       />
+
+
+    <!--scale height and weith to desired % of the screen-->
+    <LinearLayout
+        android:id="@+id/PropImgLayoutTop"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/textView11"
+        android:layout_centerInParent="true"
+        >
+
+
+
+        <!-- property image to be injected in imageview-->
+        <LinearLayout
+            android:id="@+id/layouttop"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="90"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="5" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imgPhotoTopLayer"
+                android:layout_weight="80"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/presentation_comm_batch_texting" />
+
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="5"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

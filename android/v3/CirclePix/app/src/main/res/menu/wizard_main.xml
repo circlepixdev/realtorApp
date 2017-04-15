@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.circlepix.android.WizardMainActivity" >
+
+<!--     <item android:id="@+id/action_done"
+        android:showAsAction="always"
+        android:visible="true"
+        android:title="@string/menu_done"/>
+-->
+</menu>

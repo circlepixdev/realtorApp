@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:id="@+id/rootView">
+
+     <ImageView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:id="@+id/imgPhotoStack"
+         android:layout_centerInParent="true"
+         android:layout_below="@id/textViewTitle"
+         android:paddingBottom="10dp"
+         android:scaleType="fitCenter"
+         android:src="@drawable/presentation_media_photography" />
+
+<!--
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imgPhotoStack"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+
+        android:src="@drawable/presentation_media_photography" />
+
+
+    &lt;!&ndash; white space in the middle to inject the image or property site&ndash;&gt;
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imgPhotoStackMidLayer"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:src="@drawable/presentation_media_photography1" />
+    &lt;!&ndash;ends here&ndash;&gt;
+-->
+
+
+<!--Temporarily removed 080315-->
+ <!--   &lt;!&ndash;scale height and weith to _% of the screen&ndash;&gt;
+    <LinearLayout
+        android:id="@+id/PropImgLayoutTop"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true">
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:layout_weight="15"
+            android:layout_marginBottom="5dp"/>
+
+        &lt;!&ndash; property image to be injected in imageview&ndash;&gt;
+        <LinearLayout
+            android:id="@+id/layouttop"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="60"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="5"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgPhotoTopLayer"
+                android:layout_weight="9"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:rotation="-4"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/presentation_media_photography1" />
+
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="5"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:layout_weight="15"
+            android:layout_marginTop="5dp"/>
+
+    </LinearLayout>-->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Photography"
+        android:id="@+id/textViewTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="@style/PresentationPage4Font"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"/>
+</RelativeLayout>

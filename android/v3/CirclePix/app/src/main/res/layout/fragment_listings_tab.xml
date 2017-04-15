@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    tools:context="com.circlepix.android.ListingsTabActivity" >
+
+    <RelativeLayout
+        android:id="@+id/no_listing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/icon_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:tint="@color/text_light_grey"
+            android:src="@drawable/ic_action_home"/>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/icon_image"
+            android:layout_centerHorizontal="true"
+            android:text="Listings"
+            android:textColor="@color/text_light_grey"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="10dp"
+                android:text="@string/listings_label"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                style="@style/PromptText"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header_title"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="false"
+                android:text="@string/listings_text"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimary" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_marginBottom="50dp"/>
+
+        </RelativeLayout>
+
+
+        <!--<android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"/>-->
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp">
+
+       <!-- <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginBottom="48dp">
+
+
+            <com.circlepix.android.ui.RecyclerViewHeader
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+
+                android:layout_gravity="center_horizontal|top" >
+
+                &lt;!&ndash;<LinearLayout&ndash;&gt;
+                &lt;!&ndash;android:id="@+id/header_image"&ndash;&gt;
+                &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+                &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                &lt;!&ndash;android:gravity="center_horizontal"&ndash;&gt;
+                &lt;!&ndash;android:orientation="vertical"&ndash;&gt;
+                &lt;!&ndash;android:background="@android:color/white">&ndash;&gt;
+
+                &lt;!&ndash;<ImageView&ndash;&gt;
+                &lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;
+                &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                &lt;!&ndash;android:scaleType="centerInside"&ndash;&gt;
+                &lt;!&ndash;android:background="@drawable/listings_header"/>&ndash;&gt;
+
+                &lt;!&ndash;</LinearLayout>&ndash;&gt;
+
+
+                <TextView
+                    android:id="@+id/header_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/header_image"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:gravity="left|center"
+                    android:text="Listings"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    style="@style/PromptText"
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/header_title"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="false"
+                    android:text="@string/activity_description"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimary" />
+
+            </com.circlepix.android.ui.RecyclerViewHeader>
+
+        </FrameLayout>
+-->
+
+        <FrameLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom"
+                android:background="@color/tab_bar"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/shadow"/>
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/add_new_listing_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:weightSum="5">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:id="@+id/add_new_listing"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:background="@color/tab_bar">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shadow_vertical_right"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow"/>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shadow_vertical_left"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_action_add"
+                    android:tint="@color/colorPrimaryDark"/>
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/listing_options"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="bottom"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:id="@+id/listing_edit"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_edit_profile"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                   <!-- <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shadow_vertical_right"/>
+
+                    <ImageView
+                        android:id="@+id/listing_buy_upgrades"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_shop"
+                        android:tint="@color/colorPrimaryDark"/>-->
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shadow_vertical_right"/>
+
+                    <ImageView
+                        android:id="@+id/listing_add_photos"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_menu_gallery"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shadow_vertical_right"/>
+
+                    <ImageView
+                        android:id="@+id/listing_add_video"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_videocam"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shadow_vertical_right"/>
+
+                    <ImageView
+                        android:id="@+id/listing_share"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_menu_share"
+                        android:tint="@color/colorPrimaryDark"/>
+
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/cancel_options"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/tabs"
+            android:layout_marginBottom="-20dp"
+            android:src="@drawable/ic_cancel"
+            android:tint="@color/colorPrimaryDark"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

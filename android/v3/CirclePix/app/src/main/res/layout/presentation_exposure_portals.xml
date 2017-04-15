@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:id="@+id/rootView">
+
+    <TextView
+        style="@style/PresentationPage4Font"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Real Estate Portals"
+        android:id="@+id/textView8"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+<!--
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgPhotoStack"
+        android:layout_below="@+id/textView8"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitCenter"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/presentation_exposure_realestate_portal" />-->
+
+
+    <!--scale height and weith to desired % of the screen-->
+    <LinearLayout
+        android:id="@+id/PropImgLayoutTop"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/textView8"
+        android:layout_centerInParent="true">
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:layout_weight="0"/>
+
+        <!-- property image to be injected in imageview-->
+        <LinearLayout
+            android:id="@+id/layouttop"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="100"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="2" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imgPhotoTopLayer"
+                android:layout_weight="100"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/presentation_exposure_realestate_portal" />
+
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="2"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
+
+      <!--  <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/textView8">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgRealtor"
+                    android:src="@drawable/presentation_exposure_portals_realtorcom_logo"
+                    android:scaleType="centerInside"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgTrulia"
+                    android:src="@drawable/presentation_exposure_portals_trulia_logo"
+                    android:scaleType="centerInside"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgZillow"
+                    android:src="@drawable/presentation_exposure_portals_zillow_logo"
+                    android:scaleType="centerInside"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingBottom="20dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    android:src="@drawable/presentation_exposure_portals_realtorcom_site"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView7"
+                    android:src="@drawable/presentation_exposure_portals_trulia_site"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView11"
+                    android:src="@drawable/presentation_exposure_portals_zillow_site"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </LinearLayout>-->
+</RelativeLayout>

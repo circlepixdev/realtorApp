@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:id="@+id/rootView">
+
+    <!--<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imgPhotoStack"
+        android:scaleType="fitCenter"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="50dp"
+        android:paddingBottom="10dp"
+        android:src="@drawable/presentation_comm_emarketing" />
+-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Email Marketing"
+        android:id="@+id/textViewTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="@style/PresentationPage4Font"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp" />
+
+
+    <!--scale height and weith to desired % of the screen-->
+    <LinearLayout
+        android:id="@+id/PropImgLayoutTop"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/textViewTitle"
+        android:layout_centerInParent="true">
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:layout_weight="2"/>
+
+        <!-- property image to be injected in imageview-->
+        <LinearLayout
+            android:id="@+id/layouttop"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="90"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="5" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imgPhotoTopLayer"
+                android:layout_weight="80"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/presentation_comm_emarketing" />
+
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="0dip"
+                android:layout_weight="5"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
