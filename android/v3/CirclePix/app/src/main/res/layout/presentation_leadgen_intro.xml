@@ -10,5 +10,6 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView25"
         android:scaleType="fitCenter"
-        android:src="@drawable/presentation_leadgen_intro" />
+        android:src="@drawable/presentation_leadgen_intro"
+        android:background="#F7F8F8"/>
 </LinearLayout>

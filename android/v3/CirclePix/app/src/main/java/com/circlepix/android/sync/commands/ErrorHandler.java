@@ -2,11 +2,6 @@ package com.circlepix.android.sync.commands;
 
 import android.util.Log;
 
-import retrofit.RetrofitError;
-
-/**
- * Created by sburns.
- */
 public class ErrorHandler {
 
     private ErrorHandler() {
@@ -17,7 +12,7 @@ public class ErrorHandler {
         Log.e(subject, error);
     }
 
-    public static void log(RetrofitError error) {
+    public static void log(RetrofitException error) {
         log(String.format("There was an error calling endpoint (%s)", error.getUrl()), error.toString());
     }
 }

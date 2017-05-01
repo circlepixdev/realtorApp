@@ -8,9 +8,11 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
+	android:background="@color/activity_background"
     tools:context="com.circlepix.android.WizardMediaActivity$PlaceholderFragment" >
 
-    <LinearLayout 
+
+   <!-- <LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
@@ -23,7 +25,7 @@
 	    <View
 	    	android:layout_width="match_parent"
 	        android:layout_height="8dip"
-	        android:background="@color/circlepix_yellowgreen" />
+	        android:background="@color/colorAccent" />
 	
 	    <TextView
 	        android:id="@+id/header_title"
@@ -34,7 +36,7 @@
 	        android:background="@color/circlepix_ltgrey"
 	        android:text="@string/media_label"
 	        android:textColor="@color/text_title" />
-    </LinearLayout>
+    </LinearLayout>-->
     <LinearLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -163,7 +165,7 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:divider="@drawable/fragment_wizard_media_divider"
+			android:divider="@drawable/divider"
             android:showDividers="beginning|middle|end">
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

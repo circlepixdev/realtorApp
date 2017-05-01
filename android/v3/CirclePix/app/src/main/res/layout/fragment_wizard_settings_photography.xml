@@ -2,24 +2,27 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/circlepix_bg"
+    android:background="@color/activity_background"
     android:id="@+id/rootView">
+
+
 
     <LinearLayout
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_below="@+id/appbar"
         android:layout_gravity="center_horizontal|center_vertical"
         android:gravity="center_vertical|center"
         android:paddingBottom="0dp"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:paddingTop="0dp">
-        <View
+       <!-- <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
-            android:background="@color/circlepix_yellowgreen" />
+            android:background="@color/colorAccent" />
 
         <TextView
             android:id="@+id/header_title"
@@ -29,7 +32,7 @@
             android:gravity="center_vertical|center"
             android:background="@color/circlepix_ltgrey"
             android:text="@string/settings_photography_text"
-            android:textColor="@color/text_title" />
+            android:textColor="@color/text_title" />-->
 
         <LinearLayout
             android:orientation="horizontal"
@@ -68,6 +71,7 @@
         android:divider="@drawable/divider">
 
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -106,6 +110,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

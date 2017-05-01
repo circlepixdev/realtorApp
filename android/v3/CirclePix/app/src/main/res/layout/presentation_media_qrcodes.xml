@@ -13,6 +13,7 @@
         android:layout_below="@id/textViewTitle"
         android:layout_centerHorizontal="true"
         android:src="@drawable/presentation_media_qrcodes"
+        android:background="#ffffff"
         android:paddingBottom="5dp"
      />
 

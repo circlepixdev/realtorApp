@@ -90,11 +90,6 @@ public class BackgroundMusicService extends Service {
 
         player.stop();
         player.release();
-      /*  player.reset();
-        stopSelf();*/
-//        currentAudioPos = PresentationPageAudioPlayer.audioServiceCurrentPos;
-//        PresentationPageAudioPlayer.audioServiceCurrentPos = currentAudioPos;
-       // PresentationPageAudioPlayer.audioServiceCurrentPos = 0;
     }
 
     @Override

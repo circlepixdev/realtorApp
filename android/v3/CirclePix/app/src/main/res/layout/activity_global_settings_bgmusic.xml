@@ -4,10 +4,36 @@
     android:background="@drawable/circlepix_bg"
     android:id="@+id/rootView">
 
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:id="@+id/toolbar_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:layout_gravity="right"
+                android:paddingRight="16dp"/>
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+
     <LinearLayout
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal|center_vertical"
         android:gravity="center_vertical|center"
@@ -15,10 +41,10 @@
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:paddingTop="0dp">
-        <View
+       <!-- <View
             android:layout_width="match_parent"
             android:layout_height="8dip"
-            android:background="@color/circlepix_yellowgreen" />
+            android:background="@color/colorAccent" />
 
         <TextView
             android:id="@+id/header_title"
@@ -29,7 +55,7 @@
             android:background="@color/circlepix_ltgrey"
             android:text="@string/settings_bgmusic_text"
             android:textColor="@color/text_title" />
-
+-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -67,6 +93,7 @@
         android:divider="@drawable/divider">
 
         <LinearLayout
+            android:id="@+id/linearLayout1"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -96,6 +123,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -134,6 +162,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -174,6 +203,7 @@
 
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

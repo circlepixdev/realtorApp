@@ -210,7 +210,7 @@ public class WizardPropertyActivity extends Activity {
 		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_wizard_property,
 					container, false);
 			

@@ -7,6 +7,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
+	android:background="@color/activity_background"
     tools:context="com.circlepix.android.WizardCommActivity$PlaceholderFragment" >
 
     <LinearLayout 
@@ -19,10 +20,10 @@
 	    android:paddingLeft="0dp"
 	    android:paddingRight="0dp"
 	    android:paddingTop="0dp" >
-	    <View
+	   <!-- <View
 	    	android:layout_width="match_parent"
 	        android:layout_height="8dip"
-	        android:background="@color/circlepix_yellowgreen" />
+	        android:background="@color/colorAccent" />
 	
 	    <TextView
 	        android:id="@+id/header_title"
@@ -32,7 +33,7 @@
 	        android:gravity="center_vertical|center"
 	        android:background="@color/circlepix_ltgrey"
 	        android:text="@string/comm_label"
-	        android:textColor="@color/circlepix_darkgrey" />
+	        android:textColor="@color/colorPrimary" />-->
     </LinearLayout>
     <LinearLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +58,7 @@
 	        android:layout_toRightOf="@+id/page_image"
 	        android:background="@color/circlepix_ltltgrey"
 	        android:text="@string/comm_desc"
-	        android:textColor="@color/circlepix_darkgrey"
+	        android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
     </LinearLayout>
     

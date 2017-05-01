@@ -1,28 +1,39 @@
 package com.circlepix.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.circlepix.android.beans.ApplicationSettings;
-import com.circlepix.android.helpers.BaseActionBar;
+
 import com.circlepix.android.helpers.Globals;
 import com.circlepix.android.helpers.RadioGroupHelper;
-import com.circlepix.android.interfaces.IBaseActionBarCallback;
+
 import com.circlepix.android.types.BackgroundMusicType;
 import com.google.gson.Gson;
 
 /**
  * Created by keuahn on 7/9/2015.
  */
-public class GlobalSettingsBgMusicActivity extends Activity {
+public class GlobalSettingsBgMusicActivity extends AppCompatActivity {
+
+    private LinearLayout rbBgmNoneLayout;
+    private LinearLayout rbBgm1Layout;
+    private LinearLayout rbBgm2Layout;
+    private LinearLayout rbBgm3Layout;
 
     private RadioButton rbBgmNone;
     private RadioButton rbBgm1;
@@ -35,6 +46,7 @@ public class GlobalSettingsBgMusicActivity extends Activity {
     private int maxVolume = 100;
     private float volume;
 
+    private  TextView toolBarSave;
 
     private final int[] bgm_resID = { R.raw.bgmusic_1, R.raw.bgmusic_2, R.raw.bgmusic_3 };
 
@@ -57,7 +69,7 @@ public class GlobalSettingsBgMusicActivity extends Activity {
 
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(GlobalSettingsBgMusicActivity.this);
+     /*   BaseActionBar actionBar = new BaseActionBar(GlobalSettingsBgMusicActivity.this);
         actionBar.setConfig(GlobalSettingsActivity.class,
                 "Save",
                 false,
@@ -74,6 +86,24 @@ public class GlobalSettingsBgMusicActivity extends Activity {
                 });
         actionBar.show();
 
+*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+        toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                appState.setActivityStopped(true);
+                saveChanges();
+            }
+        });
+
+        rbBgmNoneLayout = (LinearLayout) findViewById(R.id.linearLayout1);
+        rbBgm1Layout = (LinearLayout) findViewById(R.id.linearLayout2);
+        rbBgm2Layout = (LinearLayout) findViewById(R.id.linearLayout3);
+        rbBgm3Layout = (LinearLayout) findViewById(R.id.linearLayout4);
 
         rbBgmNone = (RadioButton) findViewById(R.id.rbBgmNone);
         rbBgm1 = (RadioButton) findViewById(R.id.rbBgm1);
@@ -102,6 +132,46 @@ public class GlobalSettingsBgMusicActivity extends Activity {
         }
 
 
+        rbBgmNoneLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbBgmNone.setChecked(true);
+                rbBgm1.setChecked(false);
+                rbBgm2.setChecked(false);
+                rbBgm3.setChecked(false);
+            }
+        });
+
+        rbBgm1Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbBgm1.setChecked(true);
+                rbBgmNone.setChecked(false);
+                rbBgm2.setChecked(false);
+                rbBgm3.setChecked(false);
+            }
+        });
+
+        rbBgm2Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbBgm2.setChecked(true);
+                rbBgmNone.setChecked(false);
+                rbBgm1.setChecked(false);
+                rbBgm3.setChecked(false);
+            }
+        });
+
+        rbBgm3Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbBgm3.setChecked(true);
+                rbBgmNone.setChecked(false);
+                rbBgm1.setChecked(false);
+                rbBgm2.setChecked(false);
+            }
+        });
+
         // Required for the custom radio button to work
         ViewGroup parent = (ViewGroup) findViewById(R.id.linearLayoutRadioGroup);
         RadioGroupHelper.setRadioExclusiveClick(parent);
@@ -110,7 +180,19 @@ public class GlobalSettingsBgMusicActivity extends Activity {
 
     }
 
+  /*  @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                appState.setActivityStopped(true);
+                saveChanges();
+                setResult(RESULT_OK);
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }*/
 
     @Override
     public void onResume() {
@@ -170,6 +252,11 @@ public class GlobalSettingsBgMusicActivity extends Activity {
         } else {
             editor.commit();
         }
+
+        Intent returnIntent = new Intent();
+        setResult(AppCompatActivity.RESULT_OK, returnIntent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 
         Log.v("GLOBAL setMusic", appSettings.getMusic().toString());
     }
@@ -254,7 +341,8 @@ public class GlobalSettingsBgMusicActivity extends Activity {
         // setting up what to do if current song completes.
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
-            @Override public void onCompletion(MediaPlayer mp) { // TODO
+            @Override
+            public void onCompletion(MediaPlayer mp) { // TODO
                 // Auto-generated method stub
                 ImageView ivCurrentDone = (ImageView)findViewById(btnID[index]);
                 ivCurrentDone.setImageResource(R.drawable.audio_play_button);
@@ -290,9 +378,13 @@ public class GlobalSettingsBgMusicActivity extends Activity {
      //   startActivity(intent);
 
         appState.setActivityStopped(true);
-        saveChanges();
-        setResult(RESULT_OK);
+        Intent returnIntent = new Intent();
+        setResult(AppCompatActivity.RESULT_OK, returnIntent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+ //       saveChanges();
+//        setResult(RESULT_OK);
+//        finish();
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

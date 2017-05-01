@@ -1,21 +1,23 @@
 package com.circlepix.android;
 
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
+
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -23,38 +25,35 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.circlepix.android.beans.AgentData;
 import com.circlepix.android.beans.ApplicationSettings;
 import com.circlepix.android.data.Presentation;
 import com.circlepix.android.data.PresentationDataSource;
-import com.circlepix.android.helpers.BaseActionBar;
-import com.circlepix.android.helpers.CountingMultipartEntity;
 import com.circlepix.android.helpers.Globals;
-import com.circlepix.android.interfaces.IBaseActionBarCallback;
 import com.circlepix.android.sync.commands.UpdatePresentation;
 import com.circlepix.android.types.BackgroundMusicType;
 import com.circlepix.android.types.NarrationType;
 import com.google.gson.Gson;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
-public class WizardMainActivity extends Activity {
+
+public class WizardMainActivity extends AppCompatActivity {
 	
 	private static final int WIZARD_MEDIA_VIEW = 1;
 	private static final int WIZARD_EXP_VIEW = 2;
@@ -62,14 +61,18 @@ public class WizardMainActivity extends Activity {
 	private static final int WIZARD_SETTINGS_VIEW = 4;
 	private static final int WIZARD_STAR_SETTINGS_VIEW = 5;
 
+
+	private ProgressDialog mProgressDialog;
 	private Long presentationId = null;
 	private Presentation p;
 	private PlaceholderFragment frag;
 	private boolean editMode = false;
     private boolean appSettingsEditMode;
+	private boolean clickedSave;
+	private TextView toolBarSave;
 
 	//test for Updating presentation
-	protected UploadPresentationsTask updatePresentationTask;
+	//protected UploadPresentationsTask updatePresentationTask;
 	private boolean cancelled = false;
 	long totalSize;
 	private ProgressDialog progressBar;
@@ -78,7 +81,7 @@ public class WizardMainActivity extends Activity {
 
 	private CirclePixAppState appState;
 
-	private  ArrayList<String> newPresentationIds = new ArrayList<String>();
+	private ArrayList<String> newPresentationIds = new ArrayList<String>();
 
 
 	@Override
@@ -89,13 +92,32 @@ public class WizardMainActivity extends Activity {
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+		toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+		toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// Toast.makeText(getApplicationContext(), "Note: API is not done yet", Toast.LENGTH_SHORT).show();
+
+				clickedSave = true;
+				savePresentation();
+
+
+			}
+		});
+
 		// Setup application class
 		appState = ((CirclePixAppState)getApplicationContext());
 		appState.setContextForPreferences(this);
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(WizardMainActivity.this);
-        actionBar.setConfig(PresentationsActivity.class,
+        /*BaseActionBar actionBar = new BaseActionBar(WizardMainActivity.this);
+        actionBar.setConfig(PresentationsTabActivity.class,
                             "Done",
                             false,
                             false,
@@ -105,7 +127,9 @@ public class WizardMainActivity extends Activity {
 									savePresentation();
                                 }
                             });
-        actionBar.show();
+        actionBar.show();*/
+
+
 
         Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -143,7 +167,24 @@ public class WizardMainActivity extends Activity {
 //	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			checkSave();
+			return true;
+		}else{
+			return super.onOptionsItemSelected(item);
+		}
+
+	}
+
+	@Override
 	protected void onStart() {
+
+		if (!editMode) {
+			//frag.headerTitle.setText(R.string.default_title);
+			getSupportActionBar().setTitle(R.string.default_title);
+		}
 
         frag.mediaRow.setOnClickListener(new OnClickListener() {
             @Override
@@ -175,12 +216,15 @@ public class WizardMainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		savePresentation();
-		Intent intent = new Intent(WizardMainActivity.this, PresentationsActivity.class);
-		startActivity(intent);
-		finish();
-		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-		super.onBackPressed();
+
+		checkSave();
+
+//		savePresentation();
+//	//	Intent intent = new Intent(WizardMainActivity.this, PresentationsTabActivity.class);
+//	//	startActivity(intent);
+//		finish();
+//		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//		super.onBackPressed();
 	}
 
     @SuppressLint("NewApi")
@@ -240,6 +284,54 @@ public class WizardMainActivity extends Activity {
 //		}
 //		return super.onOptionsItemSelected(item);
 //	}
+
+
+	private void checkSave(){
+		String title = "Save Presentation";
+		String message = "Do you want to save this presentation?";
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WizardMainActivity.this);
+		alertDialogBuilder.setTitle("Save Presentation");
+		alertDialogBuilder.setCancelable(false);
+		alertDialogBuilder
+				.setMessage("Do you want to save this presentation?")
+				.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialog, int id) {
+								dialog.dismiss();
+								clickedSave = true;
+								savePresentation();
+
+//                                finish();
+//                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+							}
+						})
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialog, int id) {
+
+								dialog.cancel();
+
+							}
+						})
+				.setNeutralButton("No",
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialog, int id) {
+								dialog.cancel();
+								finish();
+								overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+							}
+						});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
 
 	private void savePresentation() {
 		
@@ -340,6 +432,13 @@ public class WizardMainActivity extends Activity {
 //			UpdatePresentation.runCommand(AgentData.getInstance().getRealtor().getId(), dao, p, null);
 			UpdatePresentation.runCommand(AgentData.getInstance().getRealtor().getId(), p, null);
 			Log.v("sync with server", "from WizardMainActivity");
+
+			if(clickedSave == true) {
+				clickedSave = false;
+				finish();
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -400,7 +499,7 @@ public class WizardMainActivity extends Activity {
 
 		private Presentation p;
 		public EditText nameText;
-        public TextView headerTitle;
+      //  public TextView headerTitle;
         public TableRow mediaRow;
         public TableRow expRow;
         public TableRow commRow;
@@ -415,12 +514,12 @@ public class WizardMainActivity extends Activity {
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_wizard_main, container, false);
 			
 			nameText = (EditText) rootView.findViewById(R.id.presentationName);
-			nameText.getBackground().setColorFilter(getResources().getColor(R.color.circlepix_darkgrey), PorterDuff.Mode.SRC_ATOP);
-            headerTitle = (TextView) rootView.findViewById(R.id.header_title);
+			nameText.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+          //  headerTitle = (TextView) rootView.findViewById(R.id.header_title);
             mediaRow = (TableRow) rootView.findViewById(R.id.mediaRow);
             expRow = (TableRow) rootView.findViewById(R.id.expRow);
             commRow = (TableRow) rootView.findViewById(R.id.commRow);
@@ -428,9 +527,12 @@ public class WizardMainActivity extends Activity {
 
             if (p != null) {
 				nameText.setText(p.getName());
-                headerTitle.setText("Edit Listing Presentation");
+				nameText.setSelection(nameText.getText().length());
+                //headerTitle.setText("Edit Listing Presentation");
+				((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit Presentation");
 			} else {
-                headerTitle.setText("New Listing Presentation");
+               // headerTitle.setText("New Listing Presentation");
+				((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("New Presentation");
             }
 			
 			return rootView;
@@ -439,8 +541,130 @@ public class WizardMainActivity extends Activity {
 
 
 
+	public void updatePresentation(){
 
-	protected class UploadPresentationsTask extends AsyncTask<Context, Integer, String> {
+		Thread networkThread = new Thread() {
+
+			public void run() {
+
+
+				String json = "{\\\"expSeoBoost\\\":\\\"true\\\",\n" +
+						"\t\t\\\"displayAgentName\\\":\\\"true\\\",\\\"displayPropAddress\\\":\\\"false\\\",\\\"mediaQRCodes\\\":\\\"true\\\",\\\"mediaShortCode\\\":\\\"true\\\",\\\"companyLogo\\\":\\\"\\\",\\\"commEmail\\\":\\\"true\\\",\\\"leadOpenHouseAnnce\\\":\\\"true\\\",\\\"autoplay\\\":\\\"true\\\",\\\"leadFacebook\\\":\\\"true\\\",\\\"mediaMobile\\\":\\\"true\\\",\\\"expBlogger\\\":\\\"true\\\",\\\"media24HourInfo\\\":\\\"true\\\",\\\"displayAgentImage\\\":\\\"true\\\",\\\"displayPropImage\\\":\\\"false\\\",\\\"theme\\\":\\\"CirclePix\\\",\\\"expTwitter\\\":\\\"true\\\",\\\"expPinterest\\\":\\\"true\\\",\\\"displayCompanyName\\\":\\\"true\\\",\\\"commBatchText\\\":\\\"true\\\",\\\"expRealPortals\\\":\\\"true\\\",\\\"expPersonalSite\\\":\\\"true\\\",\\\"companyName\\\":\\\"\\\",\\\"description\\\":\\\"\\\",\\\"expCompanySite\\\":\\\"true\\\",\\\"expFacebook\\\":\\\"true\\\",\\\"mediaListingVideo\\\":\\\"true\\\",\\\"name\\\":\\\"Bear Lake Commercial Property \\\",\\\"music\\\":\\\"None\\\",\\\"narration\\\":\\\"Male\\\",\\\"photographyType\\\":\\\"Agent\\\",\\\"leadMobile\\\":\\\"true\\\",\\\"expCraigslist\\\":\\\"true\\\",\\\"mediaPropertySite\\\":\\\"true\\\",\\\"mediaFlyers\\\":\\\"true\\\",\\\"propertyAddress\\\":\\\"\\\",\\\"mediaDvds\\\":\\\"true\\\",\\\"leadLeadBee\\\":\\\"true\\\",\\\"expYouTube\\\":\\\"true\\\",\\\"leadPropertySite\\\":\\\"true\\\",\\\"propertyImage\\\":\\\"\\\",\\\"expLinkedin\\\":\\\"true\\\",\\\"agentPhoneNum\\\":\\\"\\\",\\\"guid\\\":\\\"C688AC21-4EA6-49F5-8C94-5ACA6FC0D5C2\\\",\\\"displayCompanyLogo\\\":\\\"true\\\",\\\"commStats\\\":\\\"true\\\",\\\"listingType\\\":\\\"Residential\\\",\\\"agentPhoto\\\":\\\"\\\"}";
+
+
+				String GUID = String.valueOf(p.getId());
+				String realtorId = String.valueOf(AgentData.getInstance().getRealtor().getId());
+				String name = String.valueOf(p.getName());
+				String jsonString = String.valueOf(json);
+				String updated = String.valueOf("updated=2015-07-01%2015:02:53");
+
+
+
+				try {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							mProgressDialog = ProgressDialog.show(WizardMainActivity.this, "", "Updating Presentation...");
+						}
+					});
+
+					String BASE_URL = "https://www.circlepix.com/api/updatePresentation.php";
+					//String BASE_URL = "http://keuahn.circlepix.dev/api/agentProfile.php";
+					MultipartBody.Builder buildernew = new MultipartBody.Builder()
+							.setType(MultipartBody.FORM)
+							.addFormDataPart("GUID", GUID)
+							.addFormDataPart("name", name)
+							.addFormDataPart("json", jsonString)
+							.addFormDataPart("updated", updated);
+
+
+					MultipartBody requestBody = buildernew.build();
+
+					Request request = new Request.Builder()
+							.url(BASE_URL)
+							.post(requestBody)
+							.build();
+
+					Log.v("update credentials: ", String.valueOf(requestBody));
+					OkHttpClient client = new OkHttpClient();
+
+					client.newCall(request).enqueue(new Callback() {
+						@Override
+						public void onFailure(Call call, final IOException e) {
+							Log.i("Failed: " ,  e.getMessage());
+//                            Intent intent = new Intent(getApplicationContext(), AddListingImagesActivity.class);
+//                            intent.putExtra("responseBody","Failed: " + e.getLocalizedMessage() );
+//                            startActivity(intent);
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									//stuff that updates ui
+									mProgressDialog.dismiss();
+									Toast.makeText(getApplicationContext(), "Failed: "+ e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+								}
+							});
+						}
+
+						@Override
+						public void onResponse(Call call, final Response response) throws IOException {
+
+							final String responseString;
+							String status;
+							String message;
+
+							if (response.isSuccessful()) {
+								if (response.body() != null) {
+									responseString = response.body().string();
+									Log.i("Done", responseString);
+									response.body().close();
+
+									try {
+
+										JSONObject Jobject = new JSONObject(responseString);
+
+										status = Jobject.getString("status");
+										message = Jobject.getString("message");
+
+										Log.v("status: ", status);
+										Log.v("message: ", message);
+										runOnUiThread(new Runnable() {
+											@Override
+											public void run() {
+												//stuff that updates ui
+												mProgressDialog.dismiss();
+											}
+										});
+
+									}
+									catch (JSONException e) {
+										Log.v("Error: ", e.getLocalizedMessage());
+									}
+									finish();
+
+								}
+							} else {
+								Log.i("Error", "unsuccessful");
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										mProgressDialog.dismiss();
+									}
+								});
+
+								finish();
+							}
+						}
+					});
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		networkThread.start();
+	}
+
+/*	protected class UploadPresentationsTask extends AsyncTask<Context, Integer, String> {
 
 		int progressInt = 0;
 
@@ -460,8 +684,8 @@ public class WizardMainActivity extends Activity {
 
 
 
-					Log.v("GUID",String.valueOf(p.getId()));
-					Log.v("realtorId",AgentData.getInstance().getRealtor().getId());
+					Log.v("GUID", String.valueOf(p.getId()));
+					Log.v("realtorId", AgentData.getInstance().getRealtor().getId());
 					Log.v("name",p.getName());
 					Log.v("jsonString",json);
 
@@ -486,16 +710,16 @@ public class WizardMainActivity extends Activity {
 						}
 					});
 
-					/*// Add multiple images
-					for (String imageFilePath : imageUrls) {
+//					// Add multiple images
+//					for (String imageFilePath : imageUrls) {
+//
+//						FileBody filebody = new FileBody(new File(imageFilePath), "image/jpeg");
+//						reqEntity.addPart("mediaFile[]", filebody);
+//					}
+//
+//
+//					StringBody createNewSlideShow = new StringBody("1");
 
-						FileBody filebody = new FileBody(new File(imageFilePath), "image/jpeg");
-						reqEntity.addPart("mediaFile[]", filebody);
-					}
-
-
-					StringBody createNewSlideShow = new StringBody("1");
-*/
 
 
 						reqEntity.addPart("GUID", GUID);
@@ -638,7 +862,7 @@ public class WizardMainActivity extends Activity {
 						alertDialogBuilder
 						.setMessage("Hurray")
 						.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
+							public void onClick(DialogInterface dialog, int id) {
 								// Close dialog and finish activity
 								dialog.cancel();
 								setResult(100);	// return a request code 100 to tell the previous activity to finish
@@ -667,7 +891,7 @@ public class WizardMainActivity extends Activity {
 			}
 		}
 	}
-
+*/
 	public void showAlertDialog(String title, String message) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WizardMainActivity.this);
 
@@ -681,7 +905,7 @@ public class WizardMainActivity extends Activity {
 				.setPositiveButton("OK",
 						new DialogInterface.OnClickListener() {
 							public void onClick(
-									DialogInterface dialog, int id) {
+                                    DialogInterface dialog, int id) {
 								dialog.cancel();
 							}
 						});

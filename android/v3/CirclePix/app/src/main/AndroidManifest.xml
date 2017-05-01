@@ -22,6 +22,8 @@
     <application
         android:name=".CirclePixAppState"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:logo="@drawable/logo_lt"
         android:label="@string/app_name"
@@ -102,13 +104,23 @@
         </activity>
 
         <activity
+            android:name=".PresentationsTabActivity"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+
+           <!-- <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />-->
+        </activity>
+
+        <activity
             android:name=".LeadSelectedActivity"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".HomeActivity" />
         </activity>
 
         <activity
@@ -117,17 +129,17 @@
             android:configChanges="orientation|screenSize|keyboardHidden">
                <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".HomeActivity" />
         </activity>
 
         <activity
             android:name=".ProfileActivity"
             android:launchMode="singleTop"
             android:label="Agent Profile"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".HomeActivity" />
         </activity>
 
         <activity
@@ -214,6 +226,18 @@
         </activity>
 
         <activity
+            android:name=".ListingYoutubeURL"
+            android:launchMode="singleTop"
+            android:label="YouTube URL"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListingsTabActivity" />
+        </activity>
+
+
+        <activity
             android:name=".EditListingActivity"
             android:launchMode="singleTop"
             android:label="Listing Information"
@@ -232,7 +256,7 @@
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CreateListingActivity" />
+                android:value=".ListingsTabActivity" />
         </activity>
 
 
@@ -253,6 +277,552 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListingsTabActivity" />
+        </activity>
+
+
+        <!--  Presentations  -->
+
+        <activity
+            android:name=".WizardMainActivity"
+            android:launchMode="singleTop"
+            android:label="@string/title_activity_wizard_main"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+
+        <!--<activity-->
+            <!--android:name=".WizardMainActivity"-->
+            <!--android:label="@string/title_activity_wizard_main"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:configChanges="orientation|screenSize|keyboardHidden"-->
+            <!--android:theme="@style/Theme.AppCompat.NoActionBar">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".PresentationsTabActivity" />-->
+        <!--</activity>-->
+
+        <activity
+            android:name=".WizardMediaActivity"
+            android:label="@string/title_activity_wizard_media"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardMainActivity" />
+        </activity>
+
+        <activity
+            android:name=".WizardExpActivity"
+            android:label="@string/title_activity_wizard_exp"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardMainActivity" />
+        </activity>
+
+        <activity
+            android:name=".WizardLeadsActivity"
+            android:label="@string/title_activity_wizard_leads"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardMainActivity" />
+        </activity>
+
+        <activity
+            android:name=".WizardCommActivity"
+            android:label="@string/title_activity_wizard_comm"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardMainActivity" />
+        </activity>
+
+        <activity
+            android:name=".WizardSettingsActivity"
+            android:label="@string/title_activity_wizard_settings"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardMainActivity" />
+        </activity>
+
+        <activity
+            android:name=".WizardSettingsNarrationActivity"
+            android:label="@string/settings_title"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardSettingsActivity" />
+        </activity>
+
+        <activity
+            android:name=".WizardSettingsPhotographyActivity"
+            android:label="@string/settings_title"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardSettingsActivity" />
+        </activity>
+        <activity
+            android:name=".WizardSettingsBGMusicActivity"
+            android:label="@string/settings_title"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardSettingsActivity" />
+        </activity>
+
+        <activity
+            android:name=".WizardPropertyActivity"
+            android:label="@string/title_activity_wizard_property"
+            android:launchMode="singleTop"
+            android:largeHeap="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WizardSettingsActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationStart"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".GlobalSettingsActivity"
+            android:launchMode="singleTop"
+            android:label="Global Settings"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".GlobalSettingsNarrationActivity"
+            android:label="@string/settings_narration_text"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GlobalSettingsActivity" />
+        </activity>
+        <activity
+            android:name=".GlobalSettingsBgMusicActivity"
+            android:label="@string/settings_bgmusic_text"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GlobalSettingsActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationStarMarketing"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMarketingIntro"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaPhotography"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaPropertySite"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaListingVideo"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaMobilePlatform"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaQRCodes"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMedia24HourInfo"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaShortcode"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaFlyers"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationMediaDVDs"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureIntro"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposurePortals"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposurePersonalWebsite"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureCompanyWebsite"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureBlogger"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureYouTube"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureFacebook"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureTwitter"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureCraigslist"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureLinkedIn"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposurePinterest"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationExposureSeo"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationLeadGenIntro"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationLeadGenPropertySite"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationLeadGen24hourinfo"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationLeadGenFacebook"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationLeadGenMobileTour"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationCommIntro"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationCommStats"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationCommEMarketing"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationCommBatchTexting"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <activity
+            android:name=".presentations.PresentationEnd"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PresActionBarTheme"
+            android:largeHeap="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PresentationsTabActivity" />
+        </activity>
+
+        <service
+            android:name=".presentations.BackgroundMusicService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="true">
+        </service>
+
+        <activity
+            android:name="com.darsh.multipleimageselect.activities.AlbumSelectActivity"
+            android:theme="@style/MultipleImageSelectTheme">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
     </application>

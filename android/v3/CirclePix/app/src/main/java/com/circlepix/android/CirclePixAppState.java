@@ -83,6 +83,10 @@ public class CirclePixAppState  extends Application {
     private boolean downloadDone = false;
   //  private boolean presentationEnds = false; //oncompletion of presentationEnd
 
+    public static final String DEVELOPER_KEY = "AIzaSyBFas-EO8Z3BnApn4F1voqOQovl_1gD_oE";
+
+    public static final String YOUTUBE_VIDEO_CODE = "_oEA18Y8gM0";
+
 
     private ArrayList<String> newPresIds = new ArrayList<String>();
     private Integer index = 0; //for swipeListView current index to be used in PresentationsActivity
@@ -97,6 +101,7 @@ public class CirclePixAppState  extends Application {
     private boolean isFirstRun = false;
     private boolean isLoginActivityVisible = false;
     private boolean isHomeActivityVisible = false;
+    private String activeClassName = "";
 
     //ListingInformation
     private ArrayList<ListingInformation> listings = new ArrayList<ListingInformation>();
@@ -662,5 +667,24 @@ public class CirclePixAppState  extends Application {
         this.listings = listings;
     }
 
+
+//--------------------------------------------------------------------------------------------------
+
+    public String getActiveClassName() {
+
+        String prefActiveClassName = preferences.getString("activeClassName", null);
+        if (prefActiveClassName != null) {
+            Log.d("LOGCAT", "retrieved " + prefActiveClassName);
+            return prefActiveClassName;
+        }
+
+        return activeClassName;
+    }
+
+    public void setActiveClassName(String activeClassName) {
+        this.activeClassName = activeClassName;
+        editor.putString("activeClassName", activeClassName);
+        editor.commit();
+    }
 
 }

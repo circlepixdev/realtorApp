@@ -1,28 +1,35 @@
 package com.circlepix.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.circlepix.android.beans.ApplicationSettings;
-import com.circlepix.android.helpers.BaseActionBar;
 import com.circlepix.android.helpers.Globals;
 import com.circlepix.android.helpers.RadioGroupHelper;
-import com.circlepix.android.interfaces.IBaseActionBarCallback;
 import com.circlepix.android.types.NarrationType;
 import com.google.gson.Gson;
 
 /**
  * Created by relly on 4/29/15.
  */
-public class GlobalSettingsNarrationActivity extends Activity {
+public class GlobalSettingsNarrationActivity extends AppCompatActivity {
+
+    public LinearLayout maleLayout;
+    public LinearLayout femaleLayout;
 
     private RadioButton rbMale;
     private RadioButton rbFemale;
@@ -37,6 +44,7 @@ public class GlobalSettingsNarrationActivity extends Activity {
     private int currentPos;
     private int previousPos = 2; //put dummy value for previousPos just to compare later
     private CirclePixAppState appState;
+    private  TextView toolBarSave;
 
 
     @Override
@@ -49,7 +57,7 @@ public class GlobalSettingsNarrationActivity extends Activity {
         appState.setContextForPreferences(this);
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(GlobalSettingsNarrationActivity.this);
+     /*   BaseActionBar actionBar = new BaseActionBar(GlobalSettingsNarrationActivity.this);
         actionBar.setConfig(GlobalSettingsActivity.class,
                             "Save",
                             false,
@@ -65,6 +73,27 @@ public class GlobalSettingsNarrationActivity extends Activity {
                                 }
                             });
         actionBar.show();
+*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+        toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Toast.makeText(getApplicationContext(), "Note: API is not done yet", Toast.LENGTH_SHORT).show();
+
+                appState.setActivityStopped(true);
+                saveChanges();
+
+
+            }
+        });
+
+        maleLayout = (LinearLayout) findViewById(R.id.linearLayout5);
+        femaleLayout = (LinearLayout) findViewById(R.id.linearLayout6);
+
 
         rbMale = (RadioButton) findViewById(R.id.rbMale);
         rbFemale = (RadioButton) findViewById(R.id.rbFemale);
@@ -84,7 +113,21 @@ public class GlobalSettingsNarrationActivity extends Activity {
             rbFemale.setChecked(true);
         }
 
+        maleLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbMale.setChecked(true);
+                rbFemale.setChecked(false);
+            }
+        });
 
+        femaleLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbFemale.setChecked(true);
+                rbMale.setChecked(false);
+            }
+        });
 
         // Required for the custom radio button to work
         ViewGroup parent = (ViewGroup) findViewById(R.id.linearLayoutRadioGroup);
@@ -93,6 +136,24 @@ public class GlobalSettingsNarrationActivity extends Activity {
         addListenersOnButton();
     }
 
+
+   /* @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                appState.setActivityStopped(true);
+                saveChanges();
+                //setResult(RESULT_OK);
+                Intent returnIntent = new Intent();
+                setResult(AppCompatActivity.RESULT_OK, returnIntent);
+//                finish();
+
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
+*/
     @Override
     public void onResume() {
         super.onResume();
@@ -143,6 +204,11 @@ public class GlobalSettingsNarrationActivity extends Activity {
         } else {
             editor.commit();
         }
+
+        Intent returnIntent = new Intent();
+        setResult(AppCompatActivity.RESULT_OK, returnIntent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 
         Log.v("GLOBAL setNarration", appSettings.getNarration().toString());
     }
@@ -203,7 +269,8 @@ public class GlobalSettingsNarrationActivity extends Activity {
         // setting up what to do if current song completes.
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
-            @Override public void onCompletion(MediaPlayer mp) { // TODO
+            @Override
+            public void onCompletion(MediaPlayer mp) { // TODO
                 // Auto-generated method stub
                 ImageView ivCurrentDone = (ImageView)findViewById(btnID[index]);
                 ivCurrentDone.setImageResource(R.drawable.audio_play_button);
@@ -239,9 +306,14 @@ public class GlobalSettingsNarrationActivity extends Activity {
       //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
       //  startActivity(intent);
         appState.setActivityStopped(true);
-        saveChanges();
-        setResult(RESULT_OK);
+        Intent returnIntent = new Intent();
+        setResult(AppCompatActivity.RESULT_OK, returnIntent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+      //  saveChanges();
+       // setResult(RESULT_OK);
+      //  finish();
+
+     //   overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

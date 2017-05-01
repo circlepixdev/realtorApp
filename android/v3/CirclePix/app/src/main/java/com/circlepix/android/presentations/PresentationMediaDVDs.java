@@ -3,6 +3,7 @@ package com.circlepix.android.presentations;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,6 +51,16 @@ public class PresentationMediaDVDs extends PresentationBase {
         };
         handler.postDelayed(runnable, 3000);*/
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
     }
 
     @Override
@@ -159,11 +170,14 @@ public class PresentationMediaDVDs extends PresentationBase {
 
     public void onBackPressed(){
         super.onBackPressed();
+        stopPresentation();
+    }
+
+    public void stopPresentation() {
         player.stop();
 
         appState.setActivityStopped(true);
         appState.clearSharedPreferences();
         stopService(new Intent(PresentationMediaDVDs.this, BackgroundMusicService.class));
-
     }
 }

@@ -28,6 +28,7 @@
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <ImageView
+                    android:id="@+id/circlepix_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
                     android:src="@drawable/logo_lt"

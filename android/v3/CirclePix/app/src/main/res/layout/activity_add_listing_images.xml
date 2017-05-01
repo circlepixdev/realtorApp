@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/activity_background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.design.widget.AppBarLayout
@@ -15,30 +17,274 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:id="@+id/toolbar_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:layout_gravity="right"
+                android:paddingRight="16dp"/>
+
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_below="@+id/appbar"
+        android:layout_above="@+id/buttons"
+        android:background="@color/activity_background">
 
-        <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Response Body:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="15dp"/>
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
-        <TextView
-            android:id="@+id/response_text"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Response Body:"/>
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@android:color/white">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/listing_add_images_desc"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/textView5" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/listing_add_images_note"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/note_textView" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal"
+                android:text="@string/listing_tap_to_delete_image"
+                android:textColor="@android:color/holo_red_light"
+                android:id="@+id/textView" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.circlepix.android.helpers.ExpandableHeightGridView
+                    android:id="@+id/galleryGridView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:horizontalSpacing="3dp"
+                    android:isScrollContainer="false"
+                    android:numColumns="2"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="3dp" />
+
+                <Button
+                    android:id="@+id/add_photos_button"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/circlepix_button_selector"
+                    android:text="Add Photos"
+                    android:textColor="#FFFFFF" />
+
+               <!--<GridView
+                    android:id="@+id/galleryGridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/additional_information"
+                    android:verticalSpacing="2dp"
+                    android:horizontalSpacing="2dp"
+                    android:stretchMode="columnWidth"
+                    android:numColumns="2"/>-->
+
+
+              <!--  <LinearLayout
+                    android:id="@+id/additional_information"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="40dp">
+
+
+                    <Button
+                        android:id="@+id/add_photos_button"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="16dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/circlepix_button_selector"
+                        android:text="Add Photos"
+                        android:textColor="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Title:"
+                            android:textColor="@color/colorPrimary"/>
+
+                        <EditText
+                            android:id="@+id/editText_title"
+                            android:layout_width="fill_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_height="32dp"
+                            android:theme="@style/EditText"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:background="@drawable/edittext_style"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Description (256 characters):"
+                            android:textColor="@color/colorPrimary"/>
+
+
+                        <EditText
+                            android:id="@+id/editText_description"
+                            android:layout_width="fill_parent"
+                            android:layout_height="80dp"
+                            android:inputType="textMultiLine"
+                            android:lines="8"
+                            android:minLines="6"
+                            android:gravity="top|left"
+                            android:scrollbars="vertical"
+                            android:layout_marginTop="5dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:theme="@style/TextAppearance.AppCompat"
+                            android:background="@drawable/edittext_style"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Social Media Sites*:"
+                            android:textColor="@color/colorPrimary"/>
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSocialMediaSites"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                -->
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+  </LinearLayout>
+    </ScrollView>
+    </RelativeLayout>
+
+ <!--   <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>-->
+
+    <!--<GridView-->
+        <!--android:id="@+id/galleryGridView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:horizontalSpacing="2dp"-->
+        <!--android:numColumns="2"-->
+        <!--android:padding="2dp"-->
+        <!--android:verticalSpacing="2dp" >-->
+    <!--</GridView>-->
+
+    <!--<GridView-->
+        <!--android:id="@+id/galleryGridView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:columnWidth="280dp"-->
+        <!--android:gravity="center"-->
+        <!--android:horizontalSpacing="2dp"-->
+        <!--android:numColumns="2"-->
+        <!--android:padding="2dp"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--android:verticalSpacing="2dp" >-->
+    <!--</GridView>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="16dp">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Response Body:"-->
+            <!--android:textSize="18sp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_marginBottom="15dp"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/response_text"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="16sp"-->
+            <!--android:text="Response Body:"/>-->
+
+    <!--</LinearLayout>-->
 
  </LinearLayout>

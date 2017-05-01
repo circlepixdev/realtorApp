@@ -93,7 +93,7 @@
         android:layout_height="match_parent"
         android:paddingTop="5dp">
 
-       <!-- <FrameLayout
+        <!-- <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="5dp"
@@ -168,7 +168,6 @@
             android:visibility="gone">
 
 
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -180,7 +179,7 @@
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@drawable/shadow"/>
+                    android:background="@drawable/shadow" />
 
             </FrameLayout>
 
@@ -193,55 +192,55 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:orientation="horizontal"
                     android:layout_gravity="center"
+                    android:orientation="horizontal"
                     android:weightSum="5">
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <LinearLayout
                         android:id="@+id/add_new_listing"
                         android:layout_width="0dp"
                         android:layout_height="55dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:background="@color/tab_bar">
+                        android:background="@color/tab_bar"
+                        android:orientation="horizontal">
 
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:background="@drawable/shadow_vertical_right"/>
+                            android:background="@drawable/shadow_vertical_right" />
 
                         <View
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="1dp"
-                            android:background="@drawable/shadow"/>
+                            android:layout_weight="1"
+                            android:background="@drawable/shadow" />
 
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:background="@drawable/shadow_vertical_left"/>
+                            android:background="@drawable/shadow_vertical_left" />
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
@@ -250,7 +249,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_action_add"
-                    android:tint="@color/colorPrimaryDark"/>
+                    android:tint="@color/colorPrimaryDark" />
 
             </FrameLayout>
 
@@ -263,12 +262,11 @@
                 android:visibility="gone">
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
-                    android:orientation="horizontal"
                     android:layout_gravity="bottom"
+                    android:orientation="horizontal"
                     android:weightSum="4">
 
 
@@ -279,9 +277,9 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:src="@drawable/ic_edit_profile"
-                        android:tint="@color/colorPrimaryDark"/>
+                        android:tint="@color/colorPrimaryDark" />
 
-                   <!-- <View
+                    <!-- <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/shadow_vertical_right"/>
@@ -298,7 +296,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@drawable/shadow_vertical_right"/>
+                        android:background="@drawable/shadow_vertical_right" />
 
                     <ImageView
                         android:id="@+id/listing_add_photos"
@@ -321,12 +319,12 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:src="@drawable/ic_videocam"
-                        android:tint="@color/colorPrimaryDark"/>
+                        android:tint="@color/colorPrimaryDark" />
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@drawable/shadow_vertical_right"/>
+                        android:background="@drawable/shadow_vertical_right" />
 
                     <ImageView
                         android:id="@+id/listing_share"
@@ -335,7 +333,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:src="@drawable/ic_menu_share"
-                        android:tint="@color/colorPrimaryDark"/>
+                        android:tint="@color/colorPrimaryDark" />
 
 
                 </LinearLayout>
@@ -349,12 +347,12 @@
             android:id="@+id/cancel_options"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_alignParentRight="true"
             android:layout_above="@+id/tabs"
+            android:layout_alignParentRight="true"
             android:layout_marginBottom="-20dp"
             android:src="@drawable/ic_cancel"
             android:tint="@color/colorPrimaryDark"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

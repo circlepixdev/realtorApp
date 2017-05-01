@@ -7,12 +7,17 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.circlepix.android.data.Presentation;
 import com.circlepix.android.data.PresentationDataSource;
@@ -23,11 +28,12 @@ import com.circlepix.android.types.NarrationType;
 /**
  * Edited by Keuahn on June 20, 2015
  */
-public class WizardMediaActivity extends Activity {
+public class WizardMediaActivity extends AppCompatActivity {
 
 	private Long presentationId = null;
 	private Presentation p;
 	private PlaceholderFragment frag;
+	private TextView toolBarSave;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +43,28 @@ public class WizardMediaActivity extends Activity {
 
 		final CirclePixAppState myApp = (CirclePixAppState)this.getApplication();
 
-        // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(WizardMediaActivity.this);
-        actionBar.setConfig(WizardMainActivity.class,
-                "Save",
-                false,
-                false,
-                new IBaseActionBarCallback.Null() {
-                    @Override
-                    public void back() {
-						myApp.setActivityStopped(true);
-                        if (!prepareToNavigate()) {
-                            return;
-                        }
-                        setResult(RESULT_OK);
-                        finish();
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-                    }
-                });
-        actionBar.show();
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActionBar().setTitle(R.string.title_activity_wizard_media);
+
+		toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+		toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				myApp.setActivityStopped(true);
+				if (!prepareToNavigate()) {
+					return;
+				}
+				setResult(RESULT_OK);
+				finish();
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+			}
+		});
+
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -83,37 +92,28 @@ public class WizardMediaActivity extends Activity {
 	}
 
 	@Override
-	public void onBackPressed() {
-		// The user pressed the hardware back button
-		if (!prepareToNavigate()) {
-			// Stop the navigation
-			return;
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			// The user pressed the UP button (on actionbar)
+			((CirclePixAppState)this.getApplication()).setActivityStopped(true);
+
+			setResult(RESULT_OK);
+			finish();
 		}
 
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed() {
 
 		((CirclePixAppState)this.getApplication()).setActivityStopped(true);
 	    setResult(RESULT_OK);
 	    super.onBackPressed();
 	}
 
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//
-//		int id = item.getItemId();
-//		if (id == android.R.id.home) {
-//			// The user pressed the UP button (on actionbar)
-//			if (!prepareToNavigate()) {
-//				// Stop the navigation
-//				return true;
-//			}
-//
-//		    setResult(RESULT_OK);
-//		    finish();
-//		}
-//
-//		return super.onOptionsItemSelected(item);
-//	}
-	
 	private boolean prepareToNavigate() {
 
 		if (!validateForm()) {
@@ -181,7 +181,13 @@ public class WizardMediaActivity extends Activity {
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment {
-		
+
+		public RelativeLayout qrCodesLayout;
+		public RelativeLayout info24HourLayout;
+		public RelativeLayout shortCodeSystemLayout;
+		public RelativeLayout flyersLayout;
+		public RelativeLayout dvdLayout;
+
 		public Switch propSite;
 		public Switch listingVideo;
 		public Switch qrCodes;
@@ -224,7 +230,13 @@ public class WizardMediaActivity extends Activity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			rootView = inflater.inflate(R.layout.fragment_wizard_media, container, false);
 
-            propSite = (Switch) rootView.findViewById(R.id.MediaPropSite);
+			qrCodesLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout3);
+			info24HourLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout4);
+			shortCodeSystemLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout5);
+			flyersLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout6);
+			dvdLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout7);
+
+			propSite = (Switch) rootView.findViewById(R.id.MediaPropSite);
 			listingVideo = (Switch) rootView.findViewById(R.id.MediaListingVideo);
 			qrCodes = (Switch) rootView.findViewById(R.id.MediaQRCodes);
 			info24Hour = (Switch) rootView.findViewById(R.id.Media24HourInfo);
@@ -256,6 +268,61 @@ public class WizardMediaActivity extends Activity {
 
 
 			}
+
+			qrCodesLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(qrCodes.isChecked()){
+						qrCodes.setChecked(false);
+					}else{
+						qrCodes.setChecked(true);
+					}
+				}
+			});
+
+			info24HourLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(info24Hour.isChecked()){
+						info24Hour.setChecked(false);
+					}else{
+						info24Hour.setChecked(true);
+					}
+				}
+			});
+
+			shortCodeSystemLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(shortCode.isChecked()){
+						shortCode.setChecked(false);
+					}else{
+						shortCode.setChecked(true);
+					}
+				}
+			});
+
+			flyersLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(flyers.isChecked()){
+						flyers.setChecked(false);
+					}else{
+						flyers.setChecked(true);
+					}
+				}
+			});
+
+			dvdLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(dvds.isChecked()){
+						dvds.setChecked(false);
+					}else{
+						dvds.setChecked(true);
+					}
+				}
+			});
 
 			audioPropSite.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -433,7 +500,7 @@ public class WizardMediaActivity extends Activity {
 			super.onPause();
 
 			Boolean j = ((CirclePixAppState)getActivity().getApplication()).isActivityStopped();
-			Log.v("isActivityStopped", String.valueOf(j));
+
 			if(!((CirclePixAppState)getActivity().getApplication()).isActivityStopped()){
 				((CirclePixAppState)getActivity().getApplication()).startActivityTransitionTimer();  //checking if app went to background
 

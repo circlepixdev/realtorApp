@@ -27,6 +27,7 @@
         android:layout_below="@id/textViewTitle"
         android:scaleType="fitCenter"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/presentation_exposure_youtube" />
+        android:src="@drawable/presentation_exposure_youtube"
+        android:background="#ffffff"/>
 
 </RelativeLayout>

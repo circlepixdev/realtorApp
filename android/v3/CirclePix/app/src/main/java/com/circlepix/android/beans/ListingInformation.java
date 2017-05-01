@@ -33,6 +33,7 @@ public class ListingInformation {
     private String tourURL = "";
     private String socialMediaSites = "";
     private String realEstateSites = "";
+    private boolean selected = false;
 
 
     // Set up Getters & Setters
@@ -210,6 +211,13 @@ public class ListingInformation {
     }
     public void setRealEstateSites(String realEstateSites) {
         this.realEstateSites = realEstateSites;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
   /*  public Boolean getSocialMediaSites() {
         return socialMediaSites;

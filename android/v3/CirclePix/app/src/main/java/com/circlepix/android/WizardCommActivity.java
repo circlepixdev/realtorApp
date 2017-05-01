@@ -6,12 +6,17 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.circlepix.android.data.Presentation;
 import com.circlepix.android.data.PresentationDataSource;
@@ -19,11 +24,12 @@ import com.circlepix.android.helpers.BaseActionBar;
 import com.circlepix.android.interfaces.IBaseActionBarCallback;
 import com.circlepix.android.types.NarrationType;
 
-public class WizardCommActivity extends Activity {
+public class WizardCommActivity extends AppCompatActivity {
 
 	private Long presentationId = null;
 	private Presentation p;
 	private PlaceholderFragment frag;
+	private TextView toolBarSave;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +40,7 @@ public class WizardCommActivity extends Activity {
 		final CirclePixAppState myApp = (CirclePixAppState)this.getApplication();
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(WizardCommActivity.this);
+     /*   BaseActionBar actionBar = new BaseActionBar(WizardCommActivity.this);
         actionBar.setConfig(WizardMainActivity.class,
                 "Save",
                 false,
@@ -42,10 +48,10 @@ public class WizardCommActivity extends Activity {
                 new IBaseActionBarCallback.Null() {
                     @Override
                     public void back() {
-						/*saveChanges();
+						*//*saveChanges();
                         setResult(RESULT_OK);
                         finish();
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);*/
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);*//*
 
 						myApp.setActivityStopped(true);
 
@@ -57,7 +63,30 @@ public class WizardCommActivity extends Activity {
 						overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                     }
                 });
-        actionBar.show();
+        actionBar.show();*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActionBar().setTitle(R.string.title_activity_wizard_comm);
+
+		toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+		toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				myApp.setActivityStopped(true);
+
+				if (!prepareToNavigate()) {
+					return;
+				}
+				setResult(RESULT_OK);
+				finish();
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+			}
+		});
 
         Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -77,16 +106,31 @@ public class WizardCommActivity extends Activity {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			// The user pressed the UP button (on actionbar)
+			((CirclePixAppState)this.getApplication()).setActivityStopped(true);
+
+			setResult(RESULT_OK);
+		    finish();
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	public void onBackPressed() {
 	/*	saveChanges();
 	    setResult(RESULT_OK);
 	    super.onBackPressed();*/
 
 		// The user pressed the hardware back button
-		if (!prepareToNavigate()) {
-			// Stop the navigation
-			return;
-		}
+//		if (!prepareToNavigate()) {
+//			// Stop the navigation
+//			return;
+//		}
 
 		((CirclePixAppState)this.getApplication()).setActivityStopped(true);
 
@@ -163,6 +207,9 @@ public class WizardCommActivity extends Activity {
 	 */
 	public static class PlaceholderFragment extends Fragment {
 
+		public RelativeLayout emailLayout;
+		public RelativeLayout batchTextingLayout;
+
 		public Switch stats;
 		public Switch email;
 		public Switch batchText;
@@ -193,10 +240,13 @@ public class WizardCommActivity extends Activity {
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
 			rootView = inflater.inflate(R.layout.fragment_wizard_comm,
 					container, false);
-			
+
+			emailLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout20);
+			batchTextingLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout21);
+
 			// Get controls
 			stats = (Switch) rootView.findViewById(R.id.CommStats);
 			email = (Switch) rootView.findViewById(R.id.CommEmail);
@@ -215,6 +265,28 @@ public class WizardCommActivity extends Activity {
 				email.setChecked(p.isCommEmail());
 				batchText.setChecked(p.isCommBatchText());
 			}
+
+			emailLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(email.isChecked()){
+						email.setChecked(false);
+					}else{
+						email.setChecked(true);
+					}
+				}
+			});
+
+			batchTextingLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(batchText.isChecked()){
+						batchText.setChecked(false);
+					}else{
+						batchText.setChecked(true);
+					}
+				}
+			});
 
 			audioStats.setOnClickListener(new View.OnClickListener() {
 				@Override

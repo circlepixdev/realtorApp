@@ -129,7 +129,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:background="@color/circlepix_darkgrey"
+            android:background="@color/colorPrimary"
             android:layout_weight=".5"
             android:id="@+id/leftFrame">
 
@@ -226,7 +226,7 @@
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/circlepix_yellowgreen"
+            android:background="@color/colorAccent"
             android:layout_weight=".015"
             android:id="@+id/middleFrame"></LinearLayout>
 
@@ -245,7 +245,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imgThank"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/presentation_thankyou_black" />
+                android:src="@drawable/presentation_thankyou_black"
+                android:background="#ffffff"/>
         </LinearLayout>
     </LinearLayout>
 

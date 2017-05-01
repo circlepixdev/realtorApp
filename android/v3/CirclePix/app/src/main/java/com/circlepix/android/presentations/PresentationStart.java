@@ -7,14 +7,23 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.circlepix.android.CirclePixAppState;
+import com.circlepix.android.HomeActivity;
 import com.circlepix.android.R;
 import com.circlepix.android.beans.AgentData;
 import com.circlepix.android.beans.Realtor;
@@ -32,6 +41,7 @@ import java.net.MalformedURLException;
 public class PresentationStart extends PresentationBase {
 
     private PresentationPageAudioPlayer player;
+    private ProgressBar progressBar;
     private TextView realtorName;
     private TextView realtorPhone;
     private TextView realtorEmail;
@@ -44,6 +54,7 @@ public class PresentationStart extends PresentationBase {
     private String currentPos;
     private boolean appStopped;
     private AgentData agentData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +70,10 @@ public class PresentationStart extends PresentationBase {
         realtorName = (TextView) findViewById(R.id.realtorName);
         realtorPhone = (TextView) findViewById(R.id.realtorPhone);
         realtorEmail = (TextView) findViewById(R.id.realtorEmail);
-        realtorImage = (ImageView) findViewById(R.id.imgRealtor);
+        realtorImage = (ImageView) findViewById(R.id.agent_img);
         companyName = (TextView) findViewById(R.id.companyName);
         leftFrame = (LinearLayout) findViewById(R.id.leftFrame);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         Realtor realtor = PresentationSequencingSet.getRealtorProfile(PresentationStart.this);
         Presentation p = PresentationSequencingSet.getPresentation();
@@ -100,59 +112,36 @@ public class PresentationStart extends PresentationBase {
 
             if (p.isDisplayAgentImage()) {
 
-                //  File filename = new File(Environment.getExternalStorageDirectory() + File.separator + "CirclePix"+ File.separator + "Agent Images" + File.separator +  agentData.getRealtor().getName() + ".jpg");
-                File filename = new File(getExternalFilesDir(null) + File.separator + "Agent Images" + File.separator + agentData.getRealtor().getName() + ".jpg");
+                if(agentData.getAgentProfileInformation().getAgentImage() != null && !agentData.getAgentProfileInformation().getAgentImage().isEmpty()){
 
-                Log.v("isDownloadDone: ", String.valueOf(appState.isDownloadDone()));
-                Log.v("Pres start File exists: ", String.valueOf(filename.exists()) + filename.toString());
+                    Glide.with(getApplicationContext())
+                            .load(agentData.getAgentProfileInformation().getAgentImage())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.circlepix_bg)
+                            .error(R.drawable.broken_file_icon)
+                            .listener(new RequestListener<String, GlideDrawable>() {
+                                @Override
+                                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                    return false;
+                                }
 
-                if(filename.exists()){
-
-              //  if(appState.isDownloadDone() == true){
-                    //    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    //     Bitmap bitmap = BitmapFactory.decodeFile(filename.getAbsolutePath(),bmOptions);
-                    //    bitmap = Bitmap.createScaledBitmap(bitmap,200,200,true);
-                    try {
-                      /*  ExifInterface exif = new ExifInterface(filename.toString());
-                        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                                ExifInterface.ORIENTATION_NORMAL);
-                        int rotate = 0;
-                        switch(orientation) {
-                            case  ExifInterface.ORIENTATION_ROTATE_270:
-                                rotate-=90;break;
-                            case  ExifInterface.ORIENTATION_ROTATE_180:
-                                rotate-=90;break;
-                            case  ExifInterface.ORIENTATION_ROTATE_90:
-                                rotate=90;break;
-                        }
-
-                        Bitmap bitmap = decodeFile(filename);
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(rotate);
-                        Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0,
-                                bitmap.getWidth(), bitmap.getHeight(),
-                                matrix, true);
-                        realtorImage.setImageBitmap(rotated);*/
-
-                        Bitmap bmp = BitmapFactory.decodeFile(filename.toString());
-                        realtorImage.setImageBitmap(bmp);
-
-                      //  realtorImage.setImageBitmap(ImageHelper.getScaledBitmap(filename.toString(), 300,300));
-
-                        Log.v("file exists", "yeah");
-
-                    }catch(Exception e){
-
-                    }
+                                @Override
+                                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                    progressBar.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            })
+//                    .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                            .into(realtorImage);
                 }else{
-                    if(isWifi || is4g){
-                        new DownloadImageTask(realtorImage).execute(agentData.getRealtor().getImage());
-                        //new DownloadImageTaskTemp().execute(agentData.getRealtor().getImage());
-                    }
-                    Log.v("file exists", "nope");
+                    Glide.with(getApplicationContext()).load("").into(realtorImage);
+                    progressBar.setVisibility(View.GONE);
                 }
+
             } else {
-                realtorImage.setImageBitmap(null);
+               // realtorImage.setImageBitmap(null);
+                Glide.with(getApplicationContext()).load("").into(realtorImage);
+                progressBar.setVisibility(View.GONE);
             }
 
             if (p.isDisplayCompanyName()) {
@@ -191,6 +180,16 @@ public class PresentationStart extends PresentationBase {
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
         } catch (FileNotFoundException e) {}
         return null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
     }
 
 
@@ -247,7 +246,7 @@ public class PresentationStart extends PresentationBase {
         }
     }
 
-    @Override
+   @Override
     public void pauseAnimation() {
     }
 
@@ -290,11 +289,15 @@ public class PresentationStart extends PresentationBase {
     public void onBackPressed(){
         super.onBackPressed();
 
+        stopPresentation();
+    }
+
+    public void stopPresentation(){
         player.stop();
+
         appState.setActivityStopped(true); //this wasn't included in clearSharedPref
         appState.clearSharedPreferences();
         stopService(new Intent(PresentationStart.this, BackgroundMusicService.class));
-
 
     }
 }

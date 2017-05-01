@@ -29,6 +29,7 @@
             android:layout_height="match_parent"
             android:id="@+id/imageView29"
             android:src="@drawable/presentation_comm_stats"
+            android:background="#ffffff"
             android:scaleType="centerInside"
             android:paddingTop="10dp"
             android:paddingBottom="10dp" />

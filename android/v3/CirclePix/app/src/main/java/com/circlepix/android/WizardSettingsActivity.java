@@ -10,13 +10,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.circlepix.android.beans.ApplicationSettings;
 import com.circlepix.android.data.Presentation;
@@ -26,7 +30,7 @@ import com.circlepix.android.helpers.Globals;
 import com.circlepix.android.interfaces.IBaseActionBarCallback;
 import com.google.gson.Gson;
 
-public class WizardSettingsActivity extends Activity {
+public class WizardSettingsActivity extends AppCompatActivity {
 
     private static final int WIZARD_SETTINGS_NARRATION = 1;
     private static final int WIZARD_SETTINGS_PHOTOGRAPHY = 2;
@@ -43,16 +47,19 @@ public class WizardSettingsActivity extends Activity {
     private boolean appBGMusicEditMode;
     private boolean appPhotographyEditMode;
     private boolean appPropertyEditMode;
+    private boolean clickedSave;
+    private TextView toolBarSave;
 
 
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wizard_settings);
 		setTitle("");
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(WizardSettingsActivity.this);
+      /*  BaseActionBar actionBar = new BaseActionBar(WizardSettingsActivity.this);
         actionBar.setConfig(WizardMainActivity.class,
                 "Save",
                 false,
@@ -69,6 +76,29 @@ public class WizardSettingsActivity extends Activity {
                     }
                 });
         actionBar.show();
+*/
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_activity_wizard_settings);
+
+        toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+        toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (!prepareToNavigate()) {
+                    return;
+                }
+                setResult(RESULT_OK);
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }
+        });
+
 
         Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -102,31 +132,42 @@ public class WizardSettingsActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		// The user pressed the hardware back button
-		if (!prepareToNavigate()) {
-			// Stop the navigation
-			return;
-		}
+//		if (!prepareToNavigate()) {
+//			// Stop the navigation
+//			return;
+//		}
 		
-	    setResult(RESULT_OK);
-	    super.onBackPressed();
+//	    setResult(RESULT_OK);
+        checkSave();
+//	    super.onBackPressed();
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		int id = item.getItemId();
-		if (id == android.R.id.home) {
-			// The user pressed the UP button (on actionbar)
-			if (!prepareToNavigate()) {
-				// Stop the navigation
-				return true;
-			}
-			
-		    setResult(RESULT_OK);
-		    finish();
-		}
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            checkSave();
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
 
-		return super.onOptionsItemSelected(item);
+//
+//		int id = item.getItemId();
+//		if (id == android.R.id.home) {
+//            checkSave();
+//			// The user pressed the UP button (on actionbar)
+////			if (!prepareToNavigate()) {
+////				// Stop the navigation
+////				return true;
+////			}
+//
+////		    setResult(RESULT_OK);
+////		    finish();
+//		}
+//
+//		return super.onOptionsItemSelected(item);
 	}
 
     @Override
@@ -284,7 +325,69 @@ public class WizardSettingsActivity extends Activity {
 		
 		return true;
 	}
-	
+
+    private void checkSave(){
+
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WizardSettingsActivity.this);
+        alertDialogBuilder.setTitle("Save Settings");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder
+                .setMessage("Do you want to save this presentation settings?")
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                                try {
+                                    clickedSave = true;
+                                    saveChanges();
+
+                                } catch (Exception e) {
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(WizardSettingsActivity.this);
+                                    alert.setTitle("Database Error");
+                                    alert.setMessage("There was a database error. If this problem persists then please report it.");
+                                    alert.setPositiveButton("Ok",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog,
+                                                                    int whichButton) {
+                                                    // Do nothing
+                                                }
+                                            });
+                                    alert.show();
+
+                                }
+//                                    finish();
+//                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+
+                            }
+                        })
+                .setNeutralButton("No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                finish();
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+
 	private void saveChanges() throws Exception {
 		
 //		BackgroundMusicType bgMusic = (BackgroundMusicType) frag.bgMusicSpin.getSelectedItem();
@@ -306,7 +409,14 @@ public class WizardSettingsActivity extends Activity {
 		dao.updatePresentation(p);
 		dao.close();
 
-        PresentationsActivity.isNewPres = false;
+        if(clickedSave == true){ //checked applyToExisting
+            clickedSave = false;
+
+            setResult(RESULT_OK);
+            finish();
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        }
+      //  PresentationsActivity.isNewPres = false;
 	}
 	
 	private boolean validateForm() {
@@ -343,6 +453,10 @@ public class WizardSettingsActivity extends Activity {
 
 		private Presentation p;
         private boolean appSettingsEditMode;
+        private RelativeLayout displayCompanyLogoLayout;
+        private RelativeLayout displayCompanyNameLayout;
+        private RelativeLayout displayAgentImageLayout;
+        private RelativeLayout displayAgentNameLayout;
 		private Switch displayCompanyLogo;
 		private Switch displayCompanyName;
 		private Switch displayAgentImage;
@@ -365,11 +479,16 @@ public class WizardSettingsActivity extends Activity {
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_wizard_settings,
 					container, false);
 
-			// More controls
+            displayCompanyLogoLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout22);
+            displayCompanyNameLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout23);
+            displayAgentImageLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout24);
+            displayAgentNameLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout25);
+
+            // More controls
 			displayCompanyLogo = (Switch) rootView.findViewById(R.id.cbCompanyLogo);
 			displayCompanyName = (Switch) rootView.findViewById(R.id.cbCompanyName);
 			displayAgentImage = (Switch) rootView.findViewById(R.id.cbAgentImage);
@@ -398,6 +517,51 @@ public class WizardSettingsActivity extends Activity {
                     displayAgentName.setChecked(appSettings.isDisplayAgentName());
                 }
 			}
+
+
+            displayCompanyLogoLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(displayCompanyLogo.isChecked()){
+                        displayCompanyLogo.setChecked(false);
+                    }else{
+                        displayCompanyLogo.setChecked(true);
+                    }
+                }
+            });
+
+            displayCompanyNameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(displayCompanyName.isChecked()){
+                        displayCompanyName.setChecked(false);
+                    }else{
+                        displayCompanyName.setChecked(true);
+                    }
+                }
+            });
+
+            displayAgentImageLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(displayAgentImage.isChecked()){
+                        displayAgentImage.setChecked(false);
+                    }else{
+                        displayAgentImage.setChecked(true);
+                    }
+                }
+            });
+
+            displayAgentNameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(displayAgentName.isChecked()){
+                        displayAgentName.setChecked(false);
+                    }else{
+                        displayAgentName.setChecked(true);
+                    }
+                }
+            });
 
 			return rootView;
 		}

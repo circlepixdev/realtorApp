@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical"
+
     android:id="@+id/rootView">
 
     <LinearLayout
@@ -129,7 +130,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:background="@color/circlepix_darkgrey"
+            android:background="@color/colorPrimary"
             android:layout_weight=".5"
             android:id="@+id/leftFrame">
 
@@ -138,9 +139,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:id="@+id/leftTopFrame"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="25dp">
+
+                    <com.circlepix.android.helpers.ScaleImageView
+                        android:id="@+id/agent_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"/>
+                  <!--
+                    <ImageView
+                        android:id="@+id/agent_img"
+                        android:layout_width="144dp"
+                        android:layout_height="144dp"
+                        android:scaleType="centerCrop"/>-->
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleLargeInverse"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:visibility="visible"/>
+
+                </FrameLayout>
+
+
+
+
+<!--
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,7 +191,7 @@
                     android:paddingTop="30dp"
                     android:paddingBottom="5dp"
                     android:paddingRight="5dp"
-                    android:paddingLeft="5dp"/>
+                    android:paddingLeft="5dp"/>-->
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +200,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/leftBottomFrame"
                 android:layout_weight="1"
-                android:paddingTop="5dp">
+                android:padding="5dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -225,7 +265,7 @@
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/circlepix_yellowgreen"
+            android:background="@color/colorAccent"
             android:layout_weight=".015"
             android:id="@+id/middleFrame"></LinearLayout>
 
@@ -244,7 +284,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imgThank"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/presentation_thankyou_black" />
+                android:src="@drawable/presentation_thankyou_black"
+                android:background="@android:color/white"/>
         </LinearLayout>
     </LinearLayout>
 

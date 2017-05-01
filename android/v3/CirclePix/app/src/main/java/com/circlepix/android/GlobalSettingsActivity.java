@@ -4,23 +4,29 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.circlepix.android.beans.AgentData;
 import com.circlepix.android.beans.ApplicationSettings;
 import com.circlepix.android.data.Presentation;
 import com.circlepix.android.data.PresentationDataSource;
-import com.circlepix.android.helpers.BaseActionBar;
+
 import com.circlepix.android.helpers.Globals;
-import com.circlepix.android.interfaces.IBaseActionBarCallback;
+
 import com.circlepix.android.sync.commands.ErrorHandler;
 import com.circlepix.android.sync.commands.UpdatePresentation;
 import com.google.gson.Gson;
@@ -31,13 +37,20 @@ import java.util.List;
 /**
  * Created by relly on 4/29/15.
  */
-public class GlobalSettingsActivity extends Activity {
+public class GlobalSettingsActivity extends AppCompatActivity {
 
     private LinearLayout narrationSettings;
+    private RelativeLayout swApplyToExistingPresLayout;
+    private RelativeLayout swCompanyLogoLayout;
+    private RelativeLayout swCompanyNameLayout;
+    private RelativeLayout swAgentImageLayout;
+    private RelativeLayout swAgentInfoLayout;
+
     private Switch swCompanyLogo;
     private Switch swCompanyName;
     private Switch swAgentImage;
     private Switch swAgentInfo;
+    private ProgressDialog mProgressDialog;
 
     //July 9, 2015: KBL
     private LinearLayout bgMusicSettings;
@@ -46,6 +59,9 @@ public class GlobalSettingsActivity extends Activity {
     private int ACTIVITY_SETTINGS_NARRATION = 1;
     private int ACTIVITY_SETTINGS_BGMUSIC = 2;
     private boolean clickedSave;
+    public int i;
+    private  TextView toolBarSave;
+    int totalPresSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +69,7 @@ public class GlobalSettingsActivity extends Activity {
         setContentView(R.layout.activity_global_settings);
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(GlobalSettingsActivity.this);
+    /*    BaseActionBar actionBar = new BaseActionBar(GlobalSettingsActivity.this);
         actionBar.setConfig(SettingsActivity.class,
                 "Save",
                 false, false, new IBaseActionBarCallback.Null() {
@@ -65,6 +81,27 @@ public class GlobalSettingsActivity extends Activity {
                     }
                 });
         actionBar.show();
+*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+        toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Toast.makeText(getApplicationContext(), "Note: API is not done yet", Toast.LENGTH_SHORT).show();
+
+                checkSave();
+
+            }
+        });
+
+        swApplyToExistingPresLayout = (RelativeLayout) findViewById(R.id.relativeLayout29);
+        swCompanyLogoLayout = (RelativeLayout) findViewById(R.id.relativeLayout1);
+        swCompanyNameLayout = (RelativeLayout) findViewById(R.id.relativeLayout2);
+        swAgentImageLayout = (RelativeLayout) findViewById(R.id.relativeLayout3);
+        swAgentInfoLayout = (RelativeLayout) findViewById(R.id.relativeLayout4);
 
         swApplyToExistingPres = (Switch) findViewById(R.id.swApplyToExistingPres);
         swCompanyLogo = (Switch) findViewById(R.id.swCompanyLogo);
@@ -80,11 +117,90 @@ public class GlobalSettingsActivity extends Activity {
         Gson gson = new Gson();
         String fromJson = sharedPreferences.getString(Globals.PREFS_APP_SETTINGS, "");
         ApplicationSettings appSettings = gson.fromJson(fromJson, ApplicationSettings.class);
-        swApplyToExistingPres.setChecked(appSettings.isApplyToExistingPres());
+      //  swApplyToExistingPres.setChecked(appSettings.isApplyToExistingPres());
         swCompanyLogo.setChecked(appSettings.isDisplayCompanyLogo());
         swCompanyName.setChecked(appSettings.isDisplayCompanyName());
         swAgentImage.setChecked(appSettings.isDisplayAgentImage());
         swAgentInfo.setChecked(appSettings.isDisplayAgentName());
+
+
+        swApplyToExistingPresLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(swApplyToExistingPres.isChecked()){
+                    swApplyToExistingPres.setChecked(false);
+                }else{
+                    swApplyToExistingPres.setChecked(true);
+                }
+            }
+        });
+
+        swCompanyLogoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(swCompanyLogo.isChecked()){
+                    swCompanyLogo.setChecked(false);
+                }else{
+                    swCompanyLogo.setChecked(true);
+                }
+            }
+        });
+
+        swCompanyNameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(swCompanyName.isChecked()){
+                    swCompanyName.setChecked(false);
+                }else{
+                    swCompanyName.setChecked(true);
+                }
+            }
+        });
+
+        swAgentImageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(swAgentImage.isChecked()){
+                    swAgentImage.setChecked(false);
+                }else{
+                    swAgentImage.setChecked(true);
+                }
+            }
+        });
+
+        swAgentInfoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(swAgentInfo.isChecked()){
+                    swAgentInfo.setChecked(false);
+                }else{
+                    swAgentInfo.setChecked(true);
+                }
+            }
+        });
+    }
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                checkSave();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }*/
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            checkSave();
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -145,8 +261,9 @@ public class GlobalSettingsActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Returned from a child activity. Fetch the presentation object
         if (requestCode == ACTIVITY_SETTINGS_NARRATION || requestCode == ACTIVITY_SETTINGS_BGMUSIC) {
+            Log.v("requestCode", String.valueOf(requestCode));
             if (resultCode == RESULT_OK || resultCode == RESULT_CANCELED) {
-
+                Log.v("requestCode ok or cancel", String.valueOf(requestCode));
                 saveChanges();
                 return;
             }
@@ -184,10 +301,10 @@ public class GlobalSettingsActivity extends Activity {
                                         DialogInterface dialog, int id) {
 
                                     clickedSave = true;
-
+                                    dialog.dismiss();
                                     saveChanges();
-                                    finish();
-                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//                                    finish();
+//                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                                 }
                             })
                     .setNegativeButton("Cancel",
@@ -272,12 +389,19 @@ public class GlobalSettingsActivity extends Activity {
             editor.commit();
         }
 
+        Log.v("APPLY TO EXISTING stat", String.valueOf(clickedSave) + " " + String.valueOf(appSettings.isApplyToExistingPres()));
 
         if((clickedSave == true) &&  (appSettings.isApplyToExistingPres())){ //checked applyToExisting
              ApplyToExistingPres();
              clickedSave = false;
              Log.v("APPLY TO EXISTING", "True");
-         }
+        }
+
+//        else{
+//            // finish the activity - no need to sync data
+//            finish();
+//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//        }
 
     }
 
@@ -288,7 +412,15 @@ public class GlobalSettingsActivity extends Activity {
         String fromJson = sharedPreferences.getString(Globals.PREFS_APP_SETTINGS, "");
         ApplicationSettings appSettings = gson.fromJson(fromJson, ApplicationSettings.class);
 
+
         try{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mProgressDialog = ProgressDialog.show(GlobalSettingsActivity.this, "", "Saving...");
+                }
+            });
+
             PresentationDataSource dao = new PresentationDataSource(this);
             dao.open(false);
             presentations = dao.getAllPresentations();
@@ -296,7 +428,88 @@ public class GlobalSettingsActivity extends Activity {
 
             Presentation p;
 
-            for (Presentation getPresentation : presentations) {
+            totalPresSize = presentations.size();
+            int lastItem = 0;
+
+            for (i = 0; i < presentations.size(); i++) {
+                dao.open(false);
+                p = dao.fetch(presentations.get(i).getId());
+                dao.close();
+
+                p.setDisplayCompanyLogo(appSettings.isDisplayCompanyLogo());
+                p.setDisplayCompanyName(appSettings.isDisplayCompanyName());
+                p.setDisplayAgentImage(appSettings.isDisplayAgentImage());
+                p.setDisplayAgentName(appSettings.isDisplayAgentName());
+                p.setNarration(appSettings.getNarration());
+                p.setMusic(appSettings.getMusic());
+
+                p.setModified(new Date());
+
+                dao.open(true);
+                dao.updatePresentation(p);
+                dao.close();
+                Log.v("pres name", p.getName());
+
+                totalPresSize = totalPresSize - 1;
+                UpdatePresentation.runCommand(AgentData.getInstance().getRealtor().getId(), p, new Runnable() {
+                    @Override
+                    public void run() {
+
+
+//                        // check for last item before finishing the activity
+
+//                        if(totalPresSize == 0){
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    mProgressDialog.dismiss();
+//                                }
+//                            });
+//
+//                            finish();
+//                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//
+//                            Log.v("Last Item totalSize?", String.valueOf(totalPresSize));
+//                        }
+//                        if(i == presentations.size() -1){
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    mProgressDialog.dismiss();
+//                                }
+//                            });
+//
+//                            finish();
+//                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//
+//                            Log.v("Last Item?", "from GLobalSettingsActivity");
+//
+//                        }
+
+                        Log.v("Last Item ee?", "from GLobalSettingsActivity" + String.valueOf(totalPresSize));
+                    }
+                });
+
+                if(i == presentations.size() -1){
+
+//                if(totalPresSize == 0){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressDialog.dismiss();
+                        }
+                    });
+
+                    finish();
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
+                    Log.v("Last Item totalSize?", String.valueOf(totalPresSize));
+                }
+                // check for last item before finishing the activity
+
+                Log.v("sync with server", "from GLobalSettingsActivity");
+            }
+           /* for (Presentation getPresentation : presentations) {
                 dao.open(false);
                 p = dao.fetch(getPresentation.getId());
                 dao.close();
@@ -317,10 +530,16 @@ public class GlobalSettingsActivity extends Activity {
 
                 UpdatePresentation.runCommand(AgentData.getInstance().getRealtor().getId(), p, null);
                 Log.v("sync with server", "from GLobalSettingsActivity");
-            }
+            }*/
 
         } catch(Exception e) {
             ErrorHandler.log(" SQL exception: ", e.toString());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mProgressDialog.dismiss();
+                }
+            });
         }
 
     }

@@ -28,7 +28,8 @@
         android:layout_below="@id/textViewTitle"
         android:paddingBottom="5dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/presentation_media_24hour_line" />
+        android:src="@drawable/presentation_media_24hour_line"
+        android:background="#ffffff"/>
 
 
 </RelativeLayout>

@@ -15,52 +15,53 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
             android:layout_gravity="center_horizontal|top"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/header_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:paddingLeft="10dp"
                 android:gravity="left|center"
+                android:paddingLeft="10dp"
                 android:text="Customer Support"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-              <TextView
-                  style="@style/PromptText"
-                  android:id="@+id/textView"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@+id/header_title"
-                  android:layout_marginTop="5dp"
-                  android:paddingLeft="10dp"
-                  android:paddingRight="10dp"
-                  android:singleLine="false"
-                  android:text="@string/activity_description"
-                  android:textSize="12sp" />
+            <TextView
+                android:id="@+id/textView"
+                style="@style/PromptText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header_title"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="false"
+                android:text="@string/customer_support_desc"
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Elevate your real estate marketing like never before with help from the CirclePix Mobile App"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp"
-                android:textStyle="italic"
                 android:layout_marginTop="15dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:singleLine="false"/>
+                android:singleLine="false"
+                android:text="@string/customer_support_desc2"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:textStyle="italic" />
 
-<!--            <ImageView
+            <!--            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/listings_header"/>-->
@@ -68,17 +69,16 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:paddingTop="5dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:paddingTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,24 +89,25 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_call"/>
+                    android:src="@drawable/ic_call" />
 
                 <TextView
+                    android:id="@+id/phone_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Phone: 877 390 6630"
-                    android:textIsSelectable="true"
                     android:autoLink="phone"
                     android:linksClickable="true"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="Phone: 877 390 6630"
+                    android:textColor="@color/colorPrimary"
+                    android:textIsSelectable="true" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/activity_background"/>
+                android:background="@color/activity_background" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,20 +118,20 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_message"/>
+                    android:src="@drawable/ic_fax" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Fax: 801 806 9430"/>
+                    android:text="Fax: 801 806 9430" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/activity_background"/>
+                android:background="@color/activity_background" />
 
             <LinearLayout
                 android:id="@+id/email"
@@ -142,17 +143,18 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_email"/>
+                    android:src="@drawable/ic_email" />
 
                 <TextView
+                    android:id="@+id/email_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textIsSelectable="true"
                     android:autoLink="email"
                     android:linksClickable="true"
                     android:text="Email: support@circlepix.com"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textIsSelectable="true" />
 
             </LinearLayout>
 

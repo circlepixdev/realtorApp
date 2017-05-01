@@ -1,25 +1,36 @@
 package com.circlepix.android.presentations;
 
+
 import android.annotation.TargetApi;
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.circlepix.android.CirclePixAppState;
-import com.circlepix.android.PresentationsActivity;
+import com.circlepix.android.HomeActivity;
+import com.circlepix.android.MainActivity;
+import com.circlepix.android.PresentationsTabActivity;
 import com.circlepix.android.R;
 import com.circlepix.android.beans.PresentationSequencingPage;
 import com.circlepix.android.helpers.OnSwipeTouchListener;
@@ -34,12 +45,12 @@ import java.util.Map;
 /**
  * Edited by keuahn on June 23, 2015
  */
-public class PresentationPageAudioPlayer {
+public class PresentationPageAudioPlayer extends AppCompatActivity {
 
-    private Activity activity;
+    private AppCompatActivity activity;
     private Class nextPage;
     private Class prevPage;
-    private View actionBarLayout;
+//    private View actionBarLayout;
     private ActionBar actionBar;
     private MediaPlayer mediaPlayer;
     private AudioManager am;
@@ -54,7 +65,7 @@ public class PresentationPageAudioPlayer {
     private Map<Integer, PresentationSequencingPage> map;
     private PresentationSequencingPage page;
 
-
+    Toolbar toolbar;
     //July 8, 2015: KBL
     private CirclePixAppState appState;
 
@@ -64,7 +75,7 @@ public class PresentationPageAudioPlayer {
  // private boolean paused;
  // private boolean forwarded;
 
-    public PresentationPageAudioPlayer(Activity activity) {
+    public PresentationPageAudioPlayer(AppCompatActivity activity) {
         this.activity = activity;
 
         //July 9, 2015: KBL
@@ -73,7 +84,51 @@ public class PresentationPageAudioPlayer {
         appState = ((CirclePixAppState)this.activity.getApplicationContext());
         appState.setContextForPreferences(this.activity);
 
-        actionBarLayout = activity.getLayoutInflater().inflate(R.layout.presentation_actionbar, null);
+
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true); //false
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+      //  activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        LayoutInflater mInflater = LayoutInflater.from(activity);
+
+        View mCustomView = mInflater.inflate(R.layout.presentation_actionbar_new, null);
+        activity.getSupportActionBar().setCustomView(mCustomView);
+        activity.getSupportActionBar().setDisplayShowCustomEnabled(true);
+        Toolbar parent =(Toolbar) mCustomView.getParent();//first get parent toolbar of current action bar
+        parent.setContentInsetsAbsolute(0,0);// set padding programmatically to 0dp
+
+//        parent.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//
+//            }
+//        });
+
+        View v = activity.getSupportActionBar().getCustomView();
+        ViewGroup.LayoutParams lp = v.getLayoutParams();
+        lp.width = android.support.v7.app.ActionBar.LayoutParams.MATCH_PARENT;
+        v.setLayoutParams(lp);
+
+        muteButtonPresentation = (ImageButton) v.findViewById(R.id.muteButtonPresentation);
+        muteButtonPresentation.setOnClickListener(muteButtonClickListener);
+        unmuteButtonPresentation = (ImageButton) v.findViewById(R.id.unmuteButtonPresentation);
+        unmuteButtonPresentation.setOnClickListener(unmuteButtonClickListener);
+        pauseButtonPresentation = (ImageButton) v.findViewById(R.id.pauseButtonPresentation);
+        pauseButtonPresentation.setOnClickListener(pauseButtonClickListener);
+        playButtonPresentation = (ImageButton) v.findViewById(R.id.playButtonPresentation);
+        playButtonPresentation.setOnClickListener(playButtonClickListener);
+        forwardButtonPresentation = (ImageButton) v.findViewById(R.id.forwardButtonPresentation);
+        forwardButtonPresentation.setOnClickListener(forwardButtonClickListener);
+        backButtonPresentation = (ImageButton) v.findViewById(R.id.backButtonPresentation);
+        backButtonPresentation.setOnClickListener(backButtonClickListener);
+ //       linearBackActionBar = (LinearLayout) v.findViewById(R.id.linearBackActionBar);
+//        linearBackActionBar.setOnClickListener(buttonBackActionBarClickListener);
+
+      //  toolbar = (Toolbar) findViewById(R.id.toolbar);
+      //  activity.setSupportActionBar(toolbar);
+      //  activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+  /*      actionBarLayout = activity.getLayoutInflater().inflate(R.layout.presentation_actionbar, null);
         actionBar = activity.getActionBar();
 
         actionBar.setDisplayShowHomeEnabled(false);
@@ -88,10 +143,6 @@ public class PresentationPageAudioPlayer {
             actionBar.show();
         }
         Log.v(" GET actionBarStat", String.valueOf(appState.actionBarIsHidden()));
-       /* if (actionBar.isShowing()) {
-            actionBar.hide();
-        }*/
-
 
         muteButtonPresentation = (ImageButton) actionBarLayout.findViewById(R.id.muteButtonPresentation);
         muteButtonPresentation.setOnClickListener(muteButtonClickListener);
@@ -108,6 +159,7 @@ public class PresentationPageAudioPlayer {
         linearBackActionBar = (LinearLayout) actionBarLayout.findViewById(R.id.linearBackActionBar);
         linearBackActionBar.setOnClickListener(buttonBackActionBarClickListener);
 
+*/
         activity.getWindow().getDecorView().findViewById(R.id.rootView).setOnTouchListener(onSwipeTouchListener);
 
         map = PresentationSequencingSet.getSelectedPresentations();
@@ -123,6 +175,37 @@ public class PresentationPageAudioPlayer {
 
     }*/
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                }
+
+//                Intent homeIntent = new Intent(this, HomeActivity.class);
+//                homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(homeIntent);
+
+                finish();
+                //appState.setAudioServiceCurrentPos(0);
+                appState.clearSharedPreferences();
+                activity.stopService(new Intent(activity, BackgroundMusicService.class));
+
+                //added by KBL 080615
+                appState.setActivityStopped(true);
+                appState.setPresPlayerPaused(false);
+
+
+
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
+
 
 
     public void playAudio() {
@@ -133,10 +216,11 @@ public class PresentationPageAudioPlayer {
         //added by KBL 080615: restored this when activity calls playAudio
         appState.setActivityStopped(false);
         if(appState.actionBarIsHidden().equals(false)){
-            actionBar.hide();
-
+          //  actionBar.hide();
+            activity.getSupportActionBar().hide();
         }else{
-            actionBar.show();
+         //   actionBar.show();
+            activity.getSupportActionBar().show();
         }
         //ends here
         if (page.getNarrationType().equals("male")) {
@@ -387,9 +471,10 @@ public class PresentationPageAudioPlayer {
                 mediaPlayer = null;
             }
 
-            Intent intentBack = new Intent(activity, PresentationsActivity.class);
+       //     Intent intentBack = new Intent(activity, PresentationsTabActivity.class);
+            Intent intentBack = new Intent(activity, HomeActivity.class);
             activity.startActivity(intentBack);
-            activity.finish();
+        //    activity.finish();
 
 
             //appState.setAudioServiceCurrentPos(0);
@@ -414,9 +499,12 @@ public class PresentationPageAudioPlayer {
         appState.clearSharedPreferences();
         activity.stopService(new Intent(activity, BackgroundMusicService.class));
 
-        Intent intentBack = new Intent(activity, PresentationsActivity.class);
-        activity.startActivity(intentBack);
-        activity.finish();
+//        Intent intentBack = new Intent(activity, PresentationsTabActivity.class);
+//        Intent intentBack = new Intent(activity, HomeActivity.class);
+//        activity.startActivity(intentBack);
+//        activity.finish();
+
+
 
 
     }
@@ -691,20 +779,23 @@ public class PresentationPageAudioPlayer {
 
         @Override
         public void onClick() {
-            if (actionBar.isShowing()) {
-                actionBar.hide();
+
+            if (activity.getSupportActionBar().isShowing()) {
+                activity.getSupportActionBar().hide();
                 appState.setActionBarStat(false);
             } else {
-                actionBar.show();
+                activity.getSupportActionBar().show();
                 appState.setActionBarStat(true);
-              /*  Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        actionBar.hide();
-                    }
-                }, 3000);*/
             }
+
+
+//            if (actionBar.isShowing()) {
+//                actionBar.hide();
+//                appState.setActionBarStat(false);
+//            } else {
+//                actionBar.show();
+//                appState.setActionBarStat(true);
+//            }
 
             Log.v("SET actionBarStat", String.valueOf(appState.actionBarIsHidden()));
         }

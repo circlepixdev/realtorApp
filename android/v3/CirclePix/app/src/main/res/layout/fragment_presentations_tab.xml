@@ -8,9 +8,9 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     tools:context="com.circlepix.android.PresentationsTabActivity" >
-<!--
+
     <RelativeLayout
-        android:id="@+id/no_listing"
+        android:id="@+id/no_presentations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" >
@@ -33,9 +33,48 @@
             android:textColor="@color/text_light_grey"
             android:textSize="18sp"/>
 
+    </RelativeLayout>
+
+   <!-- <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout1">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:text="Listing Presentations"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            style="@style/PromptText"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_title"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="false"
+            android:text="@string/presentations_text"
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:layout_marginBottom="50dp"/>
+
     </RelativeLayout>-->
 
-    <android.support.v4.widget.SwipeRefreshLayout
+  <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
@@ -80,11 +119,11 @@
         </RelativeLayout>
 
 
-        <!--<android.support.v7.widget.RecyclerView
+       <!-- &lt;!&ndash;<android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"/>-->
+            android:layout_gravity="center_horizontal|top"/>&ndash;&gt;-->
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -275,8 +314,21 @@
                     android:layout_height="47dp"
                     android:orientation="horizontal"
                     android:layout_gravity="bottom"
-                    android:weightSum="3">
+                    android:weightSum="4">
 
+                    <ImageView
+                        android:id="@+id/presentation_play"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_play_presentation"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shadow_vertical_right"/>
 
                     <ImageView
                         android:id="@+id/presentation_edit"

@@ -48,14 +48,14 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="center"
                       android:layout_marginTop="25dp"
-                      android:background="@drawable/image_circle_white">
+                      android:background="@drawable/image_background_border">
 
                       <ImageView
                           android:id="@+id/agent_img"
                           android:layout_width="144dp"
                           android:layout_height="144dp"
                           android:scaleType="centerCrop"
-                          android:src="@drawable/image_circle_white"/>
+                          android:src="@color/white"/>
 
                       <ProgressBar
                           android:id="@+id/progressBar"
@@ -69,7 +69,8 @@
                           android:layout_width="40dp"
                           android:layout_height="40dp"
                           android:layout_gravity="bottom|right"
-                          android:background="@drawable/image_circle_gradient">
+                          android:layout_margin="0.5dp"
+                          android:background="#10000000">
 
                           <ImageView
                               android:id="@+id/edit_pic"
@@ -93,7 +94,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_marginTop="15dp"
-                    android:text="Jarred Bezzant"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textStyle="bold"
                     android:textSize="20sp"
@@ -161,7 +161,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="example"
+
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -248,7 +248,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="123456"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -270,7 +269,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="CirclePix"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -292,7 +290,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="801-23456"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -314,12 +311,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="801-23456"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
 
-                        <LinearLayout
+                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -336,12 +332,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="AT&amp;T"
+                                android:text=""
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
 
-                        <LinearLayout
+                       <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -358,7 +354,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="Yes"
+                                android:text=""
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -380,7 +376,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="801-23456"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -402,7 +397,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="example@circlepix.com"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -424,7 +418,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="http://www.circlepix.com"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -438,20 +431,61 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Address:"
+                                android:text="Street:"
                                 android:textColor="@color/text_cyan"/>
 
                             <TextView
-                                android:id="@+id/text_address"
+                                android:id="@+id/text_street"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="676 W 1200 N, Springville, AL 84663"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="City:"
+                                android:textColor="@color/text_cyan"/>
+
+                            <TextView
+                                android:id="@+id/text_city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:textColor="@color/colorPrimary"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Zip Code:"
+                                android:textColor="@color/text_cyan"/>
+
+                            <TextView
+                                android:id="@+id/text_zipcode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:textColor="@color/colorPrimary"/>
+
+                        </LinearLayout>
+
+                       <!-- <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -468,10 +502,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="Caren's Test"
                                 android:textColor="@color/colorPrimary"/>
 
-                        </LinearLayout>
+                        </LinearLayout>-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -490,7 +523,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="1234"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -512,7 +544,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="100403"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -534,10 +565,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="Broker Pay"
+                                android:text=""
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -556,7 +588,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="07123456"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -605,7 +636,61 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <fragment
+                            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+                            android:id="@+id/youtube_fragment"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                       <!-- <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="10"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1" />
+
+                            <fragment
+                                android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+                                android:id="@+id/youtube_fragment"
+                                android:layout_width="0dp"
+                                android:layout_height="250dp"
+                                android:layout_weight="8"/>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>-->
+
+
+
+                      <!--  <com.afollestad.easyvideoplayer.EasyVideoPlayer xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/video_player"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            app:evp_autoPlay="false"
+                            app:evp_customLabelText="Custom label text if rightAction is customLabel"
+                            app:evp_disableControls="false"
+                            app:evp_hideControlsOnPlay="true"
+                            app:evp_leftAction="restart"
+                            app:evp_pauseDrawable="@drawable/evp_action_pause"
+                            app:evp_playDrawable="@drawable/evp_action_play"
+                            app:evp_restartDrawable="@drawable/evp_action_restart"
+                            app:evp_retryText="@string/evp_retry"
+                            app:evp_rightAction="none"
+                            app:evp_source="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+                            app:evp_submitText="@string/evp_submit"
+                            app:evp_themeColor="@color/colorPrimary"
+                            app:evp_autoFullscreen="false"
+                            app:evp_loop="false" />-->
+                       <!-- <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="YouTube ID:"
@@ -616,11 +701,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
-                            android:text="www.youtube.com/12345"
                             android:textIsSelectable="true"
                             android:autoLink="web"
                             android:linksClickable="true"
-                            android:textColor="@color/colorPrimary"/>
+                            android:textColor="@color/colorPrimary"/>-->
 
                     </LinearLayout>
 
@@ -630,7 +714,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:gravity="left"
-                        android:text="@string/second_activity_text"
                         android:textColor="@color/colorPrimary"/>
 
 
@@ -689,7 +772,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="http://facebook.com/example"
                                 android:textIsSelectable="true"
                                 android:autoLink="web"
                                 android:linksClickable="true"
@@ -713,7 +795,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="http://twitter.com/example"
                                 android:textIsSelectable="true"
                                 android:autoLink="web"
                                 android:linksClickable="true"
@@ -737,7 +818,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="http://youtube.com/example"
                                 android:textIsSelectable="true"
                                 android:autoLink="web"
                                 android:linksClickable="true"
@@ -761,7 +841,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="http://linkedin.com/example"
                                 android:textIsSelectable="true"
                                 android:autoLink="web"
                                 android:linksClickable="true"
@@ -785,7 +864,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="http://pinterest.com/example"
                                 android:textIsSelectable="true"
                                 android:autoLink="web"
                                 android:linksClickable="true"
@@ -809,7 +887,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="http://blogger.com/example"
                                 android:textIsSelectable="true"
                                 android:autoLink="web"
                                 android:linksClickable="true"
@@ -856,13 +933,13 @@
 
                         </RelativeLayout>
 
-                        <ImageView
+
+                        <com.circlepix.android.helpers.ScaleImageView
                             android:id="@+id/agent_logo"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="200dp"
                             android:layout_marginTop="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/cover_photo"/>
+                            android:layout_gravity="center_horizontal"/>
 
                     </LinearLayout>
 
@@ -894,11 +971,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="https://www.circlepix.com/tour/agent.htm?agentid=265891"
                             android:textIsSelectable="true"
                             android:autoLink="web"
-                            android:linksClickable="true"
-                            android:textColor="@color/colorPrimary"/>
+                            android:linksClickable="true"/>
 
 
                     </LinearLayout>

@@ -31,12 +31,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.circlepix.android.beans.AgentData;
+import com.circlepix.android.beans.AgentProfile;
+import com.circlepix.android.beans.ApplicationSettings;
 import com.circlepix.android.helpers.Globals;
 import com.circlepix.android.helpers.LoginHelper;
 import com.circlepix.android.types.ApiResultType;
+import com.circlepix.android.types.NarrationType;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Date;
 
+import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -46,6 +57,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends Activity{
 
+    private AgentData agentData;
     private CirclePixAppState appState;
     private Button mLoginButton;
     private EditText mUsername;
@@ -58,7 +70,10 @@ public class LoginActivity extends Activity{
     protected Activity activity;
  //   public static boolean loginActivityVisible;
 
+
+
     protected InitTask initTask;
+
     private boolean rememberMe;
 
     /** Called when the activity is first created. */
@@ -66,6 +81,8 @@ public class LoginActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        agentData = AgentData.getInstance();
 
         // Setup application class
         appState = ((CirclePixAppState)getApplicationContext());
@@ -144,15 +161,19 @@ public class LoginActivity extends Activity{
                            // LoginHelper loginHelper = new LoginHelper();
                            // loginHelper.testLocalAPI();
 
+                            loadApplicationSettings();
                             dialog.dismiss();
                             initTask.cancel(true);
                             if (result) {
                                 //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                appState.setFirstRun(true);
                                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                 intent.putExtra("isStartup", true);
                                 startActivity(intent);
                                 finish();
                                 appState.setLoginActivityVisible(false);
+
+
                             } else {
                                 if (Globals.LAST_API_RESULT == ApiResultType.DOWN) {
                                     sendToast("The CirclePix server is currently down for maintenance, please try again later.");
@@ -241,17 +262,79 @@ public class LoginActivity extends Activity{
                 Globals.PASSWORD = restoredPassword;
             }
 
+
             //we will just direct it to MainActivity - it will be the one to handle internet connection issues
             //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            appState.setLoginActivityVisible(false);
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
+//            loadApplicationSettings();
+//
+//            appState.setLoginActivityVisible(false);
+//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//            startActivity(intent);
+
+
+            if (isNetworkAvailable()) {
+
+                loadApplicationSettings();
+
+                appState.setLoginActivityVisible(false);
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+
+            }else{
+                Date now = new Date();
+                boolean isTokenExpired = now.getTime() > (userToken + Globals.TOKEN_EXPIRY);
+
+                if (isTokenExpired) {
+                    // Alert the user that they must get a connection
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setTitle("No Connection");
+                    alert.setMessage("Currently there is no network connection and it has been too long since you last logged in. Please connect to a network and log in.");
+                    alert.setCancelable(false);
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Do nothing
+                        }
+                    });
+                    alert.show();
+                } else {
+                    // Allow offline mode
+                    final String oldResponseString = prefs.getString("lastResponse",
+                            "<response><status>1</status><realtor></realtor><listings></listings></response>");
+                    AgentData ad = AgentData.getInstance();
+                    ad.setOfflineMode(true);
+                    ad.parseResponseString(oldResponseString);
+
+                    // Alert the user that they will have limited functionaliity
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setTitle("No Connection");
+                    alert.setMessage("Currently there is no network connection. You can use the app but some functionality will be disabled.");
+                    alert.setCancelable(false);
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            loadApplicationSettings();
+
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            intent.putExtra("isStartup", true);
+                            startActivity(intent);
+
+                            appState.setLoginActivityVisible(false);
+
+                            finish();
+                        }
+                    });
+                    alert.show();
+                }
+            }
 
 
           /*  if (isNetworkAvailable()) {
                 // Simulate a button click
-                //mLoginButton.performClick();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+              //  mLoginButton.performClick();
+
+
+                loadApplicationSettings();
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
             } else {
                 // Handle the offline case
@@ -285,7 +368,7 @@ public class LoginActivity extends Activity{
                     alert.setCancelable(false);
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             intent.putExtra("isStartup", true);
                             startActivity(intent);
                             finish();
@@ -302,6 +385,34 @@ public class LoginActivity extends Activity{
         Log.d("LOGIN ACTIVITY", "restored password is " + restoredPassword);
     }
 
+    private void loadApplicationSettings() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Globals.PREFS_APP_SETTINGS, 0);
+        Gson gson = new Gson();
+        String fromJson = sharedPreferences.getString(Globals.PREFS_APP_SETTINGS, "");
+        ApplicationSettings settings = gson.fromJson(fromJson, ApplicationSettings.class);
+
+        if (settings == null) {
+            ApplicationSettings appSettings = new ApplicationSettings();
+            appSettings.setDisplayCompanyLogo(true);
+            appSettings.setDisplayCompanyName(true);
+            appSettings.setDisplayAgentImage(true);
+            appSettings.setDisplayAgentName(true);
+            appSettings.setNarration(NarrationType.female);
+
+            String toJsonObject = gson.toJson(appSettings);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(Globals.PREFS_APP_SETTINGS, toJsonObject);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+
+    }
     /**
      * Toasting method
      */
@@ -538,6 +649,7 @@ public class LoginActivity extends Activity{
         }
         return isAvailable;
     }
+
 
     //moveTaskToBack(true) leaves your backstack as it is, just puts all Activities to background (same as if user pressed Home button).
     @Override

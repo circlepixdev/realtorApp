@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.circlepix.android.CirclePixAppState;
@@ -40,6 +41,15 @@ public class PresentationMediaShortcode extends PresentationBase {
         player.playAudio();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
 
     @Override
     public void onResume() {
@@ -84,10 +94,16 @@ public class PresentationMediaShortcode extends PresentationBase {
 
     public void onBackPressed(){
         super.onBackPressed();
+
+        stopPresentation();
+    }
+
+    public void stopPresentation(){
         player.stop();
 
         appState.setActivityStopped(true);
         appState.clearSharedPreferences();
         stopService(new Intent(PresentationMediaShortcode.this, BackgroundMusicService.class));
     }
+
 }

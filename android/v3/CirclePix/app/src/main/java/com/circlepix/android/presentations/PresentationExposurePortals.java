@@ -3,6 +3,7 @@ package com.circlepix.android.presentations;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -69,6 +70,17 @@ public class PresentationExposurePortals extends PresentationBase {
 
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -103,7 +115,7 @@ public class PresentationExposurePortals extends PresentationBase {
 
 
     private void zoomInRealtor() {
-        ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, (float)0.5,Animation.RELATIVE_TO_SELF, (float)0.5);
+        ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, (float)0.5, Animation.RELATIVE_TO_SELF, (float)0.5);
         anim.setDuration(1000);
         anim.setFillAfter(true);
         anim.setAnimationListener(new Animation.AnimationListener() {
@@ -126,7 +138,7 @@ public class PresentationExposurePortals extends PresentationBase {
     }
 
     private void zoomInTrulia() {
-        ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, (float)0.5,Animation.RELATIVE_TO_SELF, (float)0.5);
+        ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, (float)0.5, Animation.RELATIVE_TO_SELF, (float)0.5);
         anim.setDuration(1000);
         anim.setFillAfter(true);
         anim.setAnimationListener(new Animation.AnimationListener() {
@@ -149,7 +161,7 @@ public class PresentationExposurePortals extends PresentationBase {
     }
 
     private void zoomInZillow() {
-        ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, (float)0.5,Animation.RELATIVE_TO_SELF, (float)0.5);
+        ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, (float)0.5, Animation.RELATIVE_TO_SELF, (float)0.5);
         anim.setDuration(1000);
         anim.setFillAfter(true);
         anim.setAnimationListener(new Animation.AnimationListener() {
@@ -183,6 +195,10 @@ public class PresentationExposurePortals extends PresentationBase {
 
     public void onBackPressed(){
         super.onBackPressed();
+        stopPresentation();
+    }
+
+    public void stopPresentation() {
         player.stop();
 
         appState.setActivityStopped(true);

@@ -29,6 +29,7 @@
         android:layout_below="@+id/textViewTitle"
         android:scaleType="fitCenter"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/presentation_media_propertysite" />
+        android:src="@drawable/presentation_media_propertysite"
+        android:background="#ffffff"/>
 
 </RelativeLayout>

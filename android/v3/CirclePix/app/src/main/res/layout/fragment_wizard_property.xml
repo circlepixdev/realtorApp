@@ -7,6 +7,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
+	android:background="@color/activity_background"
     tools:context="com.circlepix.android.WizardSettingsPropertyActivity$PlaceholderFragment" >
 
     <LinearLayout 
@@ -22,7 +23,7 @@
 	    <View
 	    	android:layout_width="match_parent"
 	        android:layout_height="8dip"
-	        android:background="@color/circlepix_yellowgreen" />
+	        android:background="@color/colorAccent" />
 	
 	    <TextView
 	        android:id="@+id/header_title"
@@ -32,7 +33,7 @@
 	        android:gravity="center_vertical|center"
 	        android:background="@color/circlepix_ltgrey"
 	        android:text="@string/property_label"
-	        android:textColor="@color/circlepix_darkgrey" />
+	        android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
 	<LinearLayout android:layout_width="wrap_content"
@@ -60,7 +61,7 @@
 			android:layout_toRightOf="@+id/page_image"
 			android:background="@color/circlepix_ltltgrey"
 			android:text="@string/media_desc"
-			android:textColor="@color/circlepix_darkgrey"
+			android:textColor="@color/colorPrimary"
 			android:textSize="12sp" />
 	</LinearLayout>
 
@@ -73,7 +74,7 @@
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:divider="@drawable/fragment_wizard_media_divider"
+			android:divider="@drawable/divider"
 			android:showDividers="beginning|middle">
 
 		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

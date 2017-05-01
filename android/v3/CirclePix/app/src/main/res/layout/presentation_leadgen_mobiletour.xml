@@ -12,6 +12,7 @@
         android:layout_below="@id/textViewTitle"
         android:layout_centerInParent="true"
         android:src="@drawable/presentation_leadgen_mobiletour"
+        android:background="#ffffff"
         android:scaleType="fitCenter" />
 
     <TextView

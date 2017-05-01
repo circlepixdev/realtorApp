@@ -36,7 +36,8 @@
         android:scaleType="fitCenter"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/textViewTitle"
-        android:src="@drawable/presentation_media_flyers"/>
+        android:src="@drawable/presentation_media_flyers"
+        android:background="#ffffff"/>
 
 
 </RelativeLayout>

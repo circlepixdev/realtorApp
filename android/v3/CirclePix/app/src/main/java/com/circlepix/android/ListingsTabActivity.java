@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -54,6 +56,9 @@ import com.circlepix.android.helpers.LoginHelper;
 import com.circlepix.android.ui.ListingsTabAdapter;
 import com.circlepix.android.ui.RecyclerItemClickListener;
 import com.circlepix.android.ui.RecyclerViewHeader;
+import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
+import com.darsh.multipleimageselect.helpers.Constants;
+import com.darsh.multipleimageselect.models.Image;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -164,6 +169,22 @@ public class ListingsTabActivity extends AppCompatActivity {
         @Override
         public void onResume() {
             Log.v("DEBUG", "onResume of ListingsTab Fragment");
+            appState.setActiveClassName("");
+            ConnectivityManager manager = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+            if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
+                Log.v("call getactivelistings", "true");
+                getActiveListingsTask = new GetActiveListings(v);
+
+                if(Build.VERSION.SDK_INT >= 11) {
+                    getActiveListingsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }else {
+                    getActiveListingsTask.execute();
+                }
+            }else {
+                showAlertDialog("No Internet Connection", "Please try again");
+            }
 
 
             super.onResume();
@@ -216,14 +237,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                 noListing.setVisibility(View.GONE);
             }*/
 
-            Log.v("call getactivelistings", "true");
-            getActiveListingsTask = new GetActiveListings(v);
 
-            if(Build.VERSION.SDK_INT >= 11) {
-                getActiveListingsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }else {
-                getActiveListingsTask.execute();
-            }
 
             return v;
         }
@@ -250,7 +264,8 @@ public class ListingsTabActivity extends AppCompatActivity {
                     }
 
                 }, 2000);*/
-            }};
+            }
+        };
 
 
         protected class GetActiveListings extends AsyncTask<Context, Integer, String>{
@@ -277,7 +292,7 @@ public class ListingsTabActivity extends AppCompatActivity {
             protected String doInBackground(Context... params) {
 
                 String BASE_URL = "http://stag-mobile.circlepix.com/api/listing.php?method=getActiveListings&realtorId=%s";
-//                String BASE_URL = "http://keuahn.circlepix.dev/api/listing.php?method=getActiveListings&realtorId=%s";
+ //               String BASE_URL = "http://keuahn.circlepix.dev/api/listing.php?method=getActiveListings&realtorId=%s";
                 String urlString = String.format(BASE_URL, agentData.getRealtor().getId());
                 String responseString = null;
                 String status="";
@@ -397,6 +412,11 @@ public class ListingsTabActivity extends AppCompatActivity {
                                     listingInformation.setImage(listingObj.getString("listingImage"));
                                 }
 
+                                if(!listingObj.isNull("listingComments")){
+                                    listingInformation.setComments(listingObj.getString("listingComments"));
+                                }
+
+
 
                                 if (!listingObj.isNull("listingDesc")) {
                                // if(!listingObj.getString("listingDesc").equals(null)){
@@ -451,7 +471,15 @@ public class ListingsTabActivity extends AppCompatActivity {
                                 if(!object.getString("realEstateSites").equals(null)){
                                     listingInformation.setRealEstateSites(object.getString("realEstateSites"));
                                 }
-                                listingInformation.setAddressLine2(listingInformation.getCity() + ", " + listingInformation.getState() + " " + listingInformation.getZipcode());
+
+                                String city = "";
+
+                                if(!listingInformation.getCity().isEmpty()){
+                                    city =  listingInformation.getCity() + ", ";
+                                }
+
+
+                                listingInformation.setAddressLine2(city + listingInformation.getState() + " " + listingInformation.getZipcode());
 
                                 listing.add(listingInformation); // arraylist of # of listings
                             }
@@ -595,15 +623,33 @@ public class ListingsTabActivity extends AppCompatActivity {
 
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             mLayoutManager = new LinearLayoutManager(getActivity());
+
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.addOnItemTouchListener(
                     new RecyclerItemClickListener(getActivity().getApplicationContext(),  new RecyclerItemClickListener.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {
+
                             selectedPosGlobal = position;
-                           // selectedListing = agentData.getListings().get(position);
+                            // selectedListing = agentData.getListings().get(position);
 
                             selectedListing = agentData.getListingInformation().get(position);
+
+                            // Handle higlight for selected item
+                            try {
+                                if(selectedListing.isSelected() == true){
+                                    Log.v("Already selected parent", selectedListing.getCity());
+
+                                   // cancelOptions.performClick();
+                                    cancelOptionsAction();
+                                }
+                                mAdapter.setSelected(position);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+
                             //  selectUploadShare(getContext());
 
                             if(addNewListingTabLayout.isShown()){
@@ -724,6 +770,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                             cancelOptions.setVisibility(View.GONE);
                         }
 
+                        appState.setActiveClassName("");
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
@@ -752,9 +799,16 @@ public class ListingsTabActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                    // showAlertDialog("Edit Listing", "TODO: EditListing page");
+
                     Intent editListingIntent = new Intent(getActivity(), CreateListingActivity.class);
                     editListingIntent.putExtra("selectedListingPosition", selectedPos);
                     startActivity(editListingIntent);
+
+                    // Set Active Class Name to "ListingsTabActivity" when navigating to other activity
+                    // so when the back button is triggered on the next activity, ListingsTabActivity will still be loaded
+                    // from HomeActivity onResume
+
+                    appState.setActiveClassName("ListingsTabActivity");
                 }
             });
 
@@ -769,7 +823,12 @@ public class ListingsTabActivity extends AppCompatActivity {
             listingAddPhotos.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showAlertDialog("Add Photos", "TODO: AddPhotos page");
+
+                    Intent intent = new Intent(getActivity() , AlbumSelectActivity.class);
+                    //set limit on number of images that can be selected, default is 10
+                    intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 10);
+                    startActivityForResult(intent, Constants.REQUEST_CODE);
+                    appState.setActiveClassName("ListingsTabActivity");
                 }
             });
 
@@ -794,6 +853,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                     intent.putExtra(Intent.EXTRA_SUBJECT, subject);
                     intent.putExtra(Intent.EXTRA_TEXT, msg);
                     startActivity(Intent.createChooser(intent, "How do you want to share?"));
+                    appState.setActiveClassName("ListingsTabActivity");
                 }
             });
 
@@ -801,9 +861,18 @@ public class ListingsTabActivity extends AppCompatActivity {
             cancelOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showAddNewListing();
+                    cancelOptionsAction();
+                    mAdapter.setSelected(selectedPosGlobal);
+//                    showAddNewListing();
+
                 }
             });
+        }
+
+        private void cancelOptionsAction (){
+
+            showAddNewListing();
+
         }
 
         private void showAddNewListing(){
@@ -927,6 +996,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                         if(hasSelfServeStat == true){
                             Intent appSettingsIntent = new Intent(getActivity(), CreateListingActivity.class);
                             startActivity(appSettingsIntent);
+                            appState.setActiveClassName("ListingsTabActivity");
                         }else{
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
@@ -991,6 +1061,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                     intent.putExtra(Intent.EXTRA_SUBJECT, subject);
                     intent.putExtra(Intent.EXTRA_TEXT, msg);
                     startActivity(Intent.createChooser(intent, "How do you want to share?"));
+                    appState.setActiveClassName("ListingsTabActivity");
 
                 }
             });
@@ -1021,7 +1092,12 @@ public class ListingsTabActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    Toast.makeText(getActivity().getApplicationContext(), "TODO: Go to Enter YouTube page", Toast.LENGTH_SHORT).show();
+              //      Toast.makeText(getActivity().getApplicationContext(), "TODO: Go to Enter YouTube page", Toast.LENGTH_SHORT).show();
+
+                    Intent editListingIntent = new Intent(getActivity(), ListingYoutubeURL.class);
+                    editListingIntent.putExtra("selectedListingPosition", selectedPos);
+                    startActivity(editListingIntent);
+                    appState.setActiveClassName("ListingsTabActivity");
 
                 }
             });
@@ -1098,7 +1174,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    requestPermissions( permissionsList.toArray(new String[permissionsList.size()]),
+                                    ActivityCompat.requestPermissions(getActivity(), permissionsList.toArray(new String[permissionsList.size()]),
                                             REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
                                 }
                             });
@@ -1205,23 +1281,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                                     }
                             });
 
-                         /*
-                            final Snackbar snackbar = Snackbar.make(rootView, "Storage permission is denied.", Snackbar.LENGTH_LONG);
-                            snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-                            snackbar.setAction("Settings", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (getActivity() == null) {
-                                        return;
-                                    }
-                                    Intent intent = new Intent();
-                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                                    intent.setData(uri);
-                                    startActivity(intent);
-                                }
-                            });
-                            snackbar.show();*/
+
                         } else {
                             Toast.makeText(getActivity(), "READ_EXTERNAL_PERMISSION Denied", Toast.LENGTH_SHORT)
                                     .show();
@@ -1239,18 +1299,18 @@ public class ListingsTabActivity extends AppCompatActivity {
                     Log.v ("MULTIPLE PERMISSIONS", "captureVideo");
                     Map<String, Integer> perms = new HashMap<String, Integer>();
                     // Initial
-                    perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
-                    perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
-                    perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                    perms.put(android.Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+                    perms.put(android.Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
+                    perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
                     // Fill with results
                     for (int i = 0; i < permissions.length; i++) {
                         perms.put(permissions[i], grantResults[i]);
                     }
                     // Check for CAMERA
                     Log.v ("opening", "captureVideo");
-                    if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    if (perms.get(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         // All Permissions Granted
 
                         captureVideo();
@@ -1284,39 +1344,11 @@ public class ListingsTabActivity extends AppCompatActivity {
                                                 Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
                                                 intent.setData(uri);
                                                 startActivity(intent);
+                                                appState.setActiveClassName("ListingsTabActivity");
 
                                             }
                                     });
 
-                                   /* Snackbar snackbar = Snackbar.make(rootView, "Some permission is denied.", Snackbar.LENGTH_LONG);
-                                    snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-                                    snackbar.setAction("Settings", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            if (getActivity() == null) {
-                                                return;
-                                            }
-                                            Intent intent = new Intent();
-                                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                            Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                                            intent.setData(uri);
-                                            startActivity(intent);
-                                        }
-                                    });
-                                    snackbar.show();*/
-                                    /*Intent intent = new Intent();
-                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                                    intent.setData(uri);
-                                    startActivity(intent);*/
-
-
-                               /* } else if (Manifest.permission.WRITE_CONTACTS.equals(permission)) {
-                                    showRationale(permission, R.string.permission_denied_contacts);
-                                    // user denied WITHOUT never ask again
-                                    // this is a good place to explain the user
-                                    // why you need the permission and ask if he want
-                                    // to accept it (the rationale)*/
                                 } else {
                                     Toast.makeText(getActivity(), "Permission: " + permission + "is Denied", Toast.LENGTH_SHORT)
                                             .show();
@@ -1350,6 +1382,7 @@ public class ListingsTabActivity extends AppCompatActivity {
             captureVideoFileUri = Uri.fromFile(sdImageMainDirectory);
             takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureVideoFileUri);
             startActivityForResult(takeVideoIntent, CAPTURE_VIDEO);
+            appState.setActiveClassName("ListingsTabActivity");
         }  //ends here
 
         public void selectVideoFromStorage(){
@@ -1358,6 +1391,7 @@ public class ListingsTabActivity extends AppCompatActivity {
             intent.setType("video/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select a Video"), SELECT_VIDEO);
+            appState.setActiveClassName("ListingsTabActivity");
         }
 
 
@@ -1387,32 +1421,12 @@ public class ListingsTabActivity extends AppCompatActivity {
 
                             if (Build.VERSION.SDK_INT >= 23){
                                 // Marshmallow+
-
-                             //   requestPermissions(new String[] {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-                                showCameraWithCheck();
+                                  showCameraWithCheck();
                             } else {
                                 // Pre-Marshmallow
                                 captureVideo();
                             }
 
-
-                         /*   if( hasCameraPermission == true){
-                                File mediaFile = new File(Environment.getExternalStorageDirectory() + File.separator + "CirclePix" + File.separator);
-                                if (!mediaFile.exists()) {
-                                    mediaFile.mkdirs();
-                                }
-
-                                final String fname = "vid_" + System.currentTimeMillis() + ".mp4";//Utils.getUniqueImageFilename();
-
-                                final File sdImageMainDirectory = new File(mediaFile, fname);
-
-                                Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                                // Add file uri to intent
-                                captureVideoFileUri = Uri.fromFile(sdImageMainDirectory);
-                                takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureVideoFileUri);
-                                startActivityForResult(takeVideoIntent, CAPTURE_VIDEO);
-                            }
-*/
 
                         }
                     })
@@ -1453,7 +1467,7 @@ public class ListingsTabActivity extends AppCompatActivity {
             Log.d("LOGCAT", "resultCode is " + resultCode + " requestCode is " + requestCode);
             Log.d("LOGCAT", "result_ok is " + RESULT_OK);
 
-            if ((resultCode == RESULT_OK && requestCode == SELECT_VIDEO)) {
+            if (resultCode == RESULT_OK && requestCode == SELECT_VIDEO) {
 
                 Uri selectedVideoUri = data.getData();
 
@@ -1461,20 +1475,6 @@ public class ListingsTabActivity extends AppCompatActivity {
                 selectedVideoPath = getPath(getActivity(), selectedVideoUri);
 
                 Log.d("LOGCAT", "Video path is this: " + selectedVideoPath);
-
-//				int responseCode = uploadToServer("" + selectedVideoPath,
-//						"tour", "555555");
-//
-//				if (responseCode == 200) {
-//					Log.d("LOGCAT", "Server communication successful");
-//					Toast.makeText(getApplicationContext(),
-//							"Server communication successful",
-//							Toast.LENGTH_SHORT).show();
-//				} else {
-//					Log.d("LOGCAT", "Upload failed");
-//					Toast.makeText(getApplicationContext(), "Upload failed",
-//							Toast.LENGTH_SHORT).show();
-//				}
 
                 Intent intent = new Intent(getActivity().getApplicationContext(), VideoUploadActivity.class); //VideoUploadActivity.class);
                 intent.putExtra("objectType", "tour");
@@ -1486,14 +1486,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                 intent.putExtra("imgURL", selectedListing.getImage());
                 intent.putExtra("type", "listing");
                 startActivity(intent);
-
-            /*    try {
-                    JSONObject props = new JSONObject();
-                    props.put("Select Existing Video Selected", true);
-                    mixpanel.track("ListingsTabActivity - Select Existing Video called", props);
-                } catch (JSONException e) {
-                    Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                }*/
+                appState.setActiveClassName("ListingsTabActivity");
 
             } else if (requestCode == CAPTURE_VIDEO) {
                 if (resultCode == RESULT_OK) {
@@ -1523,6 +1516,7 @@ public class ListingsTabActivity extends AppCompatActivity {
                         intent.putExtra("imgURL", selectedListing.getImage());
                         intent.putExtra("type", "listing");
                         startActivity(intent);
+                        appState.setActiveClassName("ListingsTabActivity");
 
                       /*  try {
                             JSONObject props = new JSONObject();
@@ -1538,6 +1532,46 @@ public class ListingsTabActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Failed to record video.", Toast.LENGTH_SHORT).show();
                 }
+
+            }else if  (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+                //The array list has the image paths of the selected images
+                ArrayList<Image> images = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+
+
+//                StringBuffer stringBuffer = new StringBuffer();
+//                for (int i = 0, l = images.size(); i < l; i++) {
+//                    stringBuffer.append(images.get(i).path + "\n");
+//                }
+//
+//                Uri selectedImage = data.getData();
+//                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//
+//
+//                Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+//                        filePathColumn, null, null, null);
+//
+//                cursor.moveToFirst();
+//
+//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                String imgPath = cursor.getString(columnIndex);
+//                cursor.close();
+
+
+
+                ArrayList<String> imagePaths = new ArrayList<String>();
+
+                for (int i = 0; i < images.size(); i++) {
+                    imagePaths.add(images.get(i).path);
+                    Log.v("images " + i  , String.valueOf(imagePaths.get(i).toString()));
+
+                }
+
+                Intent intent = new Intent(getActivity().getApplicationContext(), AddListingImagesActivity.class); //VideoUploadActivity.class);
+                intent.putExtra("selectedListingPosition", selectedPos);
+                intent.putExtra("images", imagePaths);
+                startActivity(intent);
+                appState.setActiveClassName("ListingsTabActivity");
+
             }
 
             if (resultCode == 2) {

@@ -92,4 +92,9 @@
     <!-- Material Design Spinner -->
     <color name="disabled_color">#44000000</color>
     <color name="error_color">#E7492E</color>
+
+    <!-- YouTube VideoPlayer -->
+    <color name="shadow">#555555</color>
+    <color name="title">#777777</color>
+
 </resources>

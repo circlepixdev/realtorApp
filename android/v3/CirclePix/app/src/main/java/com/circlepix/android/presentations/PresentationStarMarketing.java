@@ -1,13 +1,11 @@
 package com.circlepix.android.presentations;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.circlepix.android.CirclePixAppState;
 import com.circlepix.android.R;
@@ -41,6 +39,16 @@ public class PresentationStarMarketing extends PresentationBase {
         player.setPrevAndNextPage(PresentationStart.class, PresentationMarketingIntro.class);
         player.playAudio();
         Log.v("playAudio PresStarMtng", "called");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
     }
 
     @Override
@@ -109,6 +117,11 @@ public class PresentationStarMarketing extends PresentationBase {
 
     public void onBackPressed(){
         super.onBackPressed();
+
+        stopPresentation();
+    }
+
+    public void stopPresentation(){
 
         player.stop();
 

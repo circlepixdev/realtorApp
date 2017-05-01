@@ -60,6 +60,7 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_below="@id/textView11"
+        android:background="#ffffff"
         android:layout_centerInParent="true"
         >
 
@@ -87,7 +88,8 @@
                 android:layout_weight="80"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
-                android:src="@drawable/presentation_comm_batch_texting" />
+                android:src="@drawable/presentation_comm_batch_texting"
+                android:background="#ffffff"/>
 
 
             <View

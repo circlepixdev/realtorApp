@@ -1,5 +1,6 @@
 package com.circlepix.android;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,12 +19,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.circlepix.android.beans.AgentData;
 import com.circlepix.android.beans.ListingDescription;
 import com.circlepix.android.beans.ListingInformation;
 import com.circlepix.android.helpers.MaterialSpinner;
+import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
+import com.darsh.multipleimageselect.helpers.Constants;
+import com.darsh.multipleimageselect.models.Image;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,11 +51,25 @@ import okhttp3.Response;
 public class CreateListingActivity extends AppCompatActivity {
 
     private AgentData agentData;
-
+    private CirclePixAppState appState;
+    private  TextView toolBarSave;
+    private ProgressDialog mProgressDialog;
     private Spinner spinnerState, spinnerPropertyType, spinnerListingType;
     private String[]stateNames;
     private String[] splitStateNames;
     private List<String> splittedStateName;
+
+    private String[]propertyTypeNames;
+    private String[] splitPropertyTypeNames;
+    private List<String> splittedPropertyTypeName;
+
+    private String[]listingTypeNames;
+    private String[] splitListingTypeNames;
+    private List<String> splittedListingTypeName;
+
+    private String stateValue, propertyTypeValue, listingTypeValue;
+    ArrayAdapter<String> adapterState, adapterPropertyType, adapterListingType;
+
 
     private EditText editAddress, editZipCode, editCity, editCountry, editPrice, editSqFt, editBedrooms;
     private EditText editFullBaths, editThreeQtBaths, editHalfBaths, editQuarterBath;
@@ -62,13 +84,17 @@ public class CreateListingActivity extends AppCompatActivity {
     private Button btnCancel, btnNext;
     private LinearLayout addLayout;
 
-    private String stateCode, propertyType, listingType;
-    private String homeId, address, zipcode, city, county, price, sqft, bedrooms, fullbaths,
-            threeQtbaths, halfbaths, quarterbaths, mlsnum, altmlsnum, socMediaSites, realEstateSites, listingDesc, listingDesc2, listingDesc3, additionalComments;
+    private String stateCode = "";
+    private String propertyType = "";
+    private String listingType = "";
+    private String homeId;
+//    private String homeId, address, zipcode, city, county, price, sqft, bedrooms, fullbaths,
+//            threeQtbaths, halfbaths, quarterbaths, mlsnum, altmlsnum, socMediaSites, realEstateSites, listingDesc, listingDesc2, listingDesc3, additionalComments;
 
     private List<String> listingDescriptions = new ArrayList<String>();
     private int selectedListingPosition;
     private ListingInformation selectedListing;
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +107,26 @@ public class CreateListingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+        toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Toast.makeText(getApplicationContext(), "Note: API is not done yet", Toast.LENGTH_SHORT).show();
+
+                addListingInfo();
+
+            }
+        });
+
         // Get global shared data
         agentData = AgentData.getInstance();
+
+        appState = ((CirclePixAppState)getApplicationContext());
+        appState.setContextForPreferences(this);
+
+        appState.setActiveClassName("ListingsTabActivity");
 
         editAddress = (EditText) findViewById(R.id.editText_address);
         editZipCode = (EditText) findViewById(R.id.editText_zip_code);
@@ -115,11 +159,12 @@ public class CreateListingActivity extends AppCompatActivity {
         chkSocMediaSites = (CheckBox) findViewById(R.id.checkBoxSocialMediaSites);
         chkRealEstateSites = (CheckBox) findViewById(R.id.checkBoxRealEstateSites);
 
-        btnNext = (Button) findViewById(R.id.btn_next);
-        btnCancel = (Button) findViewById(R.id.btn_cancel);
+//        btnNext = (Button) findViewById(R.id.btn_next);
+//        btnCancel = (Button) findViewById(R.id.btn_cancel);
 
         addLayout = new LinearLayout(CreateListingActivity.this);
 
+        // State/Province
         stateNames = getResources().getStringArray(R.array.state_array);
         splittedStateName = new ArrayList<String>();
         for(int i = 0; i < stateNames.length  ; i++){
@@ -127,7 +172,156 @@ public class CreateListingActivity extends AppCompatActivity {
             splittedStateName.add(splitStateNames[0]);
         }
 
-        ArrayAdapter<String> adapterPropertyType = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.property_type_array));
+        adapterState = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, splittedStateName);
+        adapterState.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerState = (MaterialSpinner) findViewById(R.id.spinner_state_province);
+        spinnerState.setAdapter(adapterState);
+        spinnerState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                if (position != -1) {
+                    //  String stateCode = stateNames[position];
+                    String splittedStateCode[] = stateNames[position].toString().split(",");
+                    String splittedCode = splittedStateCode[1];
+                    Log.v("State Name: ", splittedStateName.get(position).toString() + "\t State Code: " + splittedCode);
+                    //    Toast.makeText(getApplicationContext(), "State Name: " + splittedStateName.get(position).toString() + "\t State Code: " + splittedCode, Toast.LENGTH_SHORT).show();
+
+                    stateCode= splittedCode;
+                }else{
+                    //  Toast.makeText(getApplicationContext(), "State Name: send null or blank string", Toast.LENGTH_SHORT).show();
+                    stateCode= "";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+
+      /*  spinnerState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                if (position != -1) {
+                    String splittedStateNamesValues[] = stateNames[position].toString().split(",");
+                    String splittedStateValue = splittedStateNamesValues[1];
+                    Log.v("State Name: ", splittedStateName.get(position).toString() + "\t splittedProviderValue: " + splittedBillingValue);
+                    //    Toast.makeText(getApplicationContext(), "State Name: " + splittedStateName.get(position).toString() + "\t State Code: " + splittedCode, Toast.LENGTH_SHORT).show();
+
+                    stateValue = splittedStateValue;
+                } else {
+                    //  Toast.makeText(getApplicationContext(), "State Name: send null or blank string", Toast.LENGTH_SHORT).show();
+                    stateValue = "";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+*/
+
+        // Property Types
+        propertyTypeNames = getResources().getStringArray(R.array.property_type_array);
+        splittedPropertyTypeName = new ArrayList<String>();
+        for(int i = 0; i < propertyTypeNames.length  ; i++){
+            splitPropertyTypeNames = propertyTypeNames[i].toString().split(",");
+            splittedPropertyTypeName.add(splitPropertyTypeNames[0]);
+        }
+
+
+        adapterPropertyType = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, splittedPropertyTypeName);
+        adapterPropertyType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPropertyType = (MaterialSpinner) findViewById(R.id.spinner_property_type);
+        spinnerPropertyType.setAdapter(adapterPropertyType);
+        spinnerPropertyType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if (position != -1) {
+                    //  String stateCode = stateNames[position];
+                    String splittedStateCode[] = propertyTypeNames[position].toString().split(",");
+                    String splittedCode = splittedStateCode[1];
+                    Log.v("Property Type: ", splittedPropertyTypeName.get(position).toString() + "\t Property Type Code: " + splittedCode);
+                    //    Toast.makeText(getApplicationContext(), "State Name: " + splittedStateName.get(position).toString() + "\t State Code: " + splittedCode, Toast.LENGTH_SHORT).show();
+
+                    propertyType= splittedCode;
+                }else{
+                    //  Toast.makeText(getApplicationContext(), "State Name: send null or blank string", Toast.LENGTH_SHORT).show();
+                    propertyType= "";
+                }
+
+
+//                if (position != -1) {
+//
+//                    propertyType= parent.getItemAtPosition(position).toString();
+//                    Log.v("Property Type: ", propertyType);
+//                }else{
+//                    propertyType="";
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+
+        // Listing Types
+        listingTypeNames = getResources().getStringArray(R.array.listingy_type_array);
+        splittedListingTypeName = new ArrayList<String>();
+        for(int i = 0; i < listingTypeNames.length  ; i++){
+            splitListingTypeNames = listingTypeNames[i].toString().split(",");
+            splittedListingTypeName.add(splitListingTypeNames[0]);
+        }
+
+
+        adapterListingType = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, splittedListingTypeName);
+        adapterListingType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerListingType = (MaterialSpinner) findViewById(R.id.spinner_listing_type);
+        spinnerListingType.setAdapter(adapterListingType);
+        spinnerListingType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if (position != -1) {
+                    //  String stateCode = stateNames[position];
+                    String splittedStateCode[] = listingTypeNames[position].toString().split(",");
+                    String splittedCode = splittedStateCode[1];
+                    Log.v("Listing Type: ", splittedListingTypeName.get(position).toString() + "\t Listing Type Code: " + splittedCode);
+                    //    Toast.makeText(getApplicationContext(), "State Name: " + splittedStateName.get(position).toString() + "\t State Code: " + splittedCode, Toast.LENGTH_SHORT).show();
+
+                    listingType= splittedCode;
+                }else{
+                    //  Toast.makeText(getApplicationContext(), "State Name: send null or blank string", Toast.LENGTH_SHORT).show();
+                    listingType= "";
+                }
+
+//
+//                if (position != -1) {
+//                    Log.v("Listing Type: ", (String) parent.getItemAtPosition(position));
+//                    listingType= (String) parent.getItemAtPosition(position);
+//                }else{
+//                    listingType="";
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+
+
+     /*   ArrayAdapter<String> adapterPropertyType = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.property_type_array));
         adapterPropertyType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPropertyType = (MaterialSpinner) findViewById(R.id.spinner_property_type);
         spinnerPropertyType.setAdapter(adapterPropertyType);
@@ -142,14 +336,16 @@ public class CreateListingActivity extends AppCompatActivity {
         adapterListingType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerListingType = (MaterialSpinner) findViewById(R.id.spinner_listing_type);
         spinnerListingType.setAdapter(adapterListingType);
-
+*/
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
+            editMode = true;
             selectedListingPosition = extras.getInt("selectedListingPosition");
             Log.v("selectedListingPos: ", String.valueOf(selectedListingPosition));
 
             selectedListing = agentData.getListingInformation().get(selectedListingPosition);
+            Log.v("selectedListing: ", String.valueOf(selectedListing));
 
 
             homeId = selectedListing.getId();
@@ -167,7 +363,46 @@ public class CreateListingActivity extends AppCompatActivity {
                 editCountry.setText(selectedListing.getCounty());
             }
 
-            if(!selectedListing.getState().equals(null)){
+
+
+            //if(!agentData.getAgentProfileInformation().getBillingType().equals(null) && !agentData.getAgentProfileInformation().getBillingType().isEmpty()){
+            if(!selectedListing.getState().equals(null) && !selectedListing.getState().isEmpty()){
+                int spinnerPosition = 0;
+                for(int i=0; i < stateNames.length ; i++) {
+                    if (stateNames[i].contains(selectedListing.getState())) {
+                        spinnerPosition = i + 1; // Add 1 because item 0 is : "-- Select --"
+                    }
+                }
+
+                spinnerState.setSelection(spinnerPosition);
+            }else{
+                spinnerState.setSelection(-1);
+            }
+
+
+            if(!selectedListing.getPropertyType().equals(null)){
+                int spinnerPosition = 0;
+                for(int i=0; i < propertyTypeNames.length ; i++) {
+                    if (propertyTypeNames[i].contains(selectedListing.getPropertyType())) {
+                        spinnerPosition = i;
+                    }
+                }
+
+                spinnerPropertyType.setSelection(spinnerPosition);
+            }
+
+            if(!selectedListing.getListingType().equals(null)){
+                int spinnerPosition = 0;
+                for(int i=0; i < listingTypeNames.length ; i++) {
+                    if (listingTypeNames[i].contains(selectedListing.getListingType())) {
+                        spinnerPosition = i;
+                    }
+                }
+
+                spinnerListingType.setSelection(spinnerPosition);
+            }
+
+         /*   if(!selectedListing.getState().equals(null)){
 
                 int spinnerPosition = adapterState.getPosition(selectedListing.getState());
                 spinnerState.setSelection(spinnerPosition);
@@ -181,15 +416,16 @@ public class CreateListingActivity extends AppCompatActivity {
 
             }
 
-            if(!selectedListing.getPrice().equals(null)){
-                editPrice.setText(selectedListing.getPrice());
-            }
-
             if(!selectedListing.getListingType().equals(null)){
 
                 int spinnerPosition = adapterState.getPosition(selectedListing.getListingType());
                 spinnerListingType.setSelection(spinnerPosition);
 
+            }
+        */
+
+            if(!selectedListing.getPrice().equals(null)){
+                editPrice.setText(selectedListing.getPrice());
             }
 
             if(!selectedListing.getSquareFootage().equals(null)){
@@ -231,6 +467,10 @@ public class CreateListingActivity extends AppCompatActivity {
                 chkRealEstateSites.setChecked(false);
             }
 
+            if(!selectedListing.getComments().equals(null)){
+                editComments.setText(selectedListing.getComments());
+            }
+
             EditText[] editListingDescriptions = {editListingDesc, editListingDesc2, editListingDesc3, editListingDesc4, editListingDesc5, editListingDesc6, editListingDesc7, editListingDesc8, editListingDesc9, editListingDesc10};
 
             ArrayList<ListingDescription> listingDescriptions = new ArrayList<>();
@@ -238,28 +478,46 @@ public class CreateListingActivity extends AppCompatActivity {
 
             tempListingDescriptions.addAll(selectedListing.getListingDesc());
 
-            listingDescriptions = tempListingDescriptions;
+            listingDescriptions.clear();
+            listingDescriptions =  selectedListing.getListingDesc(); // tempListingDescriptions;
+
+       //     Log.v("listingDescriptions: ", String.valueOf(listingDescriptions.size()));
 
             for(int i = 0; i<listingDescriptions.size(); i++){
-                Log.v("listingdesc: ", listingDescriptions.get(i).getTDSCvalue());
-                editListingDescriptions[i].setText(listingDescriptions.get(i).getTDSCvalue());
+                if(i<10){
+                  //  Log.v("listingdesc: ", listingDescriptions.get(i).getTDSCvalue());
+                    editListingDescriptions[i].setText(listingDescriptions.get(i).getTDSCvalue());
+                }
+
             }
 
+            toolBarSave.setText("Save");
         }else{
             homeId = "";
+            editMode = false;
+            toolBarSave.setText("Next");
         }
 
-        btnNext.setEnabled(false);
+    //    btnNext.setEnabled(false);
+
+        if(editAddress.getText().toString().isEmpty()){
+            toolBarSave.setEnabled(false);
+        }else{
+            toolBarSave.setEnabled(true);
+        }
+
 
         editAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().trim().length()==0){
-                    btnNext.setEnabled(false);
-                    btnNext.setTextColor(getResources().getColor(R.color.disabled_color));
+                   // btnNext.setEnabled(false);
+                  //  btnNext.setTextColor(getResources().getColor(R.color.disabled_color));
+                    toolBarSave.setEnabled(false);
                 } else {
-                    btnNext.setEnabled(true);
-                    btnNext.setTextColor(getResources().getColor(R.color.text_title));
+                    toolBarSave.setEnabled(true);
+                //    btnNext.setEnabled(true);
+                //    btnNext.setTextColor(getResources().getColor(R.color.text_title));
                 }
             }
 
@@ -282,69 +540,6 @@ public class CreateListingActivity extends AppCompatActivity {
 //        spinner = (Spinner)findViewById(R.id.spinner_state);
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateListingActivity.this,
 //        android.R.layout.simple_spinner_item, paths);
-
-        spinnerState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                if (position != -1) {
-                  //  String stateCode = stateNames[position];
-                    String splittedStateCode[] = stateNames[position].toString().split(",");
-                    String splittedCode = splittedStateCode[1];
-                    Log.v("State Name: ", splittedStateName.get(position).toString() + "\t State Code: " + splittedCode);
-                //    Toast.makeText(getApplicationContext(), "State Name: " + splittedStateName.get(position).toString() + "\t State Code: " + splittedCode, Toast.LENGTH_SHORT).show();
-
-                    stateCode= splittedCode;
-                }else{
-                  //  Toast.makeText(getApplicationContext(), "State Name: send null or blank string", Toast.LENGTH_SHORT).show();
-                    stateCode= "";
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-         });
-
-        spinnerPropertyType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-
-                if (position != -1) {
-
-                    propertyType= parent.getItemAtPosition(position).toString();
-                    Log.v("Property Type: ", propertyType);
-                }else{
-                    propertyType="";
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-
-        spinnerListingType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                if (position != -1) {
-                    Log.v("Listing Type: ", (String) parent.getItemAtPosition(position));
-                    listingType= (String) parent.getItemAtPosition(position);
-                }else{
-                    listingType="";
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
 
 
 
@@ -399,6 +594,19 @@ public class CreateListingActivity extends AppCompatActivity {
 
     }
 
+/*    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+//                Intent homeIntent = new Intent(this, HomeActivity.class);
+//                homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(homeIntent);
+//                Toast.makeText(getApplicationContext(), "Back Button Pressed!", Toast.LENGTH_SHORT).show();
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }*/
+
+
     private void addBtnOnCLickListener() {
       /*  addComment.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -431,7 +639,7 @@ public class CreateListingActivity extends AppCompatActivity {
 
         });*/
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+       /* btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -443,7 +651,7 @@ public class CreateListingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 addListingInfo();
             }
-        });
+        });*/
     }
 
     public void onClickAddCommentLayout() {
@@ -480,8 +688,33 @@ public class CreateListingActivity extends AppCompatActivity {
 
                 public void run() {
 
-                if(homeId.isEmpty()){
-                    homeId = "";
+                String strStateCode = "";
+                String strPropertyType = "";
+                String strListingType = "";
+
+                String homeIdTemp = "";
+                String address = "";
+                String zipcode = "";
+                String city = "";
+                String county = "";
+                String price = "";
+                String sqft = "";
+                String bedrooms = "";
+                String fullbaths = "";
+                String threeQtbaths = "";
+                String halfbaths  = "";
+                String quarterbaths = "";
+                String mlsnum = "";
+                String altmlsnum = "";
+                String socMediaSites = "";
+                String realEstateSites = "";
+                String additionalComments = "";
+
+                if(!homeId.isEmpty()){
+                    homeIdTemp = homeId;
+                }else{
+                    homeIdTemp = "";
+
                 }
 
                 if(!editAddress.getText().toString().isEmpty()){
@@ -505,6 +738,27 @@ public class CreateListingActivity extends AppCompatActivity {
                 }else{
                     county = "";
                 }
+
+                if(!stateCode.isEmpty()){
+                    strStateCode = stateCode;
+                }else{
+                    strStateCode = "";
+                }
+
+                if(!propertyType.isEmpty()){
+                    strPropertyType = propertyType;
+                }else{
+                    strPropertyType = "";
+                }
+
+                if(!listingType.isEmpty()){
+                    strListingType = listingType;
+                }else{
+                    strListingType = "";
+                }
+
+                Log.v("listingType", listingType + " ; " + strListingType);
+                Log.v("strStateCode", stateCode + " ; " + strStateCode);
 
                 if(!editPrice.getText().toString().isEmpty()){
                     price = editPrice.getText().toString();
@@ -556,11 +810,14 @@ public class CreateListingActivity extends AppCompatActivity {
                 }else{
                     socMediaSites = "false";
                 }
+
+                Log.v("socMediaSites", socMediaSites);
                 if(chkRealEstateSites.isChecked()){
                     realEstateSites = "true";
                 }else{
                     realEstateSites = "false";
                 }
+                Log.v("realEstateSites", realEstateSites);
                 listingDescriptions.clear();
 
                 if(!editListingDesc.getText().toString().isEmpty()){
@@ -599,28 +856,24 @@ public class CreateListingActivity extends AppCompatActivity {
                     additionalComments = "";
                 }
 
-                Log.v("homeId", homeId);
-                Log.v("address", address);
-                Log.v("zip code",zipcode);
-                Log.v("city", city);
-                Log.v("county", county);
-                Log.v("state", stateCode);
-                Log.v("property type", propertyType);
-                Log.v("price", price);
-                Log.v("listing type", listingType);
-                Log.v("sqft", sqft);
-                Log.v("bedrooms", bedrooms);
-                Log.v("full baths", fullbaths);
-                Log.v("three quarter baths", threeQtbaths);
-                Log.v("half baths", halfbaths);
-                Log.v("quarter baths", quarterbaths);
-                Log.v("mls num", mlsnum);
-                Log.v("alt mll num", altmlsnum);
-                Log.v("soc media sites", socMediaSites);
-                Log.v("real estate sites", realEstateSites);
-                Log.v("additional comments", additionalComments);
 
                 try {
+                   /* JSONArray jArry=new JSONArray();
+                    for(int i=0; i<listingDescriptions.size(); i++) {
+                        jArry.put(listingDescriptions.get(i));
+                    }
+
+                    Log.v("jArry listingDescriptions:", String.valueOf(jArry.toString()));
+                    */
+
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressDialog = ProgressDialog.show(CreateListingActivity.this, "", "Saving...");
+                        }
+                    });
+
                     String BASE_URL = "http://stag-mobile.circlepix.com/api/listing.php";
                 //    String BASE_URL = "http://keuahn.circlepix.dev/api/listing.php";
                     MultipartBody.Builder buildernew = new MultipartBody.Builder()
@@ -628,14 +881,15 @@ public class CreateListingActivity extends AppCompatActivity {
                                //Here you can add the fix number of data.
                             .addFormDataPart("method", "addListingInfo")
                             .addFormDataPart("realtorId", agentData.getRealtor().getId())
-                            .addFormDataPart("homeId", homeId)
+                            .addFormDataPart("homeId", homeIdTemp)
                             .addFormDataPart("address", address)
                             .addFormDataPart("city", city)
+                            .addFormDataPart("zipCode", zipcode)
                             .addFormDataPart("county", county)
-                            .addFormDataPart("state", stateCode)
-                            .addFormDataPart("propertyType", propertyType)
+                            .addFormDataPart("state", strStateCode)
+                            .addFormDataPart("propertyType", strPropertyType)
                             .addFormDataPart("price", price)
-                            .addFormDataPart("listingType", listingType)
+                            .addFormDataPart("listingType", strListingType)
                             .addFormDataPart("squareFootage", sqft)
                             .addFormDataPart("bedrooms", bedrooms)
                             .addFormDataPart("fullBaths", fullbaths)
@@ -646,15 +900,12 @@ public class CreateListingActivity extends AppCompatActivity {
                             .addFormDataPart("altmlsNum", altmlsnum)
                             .addFormDataPart("socialMediaSites", socMediaSites)
                             .addFormDataPart("realEstateSites", realEstateSites)
+                           // .addFormDataPart("listingDescription[0]", jArry.toString())
                             .addFormDataPart("comments", additionalComments);
 
-                        for (int i = 0; i < listingDescriptions.size(); i++) {
-                            buildernew.addFormDataPart("listingDescriptions", listingDescriptions.get(i));
-                            Log.v("listingDescription " + i, listingDescriptions.get(i).toString());
-                          /*  File f = new File(FILE_PATH,TEMP_FILE_NAME + i + ".png");
-                            if (f.exists()) {
-                                buildernew.addFormDataPart(TEMP_FILE_NAME + i, TEMP_FILE_NAME + i + FILE_EXTENSION, RequestBody.create(MEDIA_TYPE, f));
-                            }*/
+                       for (int i = 0; i < listingDescriptions.size(); i++) {
+                            buildernew.addFormDataPart("listingDescription[" + i + "]", listingDescriptions.get(i));
+                            Log.v("listingDescription[" + i + "]", listingDescriptions.get(i).toString());
                         }
 
                     MultipartBody requestBody = buildernew.build();
@@ -698,17 +949,15 @@ public class CreateListingActivity extends AppCompatActivity {
                     client.newCall(request).enqueue(new Callback() {
                         @Override
                         public void onFailure(Call call, final IOException e) {
-                            Log.i("Failed: " ,  e.getMessage());
-                            Intent intent = new Intent(getApplicationContext(), AddListingImagesActivity.class);
-                            intent.putExtra("responseBody","Failed: " + e.getLocalizedMessage() );
-                            startActivity(intent);
-                            /*runOnUiThread(new Runnable() {
+//                            Log.i("Failed: " ,  e.getMessage());
+                            runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     //stuff that updates ui
+                                    mProgressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Failed: "+ e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 }
-                            });*/
+                            });
                         }
 
                         @Override
@@ -737,20 +986,48 @@ public class CreateListingActivity extends AppCompatActivity {
                                         Log.v("status: ", status);
                                         Log.v("message: ", message);
                                         Log.v("hasSelfServe: ",homeId);
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                //stuff that updates ui
+                                                mProgressDialog.dismiss();
+                                              //  finish();
+                                            }
+                                        });
+
+                                        if(editMode == true){
+                                            finish();
+                                        }else{
+                                            Intent intent = new Intent(getApplicationContext() , AlbumSelectActivity.class);
+                                            //set limit on number of images that can be selected, default is 10
+                                            intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 10);
+                                            startActivityForResult(intent, Constants.REQUEST_CODE);
+                                            appState.setActiveClassName("ListingsTabActivity");
+                                        }
+
                                     }
                                     catch (JSONException e) {
                                         Log.v("Error: ", e.getLocalizedMessage());
                                     }
-                                    Intent intent = new Intent(getApplicationContext(), AddListingImagesActivity.class);
-                                    intent.putExtra("responseBody",responseString );
-                                    startActivity(intent);
+
 
                                 }
                             } else {
-                                Log.i("Error", "unsuccessful");
-                                Intent intent = new Intent(getApplicationContext(), AddListingImagesActivity.class);
-                                intent.putExtra("responseBody","Error: "+ "Response Message: " + response.message() + ",  Response Code: "  + response.code() );
-                                startActivity(intent);
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //stuff that updates ui
+                                        mProgressDialog.dismiss();
+                                      //  finish();
+                                        Toast.makeText(getApplicationContext(), "Error: "+ response.message(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+//                                Log.i("Error", "unsuccessful");
+//                                Intent intent = new Intent(getApplicationContext(), AddListingImagesActivity.class);
+//                                intent.putExtra("responseBody","Error: "+ "Response Message: " + response.message() + ",  Response Code: "  + response.code() );
+//                                startActivity(intent);
                             }
                         }
                     });
@@ -763,4 +1040,42 @@ public class CreateListingActivity extends AppCompatActivity {
         networkThread.start();
     }
 
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if  (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            //The array list has the image paths of the selected images
+            ArrayList<Image> images = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+
+
+            ArrayList<String> imagePaths = new ArrayList<String>();
+
+            for (int i = 0; i < images.size(); i++) {
+                imagePaths.add(images.get(i).path);
+                Log.v("images " + i  , String.valueOf(imagePaths.get(i).toString()));
+
+            }
+
+            Intent intent = new Intent(getApplicationContext(), AddListingImagesActivity.class);
+            Log.v("homeId to send"  , homeId);
+            intent.putExtra("homeId", homeId);
+            intent.putExtra("images", imagePaths);
+            startActivity(intent);
+            appState.setActiveClassName("ListingsTabActivity");
+            finish();
+        }else if (resultCode == RESULT_CANCELED) {
+            finish();
+        }
+    }
+
+    public String getToString(String[] arrayData) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0 ; i < arrayData.length; i++) {
+            stringBuilder.append(arrayData[i]);
+            if (i < arrayData.length - 1) {
+                stringBuilder.append(",");
+            }
+        }
+        return stringBuilder.toString();
+    }
 }

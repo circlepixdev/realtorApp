@@ -7,6 +7,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,8 +36,8 @@ public class BaseActionBar {
 
         className = context.getClass();
 
-        actionBarLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.base_actionbar, null);
-        actionBar = ((Activity)context).getActionBar();
+        actionBarLayout = ((AppCompatActivity)context).getLayoutInflater().inflate(R.layout.base_actionbar, null);
+        actionBar = ((AppCompatActivity)context).getActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);

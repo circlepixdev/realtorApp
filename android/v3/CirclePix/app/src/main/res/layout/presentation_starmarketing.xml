@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView2"
         android:src="@drawable/presentation_starmarketing"
+        android:background="@drawable/presentation_star_bg"
         android:scaleType="fitCenter" />
 
 </LinearLayout>

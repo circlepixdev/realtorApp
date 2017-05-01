@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/circlepix_bg"
+    android:background="@color/activity_background"
     android:id="@+id/rootView">
 
     <LinearLayout
@@ -15,10 +15,10 @@
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:paddingTop="0dp">
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="8dip"
-            android:background="@color/circlepix_yellowgreen" />
+            android:background="@color/colorAccent" />
 
         <TextView
             android:id="@+id/header_title"
@@ -29,7 +29,7 @@
             android:background="@color/circlepix_ltgrey"
             android:text="@string/settings_bgmusic_text"
             android:textColor="@color/text_title" />
-
+-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -67,6 +67,7 @@
         android:divider="@drawable/divider">
 
         <LinearLayout
+            android:id="@+id/linearLayout5"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -96,6 +97,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout6"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -133,6 +135,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout7"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -170,6 +173,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout8"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

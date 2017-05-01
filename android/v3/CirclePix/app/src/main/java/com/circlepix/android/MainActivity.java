@@ -377,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(promoIntent);
                 return true;
 
-            case R.id.action_rate_us:
+         /*   case R.id.action_rate_us:
                 drawer.closeDrawer(GravityCompat.START);
                 Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -393,10 +393,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
                 }
                 return true;
-
-            case R.id.action_app_settings:
-                Toast.makeText(MainActivity.this, "TODO " + item.getTitle() + "Page", Toast.LENGTH_SHORT).show();
-                return true;
+*/
+           // case R.id.action_app_settings:
+           //     Toast.makeText(MainActivity.this, "TODO " + item.getTitle() + "Page", Toast.LENGTH_SHORT).show();
+           //     return true;
         }
 
         drawer.closeDrawer(GravityCompat.START);

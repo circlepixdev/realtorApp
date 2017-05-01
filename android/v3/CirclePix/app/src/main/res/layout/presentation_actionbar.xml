@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="40dp"
     android:orientation="horizontal"
-    android:background="@color/circlepix_darkgrey"
+    android:background="@color/colorPrimary"
     android:gravity="center_vertical">
 
     <LinearLayout
@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView9"
-            android:src="@drawable/abc_ic_ab_back_holo_dark" />
+            android:src="@drawable/abc_ic_ab_back_material" />
 
         <TextView
             android:id="@+id/imgBackActionBar"

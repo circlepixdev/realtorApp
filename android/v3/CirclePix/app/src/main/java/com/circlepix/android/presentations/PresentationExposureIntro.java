@@ -1,11 +1,9 @@
 package com.circlepix.android.presentations;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.MenuItem;
 
 import com.circlepix.android.CirclePixAppState;
 import com.circlepix.android.R;
@@ -19,7 +17,6 @@ public class PresentationExposureIntro extends PresentationBase {
 
     //KBL
     private CirclePixAppState appState;
-  //  private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +27,22 @@ public class PresentationExposureIntro extends PresentationBase {
         appState = ((CirclePixAppState)getApplicationContext());
         appState.setContextForPreferences(this);
 
-     /*   image = (ImageView) findViewById(R.id.imageView2);
-      //  Bitmap  bitmap =   BitmapFactory.decodeResource(getResources(), R.drawable.presentation_exposure_intro);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.presentation_exposure_intro);
-        image.setImageBitmap(bitmap);*/
-
         player = new PresentationPageAudioPlayer(this);
 
         player.setPrevAndNextPage(PresentationMediaDVDs.class, PresentationExposurePortals.class);
         player.playAudio();
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
     }
 
     @Override
@@ -69,32 +72,7 @@ public class PresentationExposureIntro extends PresentationBase {
 
             appState.setActionBarStat(true);  //to show the actionbar to let the user know that presentation was paused when they pressed home or tas manager button
         }
-
-        Log.v("going-to-background code", "called");
     }
-
-  /*  //added 080815
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        unbindDrawables(findViewById(R.id.rootView));
-        System.gc();
-
-        Log.v("onDestroy", "called");
-    }
-
-    private void unbindDrawables(View view) {
-        if (view.getBackground() != null) {
-            view.getBackground().setCallback(null);
-        }
-        if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                unbindDrawables(((ViewGroup) view).getChildAt(i));
-            }
-            ((ViewGroup) view).removeAllViews();
-        }
-    }*/
 
     @Override
     public void pauseAnimation() {
@@ -108,6 +86,10 @@ public class PresentationExposureIntro extends PresentationBase {
 
     public void onBackPressed(){
         super.onBackPressed();
+        stopPresentation();
+    }
+
+    public void stopPresentation() {
         player.stop();
 
         appState.setActivityStopped(true);

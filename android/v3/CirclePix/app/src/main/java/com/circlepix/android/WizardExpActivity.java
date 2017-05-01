@@ -6,12 +6,18 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.circlepix.android.data.Presentation;
 import com.circlepix.android.data.PresentationDataSource;
@@ -19,11 +25,12 @@ import com.circlepix.android.helpers.BaseActionBar;
 import com.circlepix.android.interfaces.IBaseActionBarCallback;
 import com.circlepix.android.types.NarrationType;
 
-public class WizardExpActivity extends Activity {
+public class WizardExpActivity extends AppCompatActivity {
 
 	private Long presentationId = null;
 	private Presentation p;
 	private PlaceholderFragment frag;
+	private TextView toolBarSave;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +41,7 @@ public class WizardExpActivity extends Activity {
 		final CirclePixAppState myApp = (CirclePixAppState)this.getApplication();
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(WizardExpActivity.this);
+ /*       BaseActionBar actionBar = new BaseActionBar(WizardExpActivity.this);
         actionBar.setConfig(WizardMainActivity.class,
                 "Save",
                 false,
@@ -53,6 +60,30 @@ public class WizardExpActivity extends Activity {
                     }
                 });
         actionBar.show();
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActionBar().setTitle(R.string.title_activity_wizard_exp);
+
+		toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+		toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				myApp.setActivityStopped(true);
+
+				if (!prepareToNavigate()) {
+					return;
+				}
+				setResult(RESULT_OK);
+				finish();
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
+			}
+		});
 
         Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -71,13 +102,29 @@ public class WizardExpActivity extends Activity {
 		}
 	}
 
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			// The user pressed the UP button (on actionbar)
+			((CirclePixAppState)this.getApplication()).setActivityStopped(true);
+
+			setResult(RESULT_OK);
+			finish();
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
 	@Override
 	public void onBackPressed() {
 		// The user pressed the hardware back button
-		if (!prepareToNavigate()) {
-			// Stop the navigation
-			return;
-		}
+//		if (!prepareToNavigate()) {
+//			// Stop the navigation
+//			return;
+//		}
 		((CirclePixAppState)this.getApplication()).setActivityStopped(true);
 	    setResult(RESULT_OK);
 	    super.onBackPressed();
@@ -155,6 +202,17 @@ public class WizardExpActivity extends Activity {
 	 */
 	public static class PlaceholderFragment extends Fragment {
 
+		public RelativeLayout portalsLayout;
+		public RelativeLayout personalSiteLayout;
+		public RelativeLayout companySiteLayout;
+		public RelativeLayout bloggerLayout;
+		public RelativeLayout facebookLayout;
+		public RelativeLayout twitterLayout;
+		public RelativeLayout craigslistLayout;
+		public RelativeLayout linkedinLayout;
+		public RelativeLayout pinterestLayout;
+		public RelativeLayout seoBoostLayout;
+
 		public Switch portals;
 		public Switch personalSite;
 		public Switch companySite;
@@ -180,7 +238,7 @@ public class WizardExpActivity extends Activity {
 		public ImageView audioPinterest;
 		public ImageView audioSeoBoost;
 		private MediaPlayer mediaPlayer;
-		private  View rootView;
+		private View rootView;
 
 		private final int[] F_resID = { R.raw.f_exposure_portals, R.raw.f_exposure_personal, R.raw.f_exposure_personalcompany,
 				R.raw.f_exposure_blog, R.raw.f_exposure_youtube, R.raw.f_exposure_facebook, R.raw.f_exposure_twitter,
@@ -205,10 +263,21 @@ public class WizardExpActivity extends Activity {
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
 			rootView = inflater.inflate(R.layout.fragment_wizard_exp,
 					container, false);
-			
+
+			portalsLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout8);
+			personalSiteLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout9);
+			companySiteLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout10);
+			facebookLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout11);
+			twitterLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout13);
+			bloggerLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout14);
+			craigslistLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout15);
+			linkedinLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout16);
+			pinterestLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout17);
+			seoBoostLayout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout18);
+
 			// Get controls
 			portals = (Switch)rootView.findViewById(R.id.ExpPortals);
 			personalSite = (Switch)rootView.findViewById(R.id.ExpPersonalSite);
@@ -251,6 +320,116 @@ public class WizardExpActivity extends Activity {
 				pinterest.setChecked(p.isExpPinterest());
 				seoBoost.setChecked(p.isExpSeoBoost());
 			}
+
+			portalsLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(portals.isChecked()){
+						portals.setChecked(false);
+					}else{
+						portals.setChecked(true);
+					}
+				}
+			});
+
+			personalSiteLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(personalSite.isChecked()){
+						personalSite.setChecked(false);
+					}else{
+						personalSite.setChecked(true);
+					}
+				}
+			});
+
+			companySiteLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(companySite.isChecked()){
+						companySite.setChecked(false);
+					}else{
+						companySite.setChecked(true);
+					}
+				}
+			});
+
+			bloggerLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(blogger.isChecked()){
+						blogger.setChecked(false);
+					}else{
+						blogger.setChecked(true);
+					}
+				}
+			});
+
+			facebookLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(facebook.isChecked()){
+						facebook.setChecked(false);
+					}else{
+						facebook.setChecked(true);
+					}
+				}
+			});
+
+			twitterLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(twitter.isChecked()){
+						twitter.setChecked(false);
+					}else{
+						twitter.setChecked(true);
+					}
+				}
+			});
+
+			craigslistLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(craigslist.isChecked()){
+						craigslist.setChecked(false);
+					}else{
+						craigslist.setChecked(true);
+					}
+				}
+			});
+
+			linkedinLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(linkedin.isChecked()){
+						linkedin.setChecked(false);
+					}else{
+						linkedin.setChecked(true);
+					}
+				}
+			});
+
+			pinterestLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(pinterest.isChecked()){
+						pinterest.setChecked(false);
+					}else{
+						pinterest.setChecked(true);
+					}
+				}
+			});
+
+			seoBoostLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(seoBoost.isChecked()){
+						seoBoost.setChecked(false);
+					}else{
+						seoBoost.setChecked(true);
+					}
+				}
+			});
 
 			audioPortals.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -429,7 +608,8 @@ public class WizardExpActivity extends Activity {
 			// setting up what to do if current song completes.
 			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
-				@Override public void onCompletion(MediaPlayer mp) { // TODO
+				@Override
+                public void onCompletion(MediaPlayer mp) { // TODO
 					// Auto-generated method stub
 					ImageView ivCurrentDone = (ImageView)v.findViewById(btnID[index]);
 					ivCurrentDone.setImageResource(R.drawable.audio_play_button);

@@ -26,7 +26,8 @@ import okhttp3.Response;
 
 public class LoginHelper {
 
-    public static final String BASE_URL = "http://videoupload.circlepix.com/thePearl/cpixVideoApp.xml?method=login&username=%s&password=%s";
+    //public static final String BASE_URL = "http://videoupload.circlepix.com/thePearl/cpixVideoApp.xml?method=login&username=%s&password=%s";
+    public static final String BASE_URL = "http://stag-mobile.circlepix.com/thePearl/cpixVideoApp.xml?method=login&username=%s&password=%s";
 
     /**
      * Perform a synchronous authorization without any ui interaction. This

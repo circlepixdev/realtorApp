@@ -36,6 +36,7 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_below="@id/textViewTitle"
+        android:background="#ffffff"
         android:layout_centerInParent="true">
 
         <View
@@ -65,7 +66,8 @@
                 android:layout_weight="80"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
-                android:src="@drawable/presentation_comm_emarketing" />
+                android:src="@drawable/presentation_comm_emarketing"
+                android:background="#ffffff"/>
 
 
             <View

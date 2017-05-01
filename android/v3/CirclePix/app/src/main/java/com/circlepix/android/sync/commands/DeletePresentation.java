@@ -1,14 +1,17 @@
 package com.circlepix.android.sync.commands;
 
+
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
 
 public class DeletePresentation {
 
@@ -34,13 +37,18 @@ public class DeletePresentation {
 		String message;
 	}
 
+
+
 	/* END OF deserialize POJO classes */
 
 	interface DeletePresentationClient {
-		@GET("/deletePresentation.php")
-		void doDelete(@Query("RealtorID") String realtorId,
-				@Query("GUID") String guid,
-				Callback<DeleteResponse> callback);
+		@GET("deletePresentation.php")
+		Call<DeleteResponse> doDelete(
+				@Query("RealtorID") String realtorId,
+				@Query("GUID") String guid
+		);
+
+
 	}
 
 	public static void runCommand(String realtorId, String guid, final Runnable postAction) {
@@ -48,29 +56,35 @@ public class DeletePresentation {
 		// Create REST adapter which points the getPresentationIds end point.
 		DeletePresentationClient client = ServiceGenerator.createService(DeletePresentationClient.class, Constants.CIRCLEPIX_ENDPOINT);
 
-		Callback<DeleteResponse> callback = new Callback<DeleteResponse>() {
-			@Override
-			public void success(DeleteResponse getPresentation,
-					Response response) {
-				Log.d("DeletePresentation", "Status: " + getPresentation.status
-						+ " (Message: " + getPresentation.message + ")");
+		Call<DeleteResponse> call = client.doDelete(realtorId, guid);
 
-				if (postAction != null) {
-					postAction.run();
-				}
+		call.enqueue(new Callback<DeleteResponse>() {
+			 @Override
+			 public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
+				 if (response.isSuccessful()) {
+					 Log.d("DeletePresentation", "Status: " + response.body().status
+							 + " (Message: " + response.body().message + ")");
 
+					 if (postAction != null) {
+						 postAction.run();
+					 }
 
+				 } else {
+					 Log.d("DeletePresentation", "Status: " + response.body().status
+							 + " (Message: " + response.body().message + ")");
 
-			}
+				 }
+			 }
 
-			@Override
-			public void failure(RetrofitError error) {
-				ErrorHandler.log(error);
-			}
-		};
-
-		// Fetch and process a presentation
-		client.doDelete(realtorId, guid, callback);
+			 @Override
+			 public void onFailure(Call<DeleteResponse> call, Throwable throwable) {
+				 // if (throwable instanceof IOException){
+				 //Add your code for displaying no network connection error
+				// RetrofitException error = (RetrofitException) throwable;
+				// ErrorHandler.log(error);
+				 //  }
+			 }
+		});
 	}
 
 }

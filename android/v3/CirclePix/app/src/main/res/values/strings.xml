@@ -4,7 +4,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="action_global_settings">Global Presentation Settings</string>
-    <string name="copyright_text_line1">Copyright © 2016 CirclePix, LLC.</string>
+    <string name="copyright_text_line1">Copyright © 2017 CirclePix, LLC.</string>
     <string name="copyright_text_line2">All rights reserved. The use of this app is subject to its terms and conditions of use.</string>
 
     <!-- Login -->
@@ -56,11 +56,15 @@
     <string name="listings_label">Active Listings</string>
     <string name="listings_text">This screen displays a list of your active property listings. Create a new listing by click the "+" symbol. To edit, upload images or video to one of your listings, select a property below, and choose to add an existing video, or record a new video.</string>
 
-    <!-- Presentation Settings -->
-    <string name="presentations_label">Listing Presentations</string>
-    <string name="presentations_text">This page displays a list of existing presentations. Create a new presentation by clicking "+" symbol at the bottom right of this page. Share, edit and delete a presentation by swiping left.</string>
+    <string name="listing_add_images_desc">Upload images to your virtual tour. Please make sure your images are in jpeg format (.jpg extension), have a resolution of at least 1024 x 768, and are no larger than 2 MB in size.</string>
+    <string name="listing_add_images_note">**NOTE: The first image will be your primary image.</string>
+    <string name="listing_tap_to_delete_image">Tap on an image to delete it.</string>
+    <!-- Listing Youtube URL -->
+    <string name="listing_youtube_link_desc">If you have a YouTube Video you would like to display on your property site, please enter the YouTube Id or URL below:</string>
+    <string name="listing_youtube_id_desc">add your youtube id or url here...</string>
 
-    <string name="nav_advance_setting">Settings</string>
+
+    <string name="nav_advance_setting">More</string>
     <string name="nav_app_setting">App Settings</string>
     <string name="nav_sub_menu_push_notification">Push Notifications</string>
     <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
@@ -138,18 +142,174 @@
     <string name="real_estate_site_desc">**When checked, this listing will be posted to your CirclePix connected external real estate sites like your MLS if set up</string>
     <string name="listing_desc">Add bullet point information to your tour. Each field you enter will add a bulleted list item to the brochure. Examples:  outdoor pool  vaulted ceilings  marble fireplace</string>
 
+    <!-- Customer Support -->
+    <string name="customer_support_desc">We want every real estate agent to have access to the best photography services, the latest marketing technology, and the strongest social media tools available. And we make it easy — to understand, to use and use again.</string>
+    <string name="customer_support_desc2">It’s our commitment. It’s your opportunity.</string>
+    <!-- presentation Settings -->
+    <string name="presentation_settings_text">Settings</string>
+    <string name="presentation_settings_desc">Customize the general look and feel of your presentation by editing the settings below. You can show or exclude company and agent information. Note: Company and agent information is stored with CirclePix. To edit this information login to your CirclePix account and select "edit agent profile".</string>
+    <string name="star_settings">Star Marketing Settings</string>
+    <string name="save_button">Save</string>
+    <string name="presentations_label">Listing Presentations</string>
+    <string name="presentations_text">This page displays a list of existing presentations. Create a new presentation by clicking "+" symbol at the bottom right of this page. Share, edit and delete a presentation by tapping the presentation on the list.</string>
+    <string name="property_label">Property</string>
+    <string name="name_label">Enter presentation name:</string>
+    <string name="marketing_options_title">Select Star Marketing options</string>
+    <string name="marketing_options_text">Customize your presentation to include only the aspects of the CirclePix marketing suite you want to use to market and sell your listings. Name your presentation and click on the other four icons to personalize the presentation.</string>
+    <string name="customize_presentation">Customize your presentation</string>
+    <string name="customize_text">You can upload a photo or choose the music and narration options in Presentation Settings.</string>
+    <string name="media_desc">Below are the tools available in the CirclePix marketing suite. If there is a feature you don\'t use, simply turn off that option and it will be skipped in the presentation.</string>
+    <string name="exposure_desc">CirclePix provides media exposure on portals, websites and social media platforms. If there is a platform you don\'t use, simply turn off that option and it will be skipped in the presentation.</string>
+    <string name="comm_desc">The CirclePix marketing suite can be used to communicate to buyers and sellers effectively. If there is a communication channel you don\'t plan on using, simply turn off that option and it will be skipped in the presentation.</string>
+    <string name="present_settings_desc">These are the presentation settings. They control narration, music, theme, etc. Defaults have been applied from the application settings.</string>
+    <string name="star_settings_desc">These settings control aspects of the presentation related to the Star Marketing program. Defaults have been applied but you can change them.</string>
+    <string name="enter_name_hint">Enter a name</string>
+    <string name="enter_address_hint">Enter address</string>
+    <string name="enter_desc_hint">Optional description</string>
+    <string name="listing_type">Listing Type</string>
+    <string name="upload_pic_hint">Upload a property photo?</string>
+    <string name="upload_pic_text">Add Property Photo?</string>
+    <string name="autoplay_hint">Auto play or manual?</string>
+    <string name="autoplay_text">Auto play?</string>
+    <string name="photography_type">Photography type</string>
+    <string name="media_label">Marketing Materials</string>
+    <string name="media_photography">Photography</string>
+    <string name="media_bg_music">Background Music</string>
+    <string name="media_propsite_text">Property Site</string>
+    <string name="media_listing_video_text">Listing Video</string>
+    <string name="media_qrcodes_text">QR Codes</string>
+    <string name="media_24hourinfo_text">24 hour info line</string>
+    <string name="media_shortcodesys_text">Short Code System</string>
+    <string name="media_both24short_text">Both 24 hour + Shortcode</string>
+    <string name="media_flyers_text">Flyers</string>
+    <string name="media_dvds_text">DVDs</string>
+    <string name="media_mobile_text">Mobile</string>
+    <string name="exposure_label">Exposure</string>
+    <string name="exp_portals_text">Real estate portals</string>
+    <string name="exp_personal_site_text">Personal Website</string>
+    <string name="exp_company_site_text">Company Website</string>
+    <string name="exp_blogger_text">Blogger</string>
+    <string name="exp_youtube_text">YouTube</string>
+    <string name="exp_Facebook_text">Facebook</string>
+    <string name="exp_twitter_text">Twitter</string>
+    <string name="exp_craigslist_text">Craigslist</string>
+    <string name="exp_linkedin_text">LinkedIn</string>
+    <string name="exp_pinterest_text">Pinterest</string>
+    <string name="exp_seo_boost_text">SEO Boosting</string>
+    <string name="lead_label">Leads</string>
+    <string name="lead_propsite_text">Property Site</string>
+    <string name="lead_leadbee_text">Leadbee - 24 hour/short code</string>
+    <string name="lead_facebook_text">Facebook</string>
+    <string name="lead_mobile_text">Mobile tour</string>
+    <string name="lead_open_house_text">Open house announcer</string>
+    <string name="comm_label">Communications</string>
+    <string name="comm_label_single">Communication</string>
+    <string name="comm_stats_text">Stats</string>
+    <string name="comm_email_text">Email marketing (ePostcard)</string>
+    <string name="comm_batch_text">Batch Texting</string>
+    <string name="agent_company_logo">Company logo</string>
+    <string name="agent_company_name">Company name</string>
+    <string name="agent_agent_photo">Agent photo</string>
+    <string name="agent_agent_phone_num">Agent phone number</string>
+    <string name="apply_to_existing_pres">Apply to Existing Presentations</string>
+    <string name="display_company_logo">Display Company Logo</string>
+    <string name="display_company_name">Display Company Name</string>
+    <string name="display_agent_photo">Display Agent Image</string>
+    <string name="display_agent_name">Display Agent Information</string>
+    <string name="display_prop_address">Display property address</string>
+    <string name="display_prop_image">Display property image</string>
+    <string name="text_during">Text during presentation</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="background_music">Background Music</string>
+    <string name="narration">Narration</string>
+    <string name="theme">Theme</string>
+    <string name="property_image">Property image</string>
+    <string name="click_to_change_image">(Click to change image)</string>
+
+    <!-- Global Settings -->
+    <string name="settings_logout_button_text">Log out</string>
+    <string name="settings_title">Global Settings</string>
+    <string name="settings_global_text">Global Presentation Settings</string>
+    <string name="settings_global_agentname_text">Agent Name</string>
+    <string name="settings_global_desc_text">These are your default settings. Every new presentation created will adopt these settings.</string>
+    <string name="settings_global_agentname_desc_text">This is where you can change your agent name</string>
+    <string name="settings_global_agentname_colisting_desc_text">To change Co-Listing Agent visit circlepix.com</string>
+    <string name="settings_global_backgroundmusic_text">Background Music</string>
+    <string name="settings_global_backgroundmusic_desc_text">This is where you can change the background music that will play in the background of your presentation.</string>
+    <string name="settings_narration_text">Narration</string>
+    <string name="settings_bgmusic_text">Background Music</string>
+    <string name="settings_narration_desc">Recorded narration is available in either a male or female voice. Choose one below.</string>
+    <string name="settings_narration_none_desc">Selecting "None" will put the presentation into manual mode</string>
+    <string name="settings_photography_text">Photography</string>
+    <string name="settings_photography_desc">Choose whether you will hire a professional photographer or photograph this listing yourself.</string>
+    <string name="settings_property_desc">Take an image of the desired listing to help identify your presentation.</string>
+    <string name="settings_global_disclaimer_text">Disclaimer</string>
+    <string name="settings_global_disclaimer_desc_text">Edit the disclaimer</string>
+    <string name="settings_global_disclaimer_content_text">Bacon ipsum dolor amet ball tip ground round
+                porchetta venison. Bacon salami fatback, tail venison
+                frankfurter landjaeger cupim hamburger tri-tip swine chicken.
+                Hamburger alcatra brisket t-bone shankle prosciutto tri-tip.
+                Strip steak fatback rump, bresaola sirloin shankle kevin venison jowl kielbasa
+                meatball jerky turkey. Salami sirloin let mignon
+                landjaeger hamburger shoulder swine ham leberkas.
+                Andouille bacon picanha boudin cow bresaola
+                sausage tenderloin t-bone let mignon beef capicola
+                Rump ground round meatball, frankfurter ribeye
+                pork ank.</string>
+    <string name="title_activity_presentation_sample_gif">PresentationSampleGif</string>
+
+
+    <string name="home_settings">Settings</string>
+    <string name="title_activity_account">Account</string>
+    <string name="title_activity_listings">Listings</string>
+    <string name="title_activity_agent">Agent</string>
+    <string name="title_activity_video_upload">Video Upload</string>
+    <string name="title_activity_presentation">Presentations</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_add_presentation">Add Presentation</string>
+    <string name="title_activity_play_presentation">Play Presentation</string>
+    <string name="title_activity_wizard_main">Presentation</string>
+    <string name="subtitle_wizard_main">1 of 6</string>
+    <string name="subtitle_wizard_media">2 of 6</string>
+    <string name="subtitle_wizard_exp">3 of 6</string>
+    <string name="subtitle_wizard_leads">4 of 6</string>
+    <string name="subtitle_wizard_comm">5 of 6</string>
+    <string name="subtitle_wizard_settings">6 of 6</string>
+    <string name="title_activity_wizard_media">Media</string>
+    <string name="title_activity_wizard_exp">Exposure</string>
+    <string name="title_activity_wizard_leads">Leads</string>
+    <string name="title_activity_wizard_comm">Communications</string>
+    <string name="title_activity_wizard_settings">Presentation Settings</string>
+    <string name="title_activity_wizard_property">Property</string>
+    <string name="title_activity_wizard_settings_bgmusic">Background Music</string>
+    <string name="title_activity_wizard_settings_narration">Narration</string>
+    <string name="title_activity_wizard_settings_photography">Photography</string>
+    <string name="title_activity_wizard_settings_property">Property</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_wizard_star_settings">Star Marketing Settings</string>
+
     <!-- Edit Agent Profile -->
-    <string name="change_password_desc">To change your CirclePix login password, enter the new password and verify it below. All passwords must be at least four characters long. Your password will be emailed to you automatically after changing it.</string>
+    <string name="change_password_desc">To change your CirclePix login password, enter the new password and verify it below. All passwords must be at least four characters long.</string>
     <string name="change_username_desc1">Your current username for CirclePix is </string>
     <string name="change_username_desc2">You may change the username below. Note that usernames must be more than four characters long.</string>
     <string name="edit_agent_info">Here you may edit the account information that will show up on your virtual tours.</string>
     <string name="recreate_listing_videos_desc">If you want these changes to be reflected on all of your listing videos, please check the box below before clicking the \'Save\' button. </string>
     <string name="edit_bio_desc">If you have a YouTube Video you would like displayed on your biography page on the Presentation Tour, please enter the YouTube Id below.</string>
+    <string name="edit_bio_video_desc">Start developing trust with potential buyers early on by incorporating a personal message with your marketing. Record a biography video on your mobile device, and use this app to instantly upload it to your agent profile.</string>
+
     <string name="edit_social_media_desc">If you have personal social media links you would like to be diplayed on your propery sites, please enter them below.</string>
-    <string name="change_agent_picture_desc">Here you can see a preview of your agent picture if you have one uploaded. To upload a new picture click "Browse", locate the picture on your computer, select it, and click \"Upload Picture\". To remove your current picture, click \"Delete This Photo\".</string>
-    <string name="change_agent_logo_desc">Here you can see a preview of your company/personal logo if you have one uploaded. To upload a new logo click the Upload icon , locate the picture on your device, select it, and click \"Save\". You may also use one of our many existing logos by selecting that logo from the \"Existing Company Logo\" box and clicking Save. To remove your current logo, click the Delete icon.</string>
+
+    <string name="change_agent_picture_desc">Here you can see a preview of your agent picture if you have one uploaded. To upload a new picture click the Upload icon, select to capture photo using Camera or Gallery to locate the picture on your device, select it, and click \"Save\". To remove your current picture, click the Delete icon.</string>
+    <string name="change_agent_logo_desc">Here you can see a preview of your company/personal logo if you have one uploaded. To upload a new logo click the Upload icon , select to capture photo using Camera or Gallery to locate the picture on your device, select it, and click \"Save\". You may also use one of our many existing logos by selecting that logo from the \"Existing Company Logo\" box and clicking Save. To remove your current logo, click the Delete icon.</string>
+
     <string name="no_agent_logo_desc">You haven\'t uploaded a company/personal logo.</string>
     <string name="no_agent_picture_desc">You haven\'t uploaded an agent picture.</string>
+
+    <string name="title_logo">Agent Video</string>
+    <string name="btn_skip_intro">Skip Intro</string>
+
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+
 
     <string name="agent_logo_recommended_size_desc">** Recommended Size: 150px wide X 75px tall</string>
     <string name="agent_picture_recommended_size_desc">** Recommended Size: 80px wide X 100px tall</string>
@@ -222,17 +382,53 @@
     </string-array>
 
     <string-array name="property_type_array">
-        <item>Residential</item>
-        <item>Lots and Land</item>
-        <item>Farm and Agriculture</item>
-        <item>MultiFamily</item>
-        <item>Commercial</item>
-        <item>Other</item>
+        <item>Residential,Home</item>
+        <item>Lots and Land,Lot/Land</item>
+        <item>Farm and Agriculture,Farm and Agriculture</item>
+        <item>MultiFamily,MultiFamily</item>
+        <item>Commercial,Commercial</item>
+        <item>Other,Other</item>
     </string-array>
 
     <string-array name="listingy_type_array">
-        <item>For sale</item>
-        <item>For lease</item>
-        <item>For rent</item>
+        <item>For sale,sale</item>
+        <item>For lease,lease</item>
+        <item>For rent,rent</item>
+    </string-array>
+
+
+    <string-array name="text_notifications_array">
+        <item>unknown</item>
+        <item>yes</item>
+        <item>no</item>
+    </string-array>
+
+    <string-array name="billing_type_array">
+        <item>Credit Card,CREDITCARD</item>
+        <item>Check,CHECK</item>
+        <item>Broker Pay,BROKERPAY</item>
+    </string-array>
+
+    <string-array name="cell_provider_array">
+        <item>unknown</item>
+        <item>Alltel Wireless</item>
+        <item>AT&amp;T</item>
+        <item>Bellsouth</item>
+        <item>Boost</item>
+        <item>Cellular One</item>
+        <item>Cingular</item>
+        <item>Cricket</item>
+        <item>Metro PCS</item>
+        <item>Nextel</item>
+        <item>O2</item>
+        <item>Orange</item>
+        <item>Rogers Wireless</item>
+        <item>Sprint PCS</item>
+        <item>T-Mobile</item>
+        <item>Telus Mobility</item>
+        <item>US Cellular</item>
+        <item>Verizon</item>
+        <item>Virgin Mobile(US)</item>
+
     </string-array>
 </resources>

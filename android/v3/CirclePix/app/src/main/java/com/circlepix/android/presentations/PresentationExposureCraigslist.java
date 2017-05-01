@@ -3,6 +3,7 @@ package com.circlepix.android.presentations;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.circlepix.android.CirclePixAppState;
 import com.circlepix.android.R;
@@ -33,6 +34,16 @@ public class PresentationExposureCraigslist extends PresentationBase {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -59,8 +70,6 @@ public class PresentationExposureCraigslist extends PresentationBase {
 
             appState.setActionBarStat(true);  //to show the actionbar to let the user know that presentation was paused when they pressed home or tas manager button
         }
-
-        Log.v("going-to-background code", "called");
     }
 
 
@@ -76,6 +85,10 @@ public class PresentationExposureCraigslist extends PresentationBase {
 
     public void onBackPressed(){
         super.onBackPressed();
+        stopPresentation();
+    }
+
+    public void stopPresentation() {
         player.stop();
 
         appState.setActivityStopped(true);

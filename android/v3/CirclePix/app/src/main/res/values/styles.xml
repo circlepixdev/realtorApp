@@ -9,7 +9,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -37,6 +42,11 @@
     <style name="MyActionBarTabText" parent="@android:style/Widget.Holo.ActionBar.TabText">
         <item name="android:textColor">@color/circlepix_ltltgrey</item>
     </style>
+
+    <style name="PresActionBarTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -78,6 +88,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="PromptTitle">
+        <item name="android:paddingBottom">@dimen/padding_default</item>
+        <item name="android:textColor">@color/text_title</item>
+        <item name="android:textSize">@dimen/font_size_prompt_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
     <style name="PromptText">
         <item name="android:paddingBottom">@dimen/padding_default</item>
         <item name="android:textColor">@color/text_title</item>
@@ -98,7 +117,7 @@
     <style name="ListFrontContent">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/height_list</item>
-        <item name="android:background">@color/background_list_front</item>
+        <!--<item name="android:background">@color/background_list_front</item>-->
         <item name="android:padding">@dimen/padding_default</item>
     </style>
 
@@ -164,6 +183,136 @@
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <!-- Added by: Relly From this point -->
+    <style name="PresentationActionBarBackButton">
+        <item name="android:background">#ffe3e3e3</item>
+        <item name="android:src">@drawable/ic_back_holo_light</item>
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+    <style name="PresentationPage2Font">
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">#202945</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="PresentationPage3Font">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#202945</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="PresentationActionBarButton">
+        <item name="android:background">#646464</item>
+    </style>
+
+    <style name="PresentationPage1AgentName">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="PresentationPage1AgentInfo">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="PresentationPage1CompanyName">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="PresentationPage4Font">
+        <item name="android:textSize">32dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+    <style name="ExposureIntroFont">
+        <item name="android:textSize">28dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#202945</item>
+    </style>
+    <style name="GlobalPresentationSettingsLogoutButton">
+        <item name="android:background">#C0C0C0</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:text">@string/settings_logout_button_text</item>
+    </style>
+
+    <style name="GlobalPresentationNextButton">
+        <item name="android:background">#ffffff</item>
+        <item name="android:src">@drawable/ic_forward_holo_light</item>
+        <item name="android:paddingRight">10dip</item>
+    </style>
+
+    <style name="GlobalPresentationSettingsHeaderText">
+        <item name="android:text">@string/settings_global_desc_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="GlobalPresentationSettingsAgentNameHeaderText">
+        <item name="android:text">@string/settings_global_agentname_desc_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="GlobalPresentationAgentNameEditText">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="GlobalPresentationAgentNameCoListing">
+        <item name="android:text">@string/settings_global_agentname_colisting_desc_text</item>
+        <item name="android:textSize">8sp</item>
+    </style>
+
+    <style name="GlobalPresentationSettingsBackgroundMusicHeaderText">
+        <item name="android:text">@string/settings_global_backgroundmusic_desc_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="PresentationNarrationHeaderText">
+        <item name="android:text">@string/settings_narration_desc</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="PresentationNarrationNone">
+        <item name="android:text">@string/settings_narration_none_desc</item>
+        <item name="android:textSize">8sp</item>
+    </style>
+
+    <style name="PresentationPhotographyHeaderText">
+        <item name="android:text">@string/settings_photography_desc</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="PresentationPropertyHeaderText">
+        <item name="android:text">@string/settings_property_desc</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="GlobalPresentationDisclaimerHeaderText">
+        <item name="android:text">@string/settings_global_disclaimer_desc_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="PresentationLeadgenPropsiteListTitle">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+
+    <style name="PresentationLeadgenPropsiteList">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+
+    <style name="WizardMainBigLabel">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+
 
     <!-- Expandable Layout -->
 

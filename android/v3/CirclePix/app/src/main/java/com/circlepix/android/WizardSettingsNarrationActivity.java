@@ -8,12 +8,17 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.circlepix.android.beans.ApplicationSettings;
 import com.circlepix.android.data.Presentation;
@@ -28,13 +33,14 @@ import com.google.gson.Gson;
 /**
  * Created by relly on 3/5/15.
  */
-public class WizardSettingsNarrationActivity extends Activity {
+public class WizardSettingsNarrationActivity extends AppCompatActivity {
 
 
     private Long presentationId = null;
     private Presentation p;
     private PlaceholderFragment frag;
     private boolean appSettingsEditMode;
+    private TextView toolBarSave;
     //KBL 071415
    // private boolean appNarrationEditMode;
 
@@ -48,7 +54,7 @@ public class WizardSettingsNarrationActivity extends Activity {
         final CirclePixAppState myApp = (CirclePixAppState)this.getApplication();
 
         // Show custom actionbar
-        BaseActionBar actionBar = new BaseActionBar(WizardSettingsNarrationActivity.this);
+      /*  BaseActionBar actionBar = new BaseActionBar(WizardSettingsNarrationActivity.this);
         actionBar.setConfig(WizardSettingsActivity.class,
                 "Save",
                 false,
@@ -78,6 +84,40 @@ public class WizardSettingsNarrationActivity extends Activity {
                     }
                 });
         actionBar.show();
+*/
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_activity_wizard_settings_narration);
+
+        toolBarSave = (TextView) findViewById(R.id.toolbar_save);
+        toolBarSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    myApp.setActivityStopped(true);
+                    saveChanges();
+                } catch (Exception e) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(WizardSettingsNarrationActivity.this);
+                    alert.setTitle("Database Error");
+                    alert.setMessage("There was a database error. If this problem persists then please report it.");
+                    alert.setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int whichButton) {
+                                    // Do nothing
+                                }
+                            });
+                    alert.show();
+                }
+                setResult(RESULT_OK);
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -110,6 +150,21 @@ public class WizardSettingsNarrationActivity extends Activity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // The user pressed the UP button (on actionbar)
+            ((CirclePixAppState)this.getApplication()).setActivityStopped(true);
+
+            setResult(RESULT_OK);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
     }
@@ -117,18 +172,20 @@ public class WizardSettingsNarrationActivity extends Activity {
     @Override
     public void onBackPressed() {
 
-        try {
-            ((CirclePixAppState)this.getApplication()).setActivityStopped(true);
-            saveChanges();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ((CirclePixAppState)this.getApplication()).setActivityStopped(true);
+//            saveChanges();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        ((CirclePixAppState)this.getApplication()).setActivityStopped(true);
 
         setResult(RESULT_OK);
         super.onBackPressed();
     }
 
-    private void saveChanges() throws Exception{
+    private void saveChanges() throws Exception {
 
         NarrationType narration = null;
         if (frag.rbMale.isChecked()) {
@@ -151,6 +208,9 @@ public class WizardSettingsNarrationActivity extends Activity {
     public static class PlaceholderFragment extends Fragment {
 
         private Presentation p;
+        public LinearLayout maleLayout;
+        public LinearLayout femaleLayout;
+
         private RadioButton rbMale;
         private RadioButton rbFemale;
         private ImageView audioMale;
@@ -169,8 +229,6 @@ public class WizardSettingsNarrationActivity extends Activity {
 
         private int currentPos;
         private int previousPos = 2; //put dummy value for previousPos just to compare later
-
-
 
         public PlaceholderFragment() {
         }
@@ -196,6 +254,9 @@ public class WizardSettingsNarrationActivity extends Activity {
             // Setup application class
             appState = ((CirclePixAppState)getActivity().getApplicationContext());
             appState.setContextForPreferences(getActivity().getApplicationContext());
+
+            maleLayout = (LinearLayout) rootView.findViewById(R.id.linearLayout1);
+            femaleLayout = (LinearLayout) rootView.findViewById(R.id.linearLayout2);
 
             rbMale = (RadioButton) rootView.findViewById(R.id.rbMale);
             rbFemale = (RadioButton) rootView.findViewById(R.id.rbFemale);
@@ -232,6 +293,23 @@ public class WizardSettingsNarrationActivity extends Activity {
 
                 Log.v("WZ NARR appSettingsEditMode", String.valueOf(appSettingsEditMode));
             }
+
+
+            maleLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                rbMale.setChecked(true);
+                rbFemale.setChecked(false);
+                }
+            });
+
+            femaleLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                rbFemale.setChecked(true);
+                rbMale.setChecked(false);
+                }
+            });
 
             audioMale.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -293,7 +371,8 @@ public class WizardSettingsNarrationActivity extends Activity {
             // setting up what to do if current song completes.
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
-                @Override public void onCompletion(MediaPlayer mp) { // TODO
+                @Override
+                public void onCompletion(MediaPlayer mp) { // TODO
                     // Auto-generated method stub
                     ImageView ivCurrentDone = (ImageView)v.findViewById(btnID[index]);
                     ivCurrentDone.setImageResource(R.drawable.audio_play_button);
@@ -349,6 +428,7 @@ public class WizardSettingsNarrationActivity extends Activity {
                 }
             }
         }
+
 
     }
 }

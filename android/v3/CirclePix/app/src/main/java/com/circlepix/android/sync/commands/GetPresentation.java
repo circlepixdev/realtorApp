@@ -9,13 +9,14 @@ import com.circlepix.android.data.Presentation;
 import com.circlepix.android.data.PresentationDataSource;
 import com.circlepix.android.sync.utils.DateUtils;
 
-import org.json.JSONException;
+import java.io.IOException;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.http.GET;
+import retrofit2.Response;
+import retrofit2.http.Query;
+
 
 /**
  * Created by sburns. Get the Presentation for a given RealtorId and GUID from the circlepix server.
@@ -35,9 +36,11 @@ public class GetPresentation {
         String CreatedAt;
         String UpdatedAt;
     }
+
     static class Data {
         RealtorPresentationData RealtorPresentation;
     }
+
     static class PresentationResponse {
         String status;
         String message;
@@ -51,17 +54,16 @@ public class GetPresentation {
     /* END OF deserialize POJO classes */
 
     interface GetPresentationClient {
-        @GET("/getPresentation.php")
-        void presentation(
+        @GET("getPresentation.php")
+        Call<PresentationResponse> presentation(
                 @Query("realtorId") String realtorId,
-                @Query("GUID") String GUID,
-                Callback<PresentationResponse> callback
+                @Query("GUID") String GUID
         );
     }
 
-    public static void runCommand(Activity a,  final ProgressDialog mProgressDialog, String realtorId, String guid, final PresentationDataSource ds, final Runnable postAction) {
-    //    totalSize = serverPresSize;
-        appState = ((CirclePixAppState)a.getApplicationContext());
+    public static void runCommand(Activity a, final ProgressDialog mProgressDialog, String realtorId, String guid, final PresentationDataSource ds, final Runnable postAction) {
+        //    totalSize = serverPresSize;
+        appState = ((CirclePixAppState) a.getApplicationContext());
         appState.setContextForPreferences(a.getApplicationContext());
 
         Log.v("serverPresSize getpres", String.valueOf((appState.getServerPresTotalSize())));
@@ -69,27 +71,29 @@ public class GetPresentation {
         // Create REST adapter which points the getPresentationIds end point.
         GetPresentationClient client = ServiceGenerator.createService(GetPresentationClient.class, Constants.CIRCLEPIX_ENDPOINT);
 
-        Callback<PresentationResponse> callback = new Callback<PresentationResponse>() {
-            @Override
-            public void success(PresentationResponse getPresentation, Response response) {
-                Log.d("GetPresentation", "Status: " + getPresentation.status + " (Message: " + getPresentation.message + ")");
+        Call<PresentationResponse> call = client.presentation(realtorId, guid);
+        call.enqueue(new Callback<PresentationResponse>() {
+            public void onResponse(Call<PresentationResponse> call, Response<PresentationResponse> response) {
+                if (response.isSuccessful()) {
 
-                if(getPresentation.data != null && getPresentation.data.RealtorPresentation != null) {
+                    Log.d("GetPresentation", "Status: " + response.body().status + " (Message: " + response.body().message + ")");
 
-                    RealtorPresentationData rpd = getPresentation.data.RealtorPresentation;
-                    Log.v("jsonString", rpd.JsonString);
-                    try {
-                        // Convert to actual Presentation object
-                        Presentation p = new Presentation();
-                        p.setJsonData(rpd.JsonString);
-                        p.setGuid(rpd.RealtorPresentationGUID);
-                        p.setName(rpd.Name);
-                        p.setModified(DateUtils.parseAPIFormattedDateString(rpd.UpdatedAt));
+                    if (response.body().data != null && response.body().data.RealtorPresentation != null) {
 
-                        Log.v("DATE", String.valueOf(rpd.UpdatedAt));
-                        ds.open(false);
-                        ds.createPresentation(p);
-                        ds.close();
+                        RealtorPresentationData rpd = response.body().data.RealtorPresentation;
+                        Log.v("jsonString", rpd.JsonString);
+                        try {
+                            // Convert to actual Presentation object
+                            Presentation p = new Presentation();
+                            p.setJsonData(rpd.JsonString);
+                            p.setGuid(rpd.RealtorPresentationGUID);
+                            p.setName(rpd.Name);
+                            p.setModified(DateUtils.parseAPIFormattedDateString(rpd.UpdatedAt));
+
+                            Log.v("DATE", String.valueOf(rpd.UpdatedAt));
+                            ds.open(false);
+                            ds.createPresentation(p);
+                            ds.close();
 
 
                       /*  Log.v("getAction", p.getAction());
@@ -103,41 +107,48 @@ public class GetPresentation {
                             ds.close();
                         }*/
 
-                        if (appState.getServerPresTotalSize() != 0) {
-                            totalSize = appState.getServerPresTotalSize() - 1;
-                            appState.setServerPresTotalSize(totalSize);
+                            if (appState.getServerPresTotalSize() != 0) {
+                                totalSize = appState.getServerPresTotalSize() - 1;
+                                appState.setServerPresTotalSize(totalSize);
+                            }
+
+
+                        } catch (Exception e) {
+                            ErrorHandler.log(" SQL exception: ", e.toString());
+                            if (mProgressDialog.isShowing()) {
+                                mProgressDialog.dismiss();
+                            }
                         }
 
+                        Log.v("size getpres", String.valueOf(totalSize));
 
-                    } catch(Exception e) {
-                        ErrorHandler.log(" SQL exception: ", e.toString());
-                        if (mProgressDialog.isShowing()){
+                        if ((appState.getServerPresTotalSize() == 0) && (mProgressDialog.isShowing())) {
                             mProgressDialog.dismiss();
+                            appState.setServerPresTotalSize(0);
                         }
                     }
-
-                    Log.v("size getpres", String.valueOf(totalSize));
-
-                    if ((appState.getServerPresTotalSize() == 0) && (mProgressDialog.isShowing())){
-                        mProgressDialog.dismiss();
-                        appState.setServerPresTotalSize(0);
+                    if (postAction != null) {
+                        postAction.run();
                     }
-                }
-                if(postAction != null) {
-                    postAction.run();
+
+                } else {
+
                 }
             }
+
 
             @Override
-            public void failure(RetrofitError error) {
-                ErrorHandler.log(error);
-                if (mProgressDialog.isShowing()){
-                    mProgressDialog.dismiss();
+            public void onFailure(Call<PresentationResponse> call, Throwable throwable) {
+                if (throwable instanceof IOException){
+                    //Add your code for displaying no network connection error
+
+                 //   RetrofitException error = (RetrofitException) throwable;
+                //    ErrorHandler.log(error);
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
                 }
             }
-        };
-
-        // Fetch and process a presentation
-        client.presentation(realtorId, guid, callback);
+        });
     }
 }

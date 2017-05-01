@@ -3,6 +3,7 @@ package com.circlepix.android.presentations;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,6 +32,16 @@ public class PresentationExposureLinkedIn extends PresentationBase {
         player = new PresentationPageAudioPlayer(this);
         player.setPrevAndNextPage(PresentationExposureCraigslist.class, PresentationExposurePinterest.class);
         player.playAudio();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                stopPresentation();
+
+        }
+        return (super.onOptionsItemSelected(menuItem));
     }
 
     @Override
@@ -99,6 +110,10 @@ public class PresentationExposureLinkedIn extends PresentationBase {
 
     public void onBackPressed(){
         super.onBackPressed();
+        stopPresentation();
+    }
+
+    public void stopPresentation() {
         player.stop();
 
         appState.setActivityStopped(true);

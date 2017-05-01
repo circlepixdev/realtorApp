@@ -1,8 +1,5 @@
 package com.circlepix.android.beans;
 
-
-import android.util.Log;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +14,7 @@ public class AgentData {
     private Realtor realtor;
     private List<Listing> listings;
     private ArrayList<ListingInformation> listingInformation;
+    private AgentProfile agentProfile;
     private boolean offlineMode;
     private boolean isLoggedIn;
 
@@ -53,6 +51,15 @@ public class AgentData {
 
     public void setListingInformation(ArrayList<ListingInformation> listingInformation) {
         this.listingInformation = listingInformation;
+    }
+
+    // new: created by KBL
+    public AgentProfile getAgentProfileInformation() {
+        return agentProfile;
+    }
+
+    public void setAgentProfileInformation(AgentProfile agentProfile) {
+        this.agentProfile = agentProfile;
     }
 
     public boolean isOfflineMode() {

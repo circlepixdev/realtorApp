@@ -12,5 +12,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/presentation_media_intro"
+        android:background="#F7F8F8"
         android:scaleType="fitCenter" />
 </LinearLayout>

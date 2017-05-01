@@ -1,44 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list_row_item"
     android:layout_width="match_parent"
-    android:clickable="true"
+    android:background="@color/background_list_front"
     android:layout_height="80dp" >
-
-
-    <!-- This will be the content behind to front view -->
-    <LinearLayout
-        android:id="@+id/back"
-        android:tag="back"
-        style="@style/ListBackContent"
-        android:layout_marginRight="30dp">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/btn_send_action"
-            style="@style/ListSendButtonAction"
-            android:text="@string/menu_share" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/btn_edit_action"
-            style="@style/ListEditButtonAction"
-            android:text="@string/menu_edit"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/btn_delete_action"
-            style="@style/ListDeleteButtonAction"
-            android:text="@string/menu_delete"/>
-    </LinearLayout>
-
 
     <!-- Front view -->
     <RelativeLayout
         android:orientation="vertical"
-        android:id="@+id/front"
+        android:id="@+id/list_row"
         android:tag="front"
         style="@style/ListFrontContent"
         android:layout_height="fill_parent">
@@ -66,22 +36,12 @@
 
         </FrameLayout>
 
-
-
-
-        <!--    <ImageView
-                android:id="@+id/item_image"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:src="@drawable/prop_photo"
-                android:contentDescription="@string/property_image"
-                android:icon="@drawable/stub" />-->
-
         <TextView
             android:id="@+id/item_title"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/itemImg_layout"
+            android:layout_toRightOf="@+id/itemImg_layout"
+            android:layout_toLeftOf="@+id/more"
             style="@style/ListTitle"
             android:text="Listings" />
 
@@ -93,42 +53,196 @@
             android:maxLines="1"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:layout_toRightOf="@id/itemImg_layout"
+            android:layout_toRightOf="@+id/itemImg_layout"
+            android:layout_toLeftOf="@+id/more"
             android:layout_below="@id/item_title"
             style="@style/ListDescription"
             android:text="Address 1, Address 2" />
 
-    </RelativeLayout>
-<!--
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="right">
-
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/more"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
 
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="fill_parent"
-                android:background="#FFFFFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ListDescription"
+                android:layout_marginTop="7sp"
+                android:text="More"
+                android:textSize="12sp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_forward_holo_light"/>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_forward_holo_light"
+                android:id="@+id/forward_arrow"/>
+        </LinearLayout>
 
-        </FrameLayout>
 
-    </RelativeLayout>-->
+
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:background="@color/activity_background"/>
 
-</FrameLayout>
+</RelativeLayout>
+
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_row_item"
+        android:layout_width="match_parent"
+
+        android:clickable="true"
+        android:layout_height="80dp" >
+
+
+        &lt;!&ndash; This will be the content behind to front view &ndash;&gt;
+       &lt;!&ndash; <LinearLayout
+            android:id="@+id/back"
+            android:tag="back"
+            style="@style/ListBackContent"
+            android:layout_marginRight="30dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/btn_send_action"
+                style="@style/ListSendButtonAction"
+                android:text="@string/menu_share" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/btn_edit_action"
+                style="@style/ListEditButtonAction"
+                android:text="@string/menu_edit"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/btn_delete_action"
+                style="@style/ListDeleteButtonAction"
+                android:text="@string/menu_delete"/>
+        </LinearLayout>&ndash;&gt;
+
+
+        &lt;!&ndash; Front view &ndash;&gt;
+        <RelativeLayout
+            android:orientation="vertical"
+            android:id="@+id/list_row"
+            android:tag="front"
+            style="@style/ListFrontContent"
+            android:layout_height="fill_parent">
+
+            <FrameLayout
+                android:id="@+id/itemImg_layout"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    style="@style/ListImage"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/circlepix_bg"
+                    android:id="@+id/item_image"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleLargeInverse"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"/>
+
+            </FrameLayout>
+
+
+
+
+            &lt;!&ndash;    <ImageView
+                    android:id="@+id/item_image"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/prop_photo"
+                    android:contentDescription="@string/property_image"
+                    android:icon="@drawable/stub" />&ndash;&gt;
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/itemImg_layout"
+                android:layout_toLeftOf="@+id/forward_arrow"
+                style="@style/ListTitle"
+                android:text="Listings" />
+
+            <TextView
+                android:id="@+id/item_desc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:layout_toRightOf="@+id/itemImg_layout"
+                android:layout_toLeftOf="@+id/forward_arrow"
+                android:layout_below="@id/item_title"
+                style="@style/ListDescription"
+                android:text="Address 1, Address 2" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_forward_holo_light"
+                android:id="@+id/forward_arrow"/>
+
+        </RelativeLayout>
+    &lt;!&ndash;
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="right">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="fill_parent"
+                    android:background="#FFFFFF"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_forward_holo_light"/>
+
+            </FrameLayout>
+
+        </RelativeLayout>&ndash;&gt;
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="bottom"
+            android:background="@color/activity_background"/>
+
+    </FrameLayout>
+    -->

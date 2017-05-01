@@ -11,5 +11,6 @@ public class Globals {
     public static boolean REMEMBERME;
 	public static String RESPONSE_STRING;
 	public static ApiResultType LAST_API_RESULT;
+	public static final String PREFS_APP_SETTINGS = "CirclePixPrefsAppSettings";
 
 }

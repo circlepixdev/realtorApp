@@ -8,36 +8,44 @@ import java.util.ArrayList;
 
 public class AgentProfile {
     // Agent Info
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String agency;
-    private String phoneNumber;
-    private String cellNumber;
-    private String cellProvider;
-    private Boolean textNotifications;
-    private String faxNumber;
-    private String email;
-    private String website;
-    private String address;
-    private String zipcode;
-    private String city;
-    private String county;
-    private String state;
-    private String office;
-    private String leadBeePin;
-    private String productNumber;
-    private String billingType;
-    private String stateLicenseNumber;
+    private String id = "";
+    private String firstName = "";
+    private String lastName = "";
+    private String fullName = "";
+    private String agency = "";
+    private String phoneNumber = "";
+    private String cellNumber = "";
+    private String cellProvider = "";
+    private String textNotifications = "";
+    private String faxNumber = "";
+    private String email = "";
+    private String website = "";
+    private String streetAddress = "";
+    private String zipcode = "";
+    private String city = "";
+    private String county = "";
+    private String state = "";
+    private String leadBeePin = "";
+    private String productNumber = "";
+    private String billingType = "";
+    private String stateLicenseNumber = "";
+    private String fullAddress = "";
 
     // Agent Bio
     private String youtubeId;
     private String biography;
 
     // Social Media Links
-    private ArrayList<SocialMediaLinks> socialMediaLinks;
+    private String facebookURL;
+    private String youtubeURL;
+    private String blogURL;
+    private String websiteURL;
+    private String linkedinURL;
+    private String pinterestURL;
+    private String twitterURL;
 
-    // Agent Logo
+    // Agent Image and Logo
+    private String agentImage;
     private String agentLogo;
 
 
@@ -61,6 +69,13 @@ public class AgentProfile {
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getAgency() {
@@ -91,10 +106,10 @@ public class AgentProfile {
         this.cellProvider = cellProvider;
     }
 
-    public Boolean getTextNotifications() {
+    public String getTextNotifications() {
         return textNotifications;
     }
-    public void setTextNotifications(Boolean textNotifications) {
+    public void setTextNotifications(String textNotifications) {
         this.textNotifications = textNotifications;
     }
 
@@ -119,12 +134,20 @@ public class AgentProfile {
         this.website = website;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreetAddress() {
+        return streetAddress;
     }
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
+    }
+
 
     public String getZipcode() {
         return zipcode;
@@ -152,13 +175,6 @@ public class AgentProfile {
     }
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getOffice() {
-        return office;
-    }
-    public void setOffice(String office) {
-        this.office = office;
     }
 
     public String getLeadBeePin() {
@@ -203,11 +219,11 @@ public class AgentProfile {
         this.biography = biography;
     }
 
-    public ArrayList<SocialMediaLinks> socialMediaLinks() {
-        return socialMediaLinks;
+    public String getAgentImage() {
+        return agentImage;
     }
-    public void setListingDesc(ArrayList<SocialMediaLinks> socialMediaLinks) {
-        this.socialMediaLinks = socialMediaLinks;
+    public void setAgentImage(String agentImage) {
+        this.agentImage = agentImage;
     }
 
     public String getAgentLogo() {
@@ -217,5 +233,53 @@ public class AgentProfile {
         this.agentLogo = agentLogo;
     }
 
+    public String getFacebookURL() {
+        return facebookURL;
+    }
+    public void setFacebookURL(String facebookURL) {
+        this.facebookURL = facebookURL;
+    }
+
+    public String getYoutubeURL() {
+        return youtubeURL;
+    }
+    public void setYoutubeURL(String youtubeURL) {
+        this.youtubeURL = youtubeURL;
+    }
+
+    public String getBlogURL() {
+        return blogURL;
+    }
+    public void setBlogURL(String blogURL) {
+        this.blogURL = blogURL;
+    }
+
+    public String getWebsiteURL() {
+        return websiteURL;
+    }
+    public void setWebsiteURL(String websiteURL) {
+        this.websiteURL = websiteURL;
+    }
+
+    public String getLinkedinURL() {
+        return linkedinURL;
+    }
+    public void setLinkedinURL(String linkedinURL) {
+        this.linkedinURL = linkedinURL;
+    }
+
+    public String getPinterestURL() {
+        return pinterestURL;
+    }
+    public void setPinterestURL(String pinterestURL) {
+        this.pinterestURL = pinterestURL;
+    }
+
+    public String getTwitterURL() {
+        return twitterURL;
+    }
+    public void setTwitterURL(String twitterURL) {
+        this.twitterURL = twitterURL;
+    }
 
 }

@@ -81,20 +81,21 @@ public class MainPromosActivity extends AppCompatActivity {
             // layouts of all welcome sliders
             // add few more layouts if you want
             layouts = new int[]{
-                    R.layout.promo_slide1,
-                    R.layout.promo_slide2,
-                    R.layout.promo_slide3,
-                    R.layout.promo_slide4};
+                    R.layout.promo_slide1//,
+                 //   R.layout.promo_slide2,
+                 //   R.layout.promo_slide3,
+                 //   R.layout.promo_slide4
+            };
 
             // adding bottom dots
-            addBottomDots(0);
+            //addBottomDots(0);
 
             myViewPagerAdapter = new MyViewPagerAdapter();
             viewPager.setAdapter(myViewPagerAdapter);
 
             viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-            btnPrev.setOnClickListener(new View.OnClickListener() {
+        /*    btnPrev.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                   //  launchHomeScreen();
@@ -207,7 +208,7 @@ public class MainPromosActivity extends AppCompatActivity {
                     }
 
                 }
-            });
+            }); */
             return v;
         }
 

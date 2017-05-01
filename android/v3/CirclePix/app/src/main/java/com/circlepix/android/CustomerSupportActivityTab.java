@@ -2,12 +2,18 @@ package com.circlepix.android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by Keuahn on 8/23/2016.
@@ -25,6 +31,8 @@ public class CustomerSupportActivityTab extends Activity {
         // Store instance variables
         private static final String TAB_POSITION = "tab_position";
         private LinearLayout email;
+        private TextView phoneNumLink;
+        private TextView emailLink;
 
 
         // newInstance constructor for creating fragment with arguments
@@ -55,19 +63,23 @@ public class CustomerSupportActivityTab extends Activity {
 
             View v =  inflater.inflate(R.layout.fragment_customer_support_tab, container, false);
 //            View v =  inflater.inflate(R.layout.fab_sample, container, false);
-            email = (LinearLayout)v.findViewById(R.id.email);
+ //           email = (LinearLayout)v.findViewById(R.id.email);
+            phoneNumLink = (TextView) v.findViewById(R.id.phone_textview);
+            phoneNumLink.setLinkTextColor(Color.BLUE);
 
-            email.setOnClickListener(new View.OnClickListener() {
+            emailLink = (TextView) v.findViewById(R.id.email_textview);
+            emailLink.setLinkTextColor(Color.BLUE);
+
+            emailLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(Intent.ACTION_SEND);
-//                    intent.setType("plain/text");
-//                    intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "support@circlepix.com" });
-//                    startActivity(Intent.createChooser(intent, ""));
-
+                    //  showAddNewListing();
+                   // cancelOptionsAction();
+                   // adapter.setSelected(selectedPos);
+                    Toast.makeText(getActivity(), "email tapped", Toast.LENGTH_SHORT).show();
+                    Log.v("Customers tab", "email pressed");
                 }
             });
-
 
             return v;
         }

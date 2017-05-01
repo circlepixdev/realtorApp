@@ -36,7 +36,7 @@ public class ApiCall {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i("Video Uploaaadd", "Failed");
+                Log.i("Video Upload", "Failed");
             }
 
             @Override
@@ -45,7 +45,7 @@ public class ApiCall {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         responseString = response.body().string();
-                        Log.i("Video Uploaaadd", responseString);
+                        Log.i("Video Upload", responseString);
                         response.body().close();
 
                     }

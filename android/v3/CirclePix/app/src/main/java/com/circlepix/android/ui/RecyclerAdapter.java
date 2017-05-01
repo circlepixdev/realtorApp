@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.circlepix.android.R;
@@ -75,12 +76,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView mTextView;
-        private final FrameLayout list_item;
+        private final RelativeLayout list_item;
 
         ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.item_title);
-            list_item = (FrameLayout) v.findViewById(R.id.list_row_item);
+            list_item = (RelativeLayout) v.findViewById(R.id.list_row_item);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

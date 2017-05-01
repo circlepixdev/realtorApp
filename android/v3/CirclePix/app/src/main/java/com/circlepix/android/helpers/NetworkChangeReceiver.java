@@ -31,7 +31,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
         Log.e("Receiver ", "" + status);
         Log.e("LoginActivity visible ", String.valueOf(appState.isLoginActivityVisible()));
-        Toast.makeText(context, status, Toast.LENGTH_SHORT).show();
+
         if (appState.isLoginActivityVisible() == false){
             if ((!HomeActivity.networkStatLayout.isShown()) ||(!HomeActivity.networkStatus.isShown())){
                 HomeActivity.networkStatLayout.setVisibility(View.VISIBLE);

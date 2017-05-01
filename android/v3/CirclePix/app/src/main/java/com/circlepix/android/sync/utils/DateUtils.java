@@ -1,7 +1,5 @@
 package com.circlepix.android.sync.utils;
 
-import com.circlepix.android.sync.commands.ErrorHandler;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,7 +54,7 @@ public class DateUtils {
                     parseAPIFormattedDateString(dateString1),
                     parseAPIFormattedDateString(dateString2));
         } catch(ParseException e) {
-            ErrorHandler.log("Date parse error: ", e.toString());
+          //  ErrorHandler.log("Date parse error: ", e.toString());
         }
         return DATEDIFF_ERROR_RESULT;
     }

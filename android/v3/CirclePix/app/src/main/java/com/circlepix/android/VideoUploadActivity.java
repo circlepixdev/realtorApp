@@ -147,11 +147,15 @@ public class VideoUploadActivity extends AppCompatActivity{
         mVideoImageView = (ImageView) findViewById(R.id.video_upload_picture);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-        if(agentData.getRealtor().getImage().equals("")){
+      //  if(agentData.getRealtor().getImage().equals("")){
+        if(mImgURL.isEmpty()){
             mVideoImageView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }else{
-            if(type.equals("listing")){
-                if(!agentData.getRealtor().getImage().equals("")){
+            //if(type.equals("listing")){
+            //    if(!agentData.getRealtor().getImage().equals("")){
+
+                    progressBar.setVisibility(View.VISIBLE);
                     Glide.with(getApplicationContext())
                             .load(mImgURL)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -171,10 +175,10 @@ public class VideoUploadActivity extends AppCompatActivity{
                                 }
                             })
                             .into(mVideoImageView);
-                }
-            }else { //agentprofile
+           //     }
+           // }else { //agentprofile
 
-            }
+           // }
 
 
         }
@@ -268,7 +272,7 @@ public class VideoUploadActivity extends AppCompatActivity{
                             mVideoDescription.setEnabled(false);
                             mUploadVideoButton.setEnabled(false);
 
-                            Toast.makeText(getApplicationContext(), "Video uploading. You can view Video upload progress on the Notification Bar", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Video uploading. You can view Video upload progress on the Notification Bar", Toast.LENGTH_LONG).show();
                         }
                     });
                     builder.setCancelable(false);
@@ -291,6 +295,7 @@ public class VideoUploadActivity extends AppCompatActivity{
                     mVideoTitle.setEnabled(false);
                     mVideoDescription.setEnabled(false);
                     mUploadVideoButton.setEnabled(false);
+                    mUploadVideoButton.setBackgroundResource(R.drawable.circlepix_button_press);
 
                     Toast.makeText(getApplicationContext(), "Video uploading. You can view Video upload progress on the Notification Bar", Toast.LENGTH_SHORT).show();
                 }
@@ -313,6 +318,7 @@ public class VideoUploadActivity extends AppCompatActivity{
             while (!cancelled) {
                 try {
                     String BASE_URL = "http://videoupload.circlepix.com/thePearl/cpixVideoApp.xml?method=upload&objectType=%s&objectId=%s";
+                  //  String BASE_URL = "http://stag-mobile.circlepix.com/thePearl/cpixVideoApp.xml?method=upload&objectType=%s&objectId=%s";
                     final String urlString = String.format(BASE_URL, mObjectType, mId);
 
                     //    final OkHttpClient client = new OkHttpClient();
@@ -327,12 +333,17 @@ public class VideoUploadActivity extends AppCompatActivity{
                     Log.d("Video Upload ", "description: " + mDescriptionStr);
                     Log.d("Video Upload ", "code: " + mCode);
 
+                    String fileName = "listingVideo.mp4";
+                    if(type.equalsIgnoreCase("agentProfile")){
+                        fileName = "agentProfileVideo.mp4";
+                    }
+
                     RequestBody requestBody = new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("title", mTitleStr)
                             .addFormDataPart("description", mDescriptionStr)
-                        //    .addFormDataPart("code", mCode)
-                            .addFormDataPart("videoFile", "listingVideo.mp4", RequestBody.create(MEDIA_TYPE_MP4, sourceFile))
+                            .addFormDataPart("code", mCode)
+                            .addFormDataPart("videoFile", fileName, RequestBody.create(MEDIA_TYPE_MP4, sourceFile))
                             .build();
 
                     CountingRequestBody monitoredRequest = new CountingRequestBody(requestBody, new CountingRequestBody.Listener() {

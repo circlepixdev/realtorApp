@@ -76,6 +76,8 @@ public class Presentation {
 	private NarrationType narration = NarrationType.male;
 	private ThemeType theme = ThemeType.circlepix;
 
+	private boolean selected = false;
+
 	public Presentation() {}
 
 	public Presentation(String name, String desc) {
@@ -543,5 +545,12 @@ public class Presentation {
 				}
 			}
 		}
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 }

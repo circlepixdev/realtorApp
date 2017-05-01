@@ -22,12 +22,12 @@
 
         <item
             android:id="@+id/action_promo"
-            android:icon="@drawable/ic_notif_promo"
-            android:title="Promos" />
+            android:icon="@drawable/ic_notif_home"
+            android:title="Home" />
 
         <item
             android:id="@+id/action_listings"
-            android:icon="@drawable/ic_notif_home"
+            android:icon="@drawable/ic_notif_listings"
             android:title="Listings"
             android:checked="true"/>
         <item
@@ -54,16 +54,16 @@
                 android:title="Edit Profile" />
 
 
-            <item
+          <!--  <item
                 android:id="@+id/action_rate_us"
                 android:icon="@drawable/ic_rate_us"
-                android:title="Rate this App" />
+                android:title="Rate this App" />-->
 
-            <item
+           <!-- <item
                 android:id="@+id/action_app_settings"
                 android:icon="@drawable/ic_gear"
                 android:title="@string/nav_app_setting" />
-
+            -->
             <item
                 android:id="@+id/dummy1"
                 android:enabled="false"
